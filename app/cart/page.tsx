@@ -4,7 +4,7 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import getReservations from "@/app/actions/getReservations";
 
 import EmptySpace from "../components/EmptySpace";
-import TripsClient from "./tripsClient";
+import TripsClient from "./TripsClient";
 
 const TripsPage = async () => {
   const currentUser = await getCurrentUser();
