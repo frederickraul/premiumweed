@@ -10,6 +10,7 @@ import HeartButton from '../HeartButton';
 import Button from '../Button';
 import { Rating } from '@mui/material';
 import { AiOutlineClockCircle } from 'react-icons/ai';
+import { SafeUser } from '@/app/types';
 
 interface ListingCardProps{
   data: Listing;
@@ -18,7 +19,7 @@ interface ListingCardProps{
   disabled?: boolean;
   actionLabel?: string;
   actionId?: string;
-  currentUser?: User | null;
+  currentUser?: SafeUser | null;
 }
 const ListingCard: React.FC<ListingCardProps> = ({
   data,
