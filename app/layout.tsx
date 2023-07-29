@@ -48,9 +48,11 @@ export default async function RootLayout({
               <RegisterModal/>
               <Navbar currentUser={currentUser}/>
             </div>
+            <Suspense fallback={<Loading/>}>
             <div className="pb-20 pt-28">
               {children}
             </div>
+            </Suspense>
             <Footer/>
         </div>
       </body>
