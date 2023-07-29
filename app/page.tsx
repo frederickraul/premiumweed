@@ -1,5 +1,3 @@
-export const dynamic = 'auto'
-
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
 
@@ -7,6 +5,7 @@ import getListings, {
   IListingsParams
 } from "@/app/actions/getListings";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import ClientOnly from "./components/ClientOnly";
 import EmptySpace from "./components/EmptySpace";
 
 interface HomeProps {
@@ -19,23 +18,25 @@ const Home = async ({ searchParams }: HomeProps) => {
 
   if (listings.length === 0) {
     return (
+      <ClientOnly>
         <EmptySpace showReset />
+      </ClientOnly>
     );
   }
 
   return (
+    <ClientOnly>
       <Container>
         <div 
           className="
-            pt-32
-            lg:pt-32
+            pt-24
             grid 
             grid-cols-1 
             sm:grid-cols-2 
             md:grid-cols-3 
             lg:grid-cols-4
             xl:grid-cols-5
-            2xl:grid-cols-5
+            2xl:grid-cols-6
             gap-8
             mb-10
           "
@@ -49,6 +50,7 @@ const Home = async ({ searchParams }: HomeProps) => {
           ))}
         </div>
       </Container>
+    </ClientOnly>
   )
 }
 
