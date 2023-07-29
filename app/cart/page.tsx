@@ -1,4 +1,4 @@
-
+export const dynamic = 'auto'
 
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getReservations from "@/app/actions/getReservations";
