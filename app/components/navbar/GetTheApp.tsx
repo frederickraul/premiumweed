@@ -6,6 +6,8 @@ const GetTheApp = () => {
     <div className='w-[120px] hidden lg:block'>
       <Button
         label='Get The App'
+        color='bg-black'
+        borderless
         onClick={()=>{}}
       />
     </div>
