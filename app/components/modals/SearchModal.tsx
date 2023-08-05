@@ -100,11 +100,7 @@ const SearchModal = () => {
     searchModal, 
     location, 
     router, 
-    guestCount, 
-    roomCount,
-    dateRange,
     onNext,
-    bathroomCount,
     params,
     category
   ]);
