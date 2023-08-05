@@ -96,19 +96,12 @@ const RentModal = () => {
   const horary = watch('horary');
   
   useEffect(() => {
-    setCustomValue('state', null);
-    setCustomValue('city', null);
-    setSelectedCountry(location?.value);
-    setCenterMap(location?.latlng);
-    setZoomMap(4);
+    resetStateSelect();
   }, [location]);
 
 
   useEffect(() => {
-    setCustomValue('city', null);
-    setSelectedState(state?.value);
-    setCenterMap(state?.latlng);
-    setZoomMap(5);
+    resetCitySelect();
   }, [state]);
 
   useEffect(() => {
@@ -122,11 +115,29 @@ const RentModal = () => {
 
   const StateSelect = useMemo(() => dynamic(() => import ("../inputs/StateSelect"),{
     ssr:false
-  }), [selectedCountry]);
+  }), []);
 
   const CitySelect = useMemo(() => dynamic(() => import ("../inputs/CitySelect"),{
     ssr:false
-  }), [selectedCountry]);
+  }), []);
+
+
+  const resetStateSelect = () => {
+    setCustomValue('state', null);
+    setCustomValue('city', null);
+    setSelectedCountry(location?.value);
+    setCenterMap(location?.latlng);
+    setZoomMap(4);
+  }
+  
+  const resetCitySelect = () => {
+    setCustomValue('state', null);
+    setCustomValue('city', null);
+    setSelectedCountry(location?.value);
+    setCenterMap(location?.latlng);
+    setZoomMap(4);
+  }
+
 
   //For Regular Inputs
   const setCustomValue = (id: string, value:any) => {
