@@ -17,11 +17,19 @@ export async function POST(
       title,
       description,
       imageSrc,
+      coverSrc,
       category,
       roomCount,
       bathroomCount,
       guestCount,
       location,
+      state,
+      city,
+      zipcode,
+      phone,
+      address,
+      apartment,
+      horary,
       price
     } = body;
 
@@ -37,11 +45,18 @@ export async function POST(
         title,
         description,
         imageSrc,
+        coverSrc,
         category,
         roomCount,
         guestCount,
         bathroomCount,
         locationValue: location.value,
+        state: state.value,
+        city: city.label,
+        zipcode,
+        phone,
+        address,
+        apartment,
         price: parseInt(price,10),
         userId: currentUser.id
 

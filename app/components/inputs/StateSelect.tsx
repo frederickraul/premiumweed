@@ -4,7 +4,8 @@ import useCountries from "@/app/hooks/useCountries";
 import Select from 'react-select';
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
-export type CountrySelectValue ={
+
+export type StateSelectValue ={
   flag: string;
   label: string;
   latlng: number[];
@@ -12,24 +13,28 @@ export type CountrySelectValue ={
   value: string;
 }
 
-interface CountrySelectProps{
-    id: string;
-    register?: UseFormRegister<FieldValues>,
-    errors: FieldErrors,
-    required?: boolean,
-    value?: CountrySelectValue;
-    onChange: (value: CountrySelectValue) => void;
+interface StateSelectProps{
+  id: string;
+  register: UseFormRegister<FieldValues>,
+  errors: FieldErrors,
+  required?: boolean,
+
+    countryCode: string;
+    value?: StateSelectValue;
+    onChange: (value: StateSelectValue) => void;
 }
 
-const CountrySelect:React.FC<CountrySelectProps> = ({
+const StateSelect:React.FC<StateSelectProps> = ({
   id,
   register,
   errors,
   required,
+
+  countryCode,
   value,
   onChange
 }) => {
-  const {getAll,getByValue, getStatesOfCountry} = useCountries();
+  const {getStatesOfCountry} = useCountries();
   return ( 
     <div>
       <Select
@@ -37,10 +42,9 @@ const CountrySelect:React.FC<CountrySelectProps> = ({
         {...register(id,{required})}
         placeholder="Anywhere"
         isClearable
-        options={getAll()}
+        options={getStatesOfCountry(countryCode)}
         value={value}
-        onChange={(value) => onChange(value as CountrySelectValue)}
-        
+        onChange={(value) => onChange(value as StateSelectValue)}
         formatOptionLabel={(option: any) => (
           <div className="flex flex-row items-center gap-3">
             <div>{option.flag}</div>
@@ -56,8 +60,7 @@ const CountrySelect:React.FC<CountrySelectProps> = ({
         classNames={{
           control: ()=> 'p-3 border-2',
           input: ()=> 'text-lg',
-          option: ()=> 'text-lg',
-          
+          option: ()=> 'text-lg'
         }}
         theme={(theme) => ({
           ...theme,
@@ -68,11 +71,10 @@ const CountrySelect:React.FC<CountrySelectProps> = ({
             primary25: '#e4ffe6'
           }
         })}
-        
       />
     </div>
     
   )
 }
 
-export default CountrySelect
+export default StateSelect

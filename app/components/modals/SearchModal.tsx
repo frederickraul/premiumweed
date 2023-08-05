@@ -19,6 +19,7 @@ import Heading from '../Heading';
 import { categories } from '../navbar/Categories';
 import CategoryInput from '../inputs/CategoryInput';
 import { BiCategoryAlt } from 'react-icons/bi';
+import { FieldValues, useForm } from 'react-hook-form';
 
 enum STEPS {
   LOCATION = 0,
@@ -27,6 +28,17 @@ enum STEPS {
 }
 
 const SearchModal = () => {
+  const {
+    register,
+    formState:{
+      errors,
+    },
+  } = useForm<FieldValues>({
+    defaultValues:{
+  
+    }
+  });
+
   const router = useRouter();
   const searchModal = useSearchModal();
   const params = useSearchParams();
@@ -118,12 +130,15 @@ const SearchModal = () => {
         subtitle="Find the perfect location!"
       />
       <CountrySelect 
+      id='search'
+      register={register}
+      errors={errors}
         value={location} 
         onChange={(value) => 
           setLocation(value as CountrySelectValue)} 
       />
       <hr />
-      <Map center={location?.latlng} />
+      <Map center={location?.latlng} zoom={4} />
     </div>
   )
 

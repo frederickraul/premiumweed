@@ -5,7 +5,9 @@ import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { BiDollar } from "react-icons/bi";
 
 interface InputProps{
-  id: string;
+  value?: any;
+  checked?: boolean;
+  onChange: (value: any) => void;
   label: string;
   type?: string;
   disabled?: boolean;
@@ -13,12 +15,12 @@ interface InputProps{
   optional?: boolean;
   formatPrice?: boolean;
   required?: boolean;
-  register: UseFormRegister<FieldValues>,
-  errors: FieldErrors
 }
 
-const Input: React.FC<InputProps> = ({
-  id,
+const InputUnregistered: React.FC<InputProps> = ({
+  value,
+  onChange,
+  checked,
   label,
   optional,
   type,
@@ -26,8 +28,6 @@ const Input: React.FC<InputProps> = ({
   small,
   formatPrice,
   required,
-  register,
-  errors
 
 }) => {
   return (
@@ -44,9 +44,10 @@ const Input: React.FC<InputProps> = ({
         />
       )}
       <input
-        id={id}
+      value={value}
+      onChange={(value) => onChange(value)}
+      checked={checked}
         disabled={disabled}
-        {...register(id,{required})}
         placeholder=" "
         type={type}
         className={`
@@ -62,8 +63,6 @@ const Input: React.FC<InputProps> = ({
           disabled:opacity-70
           disabled:cursor-not-allowed
           ${formatPrice ? 'pl-9' : 'pl-4'}
-          ${errors[id] ? 'border-red-500' : 'border-neutral-300'}
-          ${errors[id] ? 'focus: border-red-500' : 'focus:border-black'}
           ${small ? 'text-sm' : 'text-md'}
           ${small ? 'p-2' : 'p-4'}
           ${small ? 'p-3' : 'pt-6'}
@@ -86,7 +85,6 @@ const Input: React.FC<InputProps> = ({
           peer-placeholder-shown:translate-y-0
           peer-focus:scale-75
           peer-focus:-translate-y-4
-          ${errors[id] ? 'text-red-500' : 'text-zinc-400'}
         `}
       >
         {label}
@@ -96,4 +94,4 @@ const Input: React.FC<InputProps> = ({
   )
 }
 
-export default Input
+export default InputUnregistered

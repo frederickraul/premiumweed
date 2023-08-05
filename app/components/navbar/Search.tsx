@@ -7,6 +7,7 @@ import { differenceInDays } from 'date-fns';
 
 import useSearchModal from '@/app/hooks/useSearchModal';
 import useCountries from '@/app/hooks/useCountries';
+import { MdOutlineMyLocation } from 'react-icons/md';
 
 const Search = () => {
   const searchModal = useSearchModal();
@@ -40,11 +41,10 @@ const Search = () => {
     <div
       onClick={searchModal.onOpen}
       className="
-        border-[1px] 
+        ml-4
+        border-[1px] border-black
         w-full 
-        md:w-auto 
-        py-2 
-        rounded-full 
+        md:w-[350px] 
         shadow-sm 
         hover:shadow-md 
         transition 
@@ -75,7 +75,6 @@ const Search = () => {
           className="
             text-sm 
             pl-6 
-            pr-2 
             text-gray-600 
             flex 
             flex-row 
@@ -88,12 +87,11 @@ const Search = () => {
           <div 
             className="
               p-2 
-              bg-green-500 
-              rounded-full 
+              bg-black 
               text-white
             "
           >
-            <BiSearch size={18} />
+            <MdOutlineMyLocation size={20} />
           </div>
         </div>
       </div>

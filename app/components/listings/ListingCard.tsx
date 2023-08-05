@@ -75,8 +75,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
               className='aspect-square w-full relative overflow-hidden rounded-xl'>
             <Image
               fill
+              sizes="100vw"
               alt='Listing'
               src={data.imageSrc}
+              priority={false}
               className='object-cover h-full w-full group-hover:scale-110 transition'
               />
             <div className='absolute top-3 right-3'>
@@ -90,7 +92,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             {title}
           </div>
           <div className='font-light leading-3'>
-            {location?.region}, {location?.label}
+            {location?.value}, {location?.label}, {data.state}
           </div>
           <div className='font-bold text-green-700 flex flex-row items-center'>
             <AiOutlineClockCircle/> <span className='ml-1 text-md'>Open Now</span>
