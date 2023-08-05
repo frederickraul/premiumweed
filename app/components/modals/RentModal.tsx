@@ -119,12 +119,12 @@ const RentModal = () => {
   const StateSelect = useMemo(() => dynamic(() => import ("../inputs/StateSelect"),{
     ssr:false
         // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [location]);
+  }), [selectedCountry]);
 
   const CitySelect = useMemo(() => dynamic(() => import ("../inputs/CitySelect"),{
     ssr:false
         // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [state]);
+  }), [selectedState]);
 
 
   const resetStateSelect = () => {
