@@ -102,7 +102,7 @@ const RentModal = () => {
 
 
   useEffect(() => {
-    resetCitySelect();
+    resetCitySelect()
         // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
@@ -136,12 +136,17 @@ const RentModal = () => {
   }
   
   const resetCitySelect = () => {
-    setCustomValue('state', null);
     setCustomValue('city', null);
-    setSelectedCountry(location?.value);
-    setCenterMap(location?.latlng);
-    setZoomMap(4);
+    setSelectedState(state?.value);
+    setCenterMap(state?.latlng);
+    setZoomMap(5);
+
+      if(state?.value === undefined){
+        setCenterMap(location?.latlng);
+        setZoomMap(4);
+      }
   }
+  
 
 
   //For Regular Inputs
