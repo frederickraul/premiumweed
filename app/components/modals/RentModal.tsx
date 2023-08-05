@@ -348,8 +348,7 @@ if(step === STEPS.CATEGORY){
          <div className="flex flex-col">
          {
            horary.map((item:any) =>(
-             
-            <div className="flex flex-rol items-center justify-center mb-2">
+            <div key={item.day} className="flex flex-rol items-center justify-center mb-2">
               <div className="mr-4 min-w-[100px] font-bold">
                   {item.day}
               </div>

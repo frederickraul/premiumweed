@@ -58,6 +58,7 @@ const SearchModal = () => {
 
   const Map = useMemo(() => dynamic(() => import('../Map'), { 
     ssr: false 
+    // eslint-disable-next-line
   }), [location]);
 
   const onBack = useCallback(() => {
@@ -104,7 +105,8 @@ const SearchModal = () => {
     dateRange,
     onNext,
     bathroomCount,
-    params
+    params,
+    category
   ]);
 
   const actionLabel = useMemo(() => {
