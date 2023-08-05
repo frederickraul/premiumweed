@@ -14,7 +14,7 @@ export type CountrySelectValue ={
 
 interface CountrySelectProps{
     id: string;
-    register?: UseFormRegister<FieldValues>,
+    register: UseFormRegister<FieldValues>,
     errors: FieldErrors,
     required?: boolean,
     value?: CountrySelectValue;
