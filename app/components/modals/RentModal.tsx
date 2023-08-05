@@ -98,14 +98,12 @@ const RentModal = () => {
   useEffect(() => {
     resetStateSelect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-
   }, [location]);
 
 
   useEffect(() => {
     resetCitySelect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-
   }, [state]);
 
   useEffect(() => {
@@ -116,19 +114,16 @@ const RentModal = () => {
   const Map = useMemo(() => dynamic(() => import('../Map'),{
     ssr:false
         // eslint-disable-next-line react-hooks/exhaustive-deps
-
   }), [centerMap]);
 
   const StateSelect = useMemo(() => dynamic(() => import ("../inputs/StateSelect"),{
     ssr:false
         // eslint-disable-next-line react-hooks/exhaustive-deps
-
   }), [location]);
 
   const CitySelect = useMemo(() => dynamic(() => import ("../inputs/CitySelect"),{
     ssr:false
         // eslint-disable-next-line react-hooks/exhaustive-deps
-
   }), [state]);
 
 
