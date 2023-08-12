@@ -75,12 +75,13 @@ const Modal: React.FC<ModalProps> = ({
         flex
         overflow-x-hidden
         overflow-y-auto
-        fixed
+        fixed 
         inset-0
         z-50
         outline-none
         focus:outline-none
         bg-neutral-800/70
+
 
       ">
         <div className="
@@ -94,6 +95,8 @@ const Modal: React.FC<ModalProps> = ({
           h-full
           lg:h-auto
           md:h-auto
+          pt-[70px]
+
         ">
           {/* CONTENT */}
           <div className={`

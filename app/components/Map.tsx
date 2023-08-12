@@ -29,7 +29,6 @@ const Map: React.FC<MapProps> = (
     center,
     zoom
   }) => {
-    console.log(center);
   return (
     
     <MapContainer

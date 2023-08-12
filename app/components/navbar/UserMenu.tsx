@@ -15,6 +15,7 @@ import useRentModal from '@/app/hooks/useRentModal';
 import { useRouter } from 'next/navigation';
 import GetTheApp from './GetTheApp';
 import { SafeUser } from '@/app/types';
+import { MdKeyboardArrowDown } from 'react-icons/md';
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
@@ -48,7 +49,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
     <div className="relative">
         <div className="flex flex-row items-center gap-3">
             <GetTheApp/>
-            <div 
+            {/* <div 
                 onClick={onRent}
                 className="
                     hidden
@@ -64,7 +65,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                 " 
             >
                 Premium Weed
-            </div>
+            </div> */}
             <div 
                 onClick={toggleOpen} 
                 className="
@@ -82,7 +83,8 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     transition
                 "
             >
-                <AiOutlineMenu /> 
+                <div className='text-sm font-bold'>More</div>
+                <MdKeyboardArrowDown /> 
                 <div className='hidden md:block'>
                      <Avatar src={currentUser?.image} />
                 </div> 

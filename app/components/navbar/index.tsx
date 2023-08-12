@@ -7,36 +7,45 @@ import Search from './Search';
 import { UserMenu } from './UserMenu';
 import Categories from './Categories';
 import { SafeUser } from '@/app/types';
+import { IoIosPin } from 'react-icons/io';
 
 interface NavbarProps {
     currentUser?: SafeUser | null
 }
 const Navbar: React.FC<NavbarProps> = ({currentUser}) => {
   return (
-    <div className='fixed w-full bg-white z-10 shadow-sm '>
+    <div className='fixed w-full bg-white z-10 '>
+    <div className=' w-full bg-white shadow-sm '>
         <div 
             className='
-                py-4
-                border-b-[1px]'>
+            py-4
+            border-b-[1px]'>
             <Container>
                 <div
                     className='
-                        flex
-                        flex-row
-                        items-center
+                    flex
+                    flex-row
+                    items-center
                         justify-between
                         gap-3   
                         md:gap-0
-                    '>
+                        '>
                     <div className='flex flex-row items-center justify-around'>
                     <Logo/>
                     <Search/>
+                     <div className='flex flex-row ml-2'>
+                        <IoIosPin size={14}/>
+                        <div className='font-bold text-xs'>
+                            San Diego: 50 Miles
+                        </div>
+                    </div>
                     </div>
                     <UserMenu currentUser={currentUser}/>
                 </div>
+                        <Categories/>
             </Container>
         </div>
-        <Categories/>
+    </div>
     </div>
   )
 }

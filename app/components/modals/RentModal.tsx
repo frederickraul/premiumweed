@@ -72,6 +72,8 @@ const RentModal = () => {
       location: null,
       state: null,
       city: null,
+      pin: null,
+      XYZ: "xyz",
       guestCount: 1,
       roomCount: 1,
       bathroomCount: 1,
@@ -88,6 +90,7 @@ const RentModal = () => {
   const location = watch('location');
   const state = watch('state');
   const city = watch('city');
+  const pin = watch('pin');
   const guestCount = watch('guestCount');
   const roomCount = watch('roomCount');
   const bathroomCount = watch('bathroomCount');
@@ -95,6 +98,16 @@ const RentModal = () => {
   const coverSrc = watch('coverSrc');
   const horary = watch('horary');
   
+  //Testing Area  
+  useEffect(() => {
+    if(pin){
+      console.log(pin[0] + ','+pin[1]);
+    }
+  }, [pin]);
+  
+
+  // .Testing Area
+
   useEffect(() => {
     resetStateSelect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,7 +121,13 @@ const RentModal = () => {
 
   useEffect(() => {
     setZoomMap(8);
-    setCenterMap(city?.latlng);    
+    setCenterMap(city?.latlng); 
+    setCustomValue('pin', city?.latlng);  
+    if(city?.value === undefined){
+      setCenterMap(state?.latlng);
+      setCustomValue('pin', state?.latlng);
+      setZoomMap(4);
+    }
   }, [city]);
 
   const Map = useMemo(() => dynamic(() => import('../Map'),{
@@ -130,6 +149,7 @@ const RentModal = () => {
   const resetStateSelect = () => {
     setCustomValue('state', null);
     setCustomValue('city', null);
+    setCustomValue('pin', location?.latlng);
     setSelectedCountry(location?.value);
     setCenterMap(location?.latlng);
     setZoomMap(4);
@@ -137,12 +157,14 @@ const RentModal = () => {
   
   const resetCitySelect = () => {
     setCustomValue('city', null);
+    setCustomValue('pin', state?.latlng);
     setSelectedState(state?.value);
     setCenterMap(state?.latlng);
     setZoomMap(5);
 
       if(state?.value === undefined){
         setCenterMap(location?.latlng);
+        setCustomValue('pin', location?.latlng);
         setZoomMap(4);
       }
   }
@@ -169,12 +191,13 @@ const RentModal = () => {
 
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    
     if(step !== STEPS.FINISH){
       return onNext();
     }
-
+    
     setIsLoading(true);
-
+    
     axios.post('/api/listings', data)
     .then(()=>{
       toast.success('Listing Created');
@@ -216,21 +239,21 @@ const RentModal = () => {
       />
       <Input
         id="title"
-        label="Title"
+        label="Business Name"
         disabled={isLoading}
         register={register}
         errors={errors}
         required
       />
       <hr/>
-      <Input
+      {/* <Input
         id="description"
         label="Description"
         disabled={isLoading}
         register={register}
         errors={errors}
         required
-      />
+      /> */}
     </div>
   )
 
@@ -240,7 +263,7 @@ if(step === STEPS.CATEGORY){
    bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="Which of these best describes your listing?"
+        title="Listing Category"
         subtitle="Pick a category"
       />
       <div 
@@ -303,6 +326,13 @@ if(step === STEPS.CATEGORY){
             value={city}
             onChange={(value)=>{setCustomValue('city',value)}}
           />
+          <InputUnregistered
+                label=""
+                type="hidden"
+                disabled={isLoading}
+                onChange={(value)=>{setCustomValue('pin',value)}}
+                
+              />
           <Map 
             center={centerMap}
             zoom={zoomMap}

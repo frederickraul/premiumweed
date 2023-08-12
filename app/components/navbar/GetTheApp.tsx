@@ -8,6 +8,7 @@ const GetTheApp = () => {
         label='Get The App'
         color='bg-black'
         borderless
+        roundless
         onClick={()=>{}}
       />
     </div>

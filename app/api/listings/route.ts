@@ -25,6 +25,7 @@ export async function POST(
       location,
       state,
       city,
+      pin,
       zipcode,
       phone,
       address,
@@ -51,17 +52,20 @@ export async function POST(
         guestCount,
         bathroomCount,
         locationValue: location.value,
-        state: state.value,
+        state: state.label,
         city: city.label,
+        pin,
+        horary: {
+          set: horary
+        },
         zipcode,
         phone,
         address,
         apartment,
         price: parseInt(price,10),
         userId: currentUser.id
-
       }
     })
 
-    return NextResponse.json(listing);
+    return NextResponse.json(body);
 }

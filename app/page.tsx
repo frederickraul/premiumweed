@@ -27,9 +27,12 @@ const Home = async ({ searchParams }: HomeProps) => {
   return (
     <ClientOnly>
       <Container>
+      <div className='text-center my-10'>
+          <div className='text-2xl font-bold text-x'>Find Premium Weed Near You</div>
+      </div>
         <div 
           className="
-            pt-24
+            pt-4
             grid 
             grid-cols-1 
             sm:grid-cols-2 
@@ -41,6 +44,7 @@ const Home = async ({ searchParams }: HomeProps) => {
             mb-10
           "
         >
+          
           {listings.map((listing: any) => (
             <ListingCard
               currentUser={currentUser}

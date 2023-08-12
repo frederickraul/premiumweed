@@ -8,6 +8,7 @@ import { differenceInDays } from 'date-fns';
 import useSearchModal from '@/app/hooks/useSearchModal';
 import useCountries from '@/app/hooks/useCountries';
 import { MdOutlineMyLocation } from 'react-icons/md';
+import { IoIosPin } from 'react-icons/io';
 
 const Search = () => {
   const searchModal = useSearchModal();

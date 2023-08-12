@@ -69,7 +69,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   return (
       <div 
         className='col-span-1 cursor-pointer group'> 
-        <div className='flex flex-col gap-2 w-full'>
+        <div className='flex flex-col w-full'>
           <div 
               onClick={()=> router.push(`/listings/${data.id}`)}
               className='aspect-square w-full relative overflow-hidden rounded-xl'>
@@ -77,7 +77,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
               fill
               sizes="100vw"
               alt='Listing'
-              src={data.imageSrc}
+              src={data.imageSrc ? data.imageSrc : "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg"}
               priority={false}
               className='object-cover h-full w-full group-hover:scale-110 transition'
               />
@@ -88,16 +88,16 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 />
             </div>
           </div>
-          <div className='font-bold text-lg'>
+          <div className='font-bold text-sm mt-2'>
             {title}
           </div>
-          <div className='font-light leading-3'>
-            {location?.value}, {location?.label}, {data.state}
+          <div className='font-light text-sm'>
+          {data.address} {data.city}, {data.state} {data.zipcode}
           </div>
-          <div className='font-bold text-green-700 flex flex-row items-center'>
-            <AiOutlineClockCircle/> <span className='ml-1 text-md'>Open Now</span>
+          <div className='font-bold text-green-700 flex flex-row items-center '>
+            <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>Open Now</span>
           </div>
-          <div className='flex flex-row items-center leading-3'>
+          <div className='flex flex-row items-center'>
             <Rating
               size='small'
               name="simple-controlled"
@@ -106,15 +106,15 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 setStars(newValue);
               }}
             />
-            <div className='ml-2 text-sm text-neutral-500'>
+            <div className='ml-2 text-neutral-500 text-sm'>
               {stars} (34)
             </div>
             
           </div>
-          <div className='font-semibold text-green-500'>
+          <div className='font-semibold text-green-500 text-sm'>
             View Menu
           </div>
-          <div className='font-bold text-neutral-500 leading-3'>
+          <div className='font-bold text-neutral-500 text-sm'>
             {data.category}
           </div>
           {onAction && actionLabel && (

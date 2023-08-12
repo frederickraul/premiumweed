@@ -11,6 +11,7 @@ interface ButtonProps {
   icon?: IconType;
   color?: string,
   borderless?:boolean
+  roundless?:boolean
 }
 
 const Button: React.FC<ButtonProps> = ({ 
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   outline,
   small,
   icon: Icon,
+  roundless,
   color,
   borderless
 }) => {
@@ -31,7 +33,7 @@ const Button: React.FC<ButtonProps> = ({
         relative
         disabled:opacity-70
         disabled:cursor-not-allowed
-        rounded-lg
+        ${roundless || 'rounded-lg'}
         hover:opacity-80
         transition
         w-full
