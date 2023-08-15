@@ -80,8 +80,7 @@ const Search = () => {
             flex 
             flex-row 
             items-center justify-between 
-            gap-3 min-w-[165px]
-            
+            gap-3 min-w-[165px]            
           "
         >
           <div className="sm:block">{guestLabel}</div>

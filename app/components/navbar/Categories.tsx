@@ -89,7 +89,9 @@ const Categories = () => {
         flex-row
         items-center
         justify-between
-        overflow-x-hidden
+        overflow-x-auto
+        max-w-max
+        gap-2
       '>
         {categories.map((item)=> (
           <CategoryBox

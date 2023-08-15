@@ -121,14 +121,7 @@ const RentModal = () => {
   }, [state]);
 
   useEffect(() => {
-    setZoomMap(8);
-    setCenterMap(city?.latlng); 
-    setCustomValue('pin', city?.latlng);  
-    if(city?.value === undefined){
-      setCenterMap(state?.latlng);
-      setCustomValue('pin', state?.latlng);
-      setZoomMap(4);
-    }
+    saveCitySelected()
   }, [city]);
 
   const Map = useMemo(() => dynamic(() => import('../Map'),{
@@ -168,6 +161,17 @@ const RentModal = () => {
         setCustomValue('pin', location?.latlng);
         setZoomMap(4);
       }
+  }
+
+  const saveCitySelected = () =>{
+    setZoomMap(8);
+    setCenterMap(city?.latlng); 
+    setCustomValue('pin', city?.latlng);  
+    if(city?.value === undefined){
+      setCenterMap(state?.latlng);
+      setCustomValue('pin', state?.latlng);
+      setZoomMap(4);
+    }
   }
   
 
