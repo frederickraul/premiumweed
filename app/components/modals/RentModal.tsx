@@ -121,7 +121,7 @@ const RentModal = () => {
   }, [state]);
 
   useEffect(() => {
-    saveCitySelected();
+    saveCitySelected(city);
   }, [city]);
 
   const Map = useMemo(() => dynamic(() => import('../Map'),{
@@ -163,7 +163,7 @@ const RentModal = () => {
       }
   }
 
-  const saveCitySelected = () =>{
+  const saveCitySelected = (city:any) =>{
     setZoomMap(8);
     setCenterMap(city?.latlng); 
     setCustomValue('pin', city?.latlng);  
@@ -403,7 +403,7 @@ if(step === STEPS.CATEGORY){
          ">
          {
            horary.map((item:any,i:number) =>(
-            <div key={i} className="flex flex-col mb-2">
+            <div key={item.day} className="flex flex-col mb-2">
             <div className="flex flex-row items-center justify-center mb-2">
               <div className="mr-4 min-w-[100px] font-bold">
                   {item.day}
