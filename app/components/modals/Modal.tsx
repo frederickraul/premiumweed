@@ -16,6 +16,7 @@ interface ModalProps {
   disabled?: boolean;
   secondaryAction?: () =>void;
   secondaryActionLabel?: string;
+  size?: string;
 }
 const Modal: React.FC<ModalProps> = ({
   isOpen,
@@ -27,7 +28,8 @@ const Modal: React.FC<ModalProps> = ({
   actionLabel,
   disabled,
   secondaryAction,
-  secondaryActionLabel
+  secondaryActionLabel,
+  size
 }) => {
 
   const [showModal, setShowModal] = useState(isOpen);
@@ -84,20 +86,19 @@ const Modal: React.FC<ModalProps> = ({
 
 
       ">
-        <div className="
+        <div className={`
           relative
           w-full
-          md:w-4/6
-          lg:w-3/6
+          ${size === 'lg' ? 'md:w-5/6' : ' md:w-4/6'}
+          ${size === 'lg' ? 'lg:w-4/6' : 'lg:w-3/6'}
+          ${size === 'lg' ? 'xl:w-3/6' : 'xl:w-2/5'}
           xl:w-2/5
           my-6
           mx-auto
           h-full
           lg:h-auto
           md:h-auto
-          pt-[70px]
-
-        ">
+        `}>
           {/* CONTENT */}
           <div className={`
             translate

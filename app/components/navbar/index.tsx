@@ -26,14 +26,14 @@ const Navbar: React.FC<NavbarProps> = ({currentUser}) => {
                     flex
                     flex-row
                     items-center
-                        justify-between
-                        gap-3   
-                        md:gap-0
+                    justify-between
+                    gap-3   
+                    md:gap-0
                         '>
                     <div className='flex flex-row items-center justify-around'>
                     <Logo/>
-                    <Search/>
-                     <div className='flex flex-row ml-2'>
+                    <div className='hidden md:flex items-center'><Search/></div>
+                     <div className='flex flex-row ml-4 md:ml-2'>
                         <IoIosPin size={14}/>
                         <div className='font-bold text-xs'>
                             San Diego: 50 Miles
@@ -42,7 +42,10 @@ const Navbar: React.FC<NavbarProps> = ({currentUser}) => {
                     </div>
                     <UserMenu currentUser={currentUser}/>
                 </div>
-                        <Categories/>
+                <div className='md:hidden flex items-center justify-center'>
+                    <Search/>
+                </div>
+                <Categories/>
             </Container>
         </div>
     </div>

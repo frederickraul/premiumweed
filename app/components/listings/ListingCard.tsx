@@ -74,11 +74,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
               onClick={()=> router.push(`/listings/${data.id}`)}
               className='aspect-square w-full relative overflow-hidden rounded-xl'>
             <Image
+              sizes='100'
+              priority={false}
               fill
-              sizes="100vw"
               alt='Listing'
               src={data.imageSrc ? data.imageSrc : "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg"}
-              priority={false}
               className='object-cover h-full w-full group-hover:scale-110 transition'
               />
             <div className='absolute top-3 right-3'>

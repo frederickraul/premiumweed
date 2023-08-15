@@ -17,6 +17,7 @@ import { toast } from "react-hot-toast";
 
 import CountrySelect from "../inputs/CountrySelect";
 import InputUnregistered from '../inputs/InputUnregistered';
+import { AiOutlineClockCircle } from "react-icons/ai";
 
 
 enum STEPS{
@@ -32,13 +33,13 @@ enum STEPS{
 }
 
 const week = [
+  {day: "Sunday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Monday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Tuesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Wednesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Thursday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Friday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Saturday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Sunday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
 ];
 
 const RentModal = () => {
@@ -47,7 +48,7 @@ const RentModal = () => {
   const rentModal = useRentModal();
   const router = useRouter();
 
-  const [step, setStep] = useState(STEPS.DESCRIPTION);
+  const [step, setStep] = useState(STEPS.OPERATION);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
@@ -180,6 +181,17 @@ const RentModal = () => {
     })
   }
 
+  //For Regular Inputs
+  const setWeekHours = (itemSelected: any) => {
+    horary.map((item:any)=>{
+      item.open = itemSelected.open;
+      item.close = itemSelected.close;
+      item.fulltime = itemSelected.fulltime;
+      item.closed = itemSelected.closed;
+      setValue('horary',[...horary]);
+    })
+  }
+
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -272,8 +284,8 @@ if(step === STEPS.CATEGORY){
           grid-cols-
           md:grid-cols-2
           gap-3
-          max-h-[50vh]
           overflow-y-auto
+          max-h-[50vh]
         ">
         {categories.map((item) =>(
           <div key={item.label} className="col-span-1">
@@ -296,47 +308,49 @@ if(step === STEPS.CATEGORY){
 // LOCATION STEP
   if(step === STEPS.LOCATION){
     bodyContent = (
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 ">
           <Heading
             title="Where is your listing located?"     
             subtitle="Help guest find you!"
           />
-          <CountrySelect
-            id='location'
-            register={register}
-            errors={errors}
-            required
-            value={location}
-            onChange={(value)=>{setCustomValue('location',value)}}
-          />
-
-          <StateSelect
-            id='state'
-            register={register}
-            errors={errors}
-            required
-            countryCode={selectedCountry}
-            value={state}
-            onChange={(value)=>{setCustomValue('state',value)}}
-          />
-
-          <CitySelect
-            stateCode={selectedState}
-            countryCode={selectedCountry}
-            value={city}
-            onChange={(value)=>{setCustomValue('city',value)}}
-          />
-          <InputUnregistered
-                label=""
-                type="hidden"
-                disabled={isLoading}
-                onChange={(value)=>{setCustomValue('pin',value)}}
-                
+            <div className="flex flex-col max-h-[60vh] overflow-y-auto gap-4">
+              <CountrySelect
+                id='location'
+                register={register}
+                errors={errors}
+                required
+                value={location}
+                onChange={(value)=>{setCustomValue('location',value)}}
               />
-          <Map 
-            center={centerMap}
-            zoom={zoomMap}
-          />
+
+              <StateSelect
+                id='state'
+                register={register}
+                errors={errors}
+                required
+                countryCode={selectedCountry}
+                value={state}
+                onChange={(value)=>{setCustomValue('state',value)}}
+              />
+
+              <CitySelect
+                stateCode={selectedState}
+                countryCode={selectedCountry}
+                value={city}
+                onChange={(value)=>{setCustomValue('city',value)}}
+              />
+              <InputUnregistered
+                    label=""
+                    type="hidden"
+                    disabled={isLoading}
+                    onChange={(value)=>{setCustomValue('pin',value)}}
+                    
+                  />
+              <Map 
+                center={centerMap}
+                zoom={zoomMap}
+              />
+            </div>
       </div>
     )
   }
@@ -380,10 +394,13 @@ if(step === STEPS.CATEGORY){
             subtitle="When are you opening?"
           />
          
-         <div className="flex flex-col">
+         <div className="flex flex-col max-h-[60vh] overflow-y-auto
+
+         ">
          {
-           horary.map((item:any) =>(
-            <div key={item.day} className="flex flex-rol items-center justify-center mb-2">
+           horary.map((item:any,i:number) =>(
+            <div className="flex flex-col mb-2">
+            <div key={item.day} className="flex flex-row items-center justify-center mb-2">
               <div className="mr-4 min-w-[100px] font-bold">
                   {item.day}
               </div>
@@ -445,8 +462,19 @@ if(step === STEPS.CATEGORY){
 
                 </div>
             </div>
-            <hr/>
           </div>
+            {i<= 1 &&(
+              <div className="flex flex-row justify-center items-center mb-2 text-green-700 cursor-pointer"
+              onClick={()=>{
+                setWeekHours(item);
+              }}
+            >
+              <AiOutlineClockCircle/>
+              <div> Use these hours for all days</div>
+            </div>
+            )}
+          <hr/>
+            </div>
             ))
           }
           </div>
@@ -552,6 +580,7 @@ if(step === STEPS.CATEGORY){
     secondaryAction={step ===STEPS.DESCRIPTION ? undefined : onBack}
     title="Weedgrowers your home"
     body={bodyContent}
+    size={step === STEPS.OPERATION ? 'lg' : 'md'}
    />
   )
 }

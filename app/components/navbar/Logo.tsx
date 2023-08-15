@@ -8,14 +8,15 @@ const Logo = () => {
 
   return (
     <Image
+        priority={false} 
+        sizes="100"
+        height={60}
+        width={60}
         onClick={()=>{router.push('/')}}
         alt="Logo"
-        className="md:block cursor-pointer sm:w-[40px] md:w-[50px] lg:w-[60px]"  
-        height="60"
-        width="60"
+        className="md:block cursor-pointer w-[40px] sm:w-[40px] md:w-[50px] lg:w-[60px]"  
         src="/images/logo.png"
         quality={50}
-        priority={false} 
         />
   )
 }
