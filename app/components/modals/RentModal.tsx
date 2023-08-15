@@ -48,7 +48,7 @@ const RentModal = () => {
   const rentModal = useRentModal();
   const router = useRouter();
 
-  const [step, setStep] = useState(STEPS.OPERATION);
+  const [step, setStep] = useState(STEPS.DESCRIPTION);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
