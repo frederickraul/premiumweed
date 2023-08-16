@@ -33,13 +33,13 @@ enum STEPS{
 }
 
 const week = [
-  {day: "Sunday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Monday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Tuesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Wednesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Thursday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Friday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
   {day: "Saturday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
+  {day: "Sunday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
 ];
 
 const RentModal = () => {
@@ -121,7 +121,8 @@ const RentModal = () => {
   }, [state]);
 
   useEffect(() => {
-    saveCitySelected(city);
+    saveCitySelected();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city]);
 
   const Map = useMemo(() => dynamic(() => import('../Map'),{
@@ -163,7 +164,7 @@ const RentModal = () => {
       }
   }
 
-  const saveCitySelected = (city:any) =>{
+  const saveCitySelected = () =>{
     setZoomMap(8);
     setCenterMap(city?.latlng); 
     setCustomValue('pin', city?.latlng);  
@@ -481,20 +482,13 @@ if(step === STEPS.CATEGORY){
                 </div>
             </div>
           </div>
-            {i<= 1 &&(
+            {item.day === "Monday" &&(
               <div className="flex flex-row justify-center items-center mb-2 text-green-700 cursor-pointer"
-              onClick={()=>{
-                if(item.day === "Monday"){
-                  setWeekHours(item);
-                  return;
-                }
-                if(item.day === "Sunday"){
-                  setAllDaysHours(item)
-                }
-              }}
+              onClick={()=>{setWeekHours(item);}
+            }
             >
               <AiOutlineClockCircle/>
-              <div>{  item.day == "Sunday" ? 'Use these hours for all days' : 'Use these hours for all week days'}</div>
+              <div>{  'Use these hours for all week days'}</div>
             </div>
             )}
           <hr/>

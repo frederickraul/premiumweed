@@ -11,13 +11,16 @@ import Button from '../Button';
 import { Rating } from '@mui/material';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { SafeUser } from '@/app/types';
+import DoubleButton from '../DoubleButton';
 
 interface ListingCardProps{
   data: Listing;
   reservation?: Reservation;
   onAction?:(id:string) => void;
+  onActionSecond?:(id:string) => void;
   disabled?: boolean;
   actionLabel?: string;
+  actionLabelSecond?: string;
   actionId?: string;
   currentUser?: SafeUser | null;
 }
@@ -25,8 +28,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
   onAction,
+  onActionSecond,
   disabled,
   actionLabel,
+  actionLabelSecond,
   actionId= "",
   currentUser 
 }) => {
@@ -117,14 +122,16 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <div className='font-bold text-neutral-500 text-sm'>
             {data.category}
           </div>
+        </div>
           {onAction && actionLabel && (
-            <Button
+            <DoubleButton
               disabled={disabled}
               label={actionLabel}
-              onClick={handleCancel}
+              labelSecond={actionLabelSecond}
+              onClick={()=>{alert('Edit function soon')}}
+              onClickSecond={handleCancel}
             />
           )}
-        </div>
       </div>
   )
 }
