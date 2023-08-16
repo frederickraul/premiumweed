@@ -185,8 +185,24 @@ const RentModal = () => {
     })
   }
 
-  //For Regular Inputs
+  //Week Hours
   const setWeekHours = (itemSelected: any) => {
+    horary.map((item:any)=>{
+      if(item.day === "Sunday" || item.day == "Saturday"){
+        console.log(item.day);
+
+      }else{
+        item.open = itemSelected.open;
+        item.close = itemSelected.close;
+        item.fulltime = itemSelected.fulltime;
+        item.closed = itemSelected.closed;
+        setValue('horary',[...horary]);
+      }
+    })
+  }
+
+  //Weekend
+  const setAllDaysHours = (itemSelected: any) => {
     horary.map((item:any)=>{
       item.open = itemSelected.open;
       item.close = itemSelected.close;
@@ -398,9 +414,7 @@ if(step === STEPS.CATEGORY){
             subtitle="When are you opening?"
           />
          
-         <div className="flex flex-col max-h-[60vh] overflow-y-auto
-
-         ">
+         <div className="flex flex-col max-h-[60vh] overflow-y-auto">
          {
            horary.map((item:any,i:number) =>(
             <div key={item.day} className="flex flex-col mb-2">
@@ -470,11 +484,17 @@ if(step === STEPS.CATEGORY){
             {i<= 1 &&(
               <div className="flex flex-row justify-center items-center mb-2 text-green-700 cursor-pointer"
               onClick={()=>{
-                setWeekHours(item);
+                if(item.day === "Monday"){
+                  setWeekHours(item);
+                  return;
+                }
+                if(item.day === "Sunday"){
+                  setAllDaysHours(item)
+                }
               }}
             >
               <AiOutlineClockCircle/>
-              <div> Use these hours for all days</div>
+              <div>{  item.day == "Sunday" ? 'Use these hours for all days' : 'Use these hours for all week days'}</div>
             </div>
             )}
           <hr/>

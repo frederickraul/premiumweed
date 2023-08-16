@@ -88,8 +88,7 @@ const Categories = () => {
         flex
         flex-row
         items-center
-        justify-between
-        overflow-x-auto
+        justify-between overflow-x-auto
         max-w-max
         gap-2
       '>
