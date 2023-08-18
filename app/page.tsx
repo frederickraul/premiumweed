@@ -28,7 +28,7 @@ const Home = async ({ searchParams }: HomeProps) => {
     <ClientOnly>
       <Container>
       <div className='text-center my-10'>
-          <div className='text-2xl font-bold text-x'>Find Premium Weed Near You</div>
+          <div className='text-2xl font-bold'>Find Premium Weed Near You</div>
       </div>
         <div 
           className="

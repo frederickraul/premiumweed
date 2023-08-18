@@ -40,7 +40,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <div className="relative min-h-[100vh]">
-            <div>
+            <div className="pb-[30px] sm:pb-0">
               <ToasterProvider/>
               <RentModal/>
               <LoginModal/>

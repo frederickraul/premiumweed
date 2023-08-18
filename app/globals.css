@@ -34,6 +34,34 @@ body,
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: green;
+  background: #444;
 }
 
+
+.custom-select select{
+  appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+.custom-select select::-ms-expand {
+  display: none;
+}
+
+
+.custom-select i{
+	position: absolute;
+	right: 20px;
+	top: calc(50% - 10px);
+	width: 12px;
+	height: 12px;
+	display: block;
+	border-left:4px solid #444;
+	border-bottom:4px solid #444;
+	transform: rotate(-45deg); /* Giramos el cuadrado */
+	transition: all 0.25s ease;
+}
+ 
+.custom-select:hover i{
+	margin-top: 3px;
+}

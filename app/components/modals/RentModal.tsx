@@ -18,6 +18,7 @@ import { toast } from "react-hot-toast";
 import CountrySelect from "../inputs/CountrySelect";
 import InputUnregistered from '../inputs/InputUnregistered';
 import { AiOutlineClockCircle } from "react-icons/ai";
+import CustomSelect from "../inputs/Select";
 
 
 enum STEPS{
@@ -48,7 +49,7 @@ const RentModal = () => {
   const rentModal = useRentModal();
   const router = useRouter();
 
-  const [step, setStep] = useState(STEPS.DESCRIPTION);
+  const [step, setStep] = useState(STEPS.OPERATION);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
@@ -334,14 +335,19 @@ if(step === STEPS.CATEGORY){
             title="Where is your listing located?"     
             subtitle="Help guest find you!"
           />
-            <div className="flex flex-col max-h-[60vh] overflow-y-auto gap-4">
+            <div className="flex flex-col overflow-y-auto max-h-[50vh] 3xl:max-h-[60vh] ">
+            <div className="flex flex-col gap-3 pr-5 3xl:pr-0">
+
               <CountrySelect
                 id='location'
                 register={register}
                 errors={errors}
                 required
                 value={location}
-                onChange={(value)=>{setCustomValue('location',value)}}
+                onChange={(value)=>{
+                  setCustomValue('location',value);
+                  
+                }}
               />
 
               <StateSelect
@@ -371,6 +377,7 @@ if(step === STEPS.CATEGORY){
                 center={centerMap}
                 zoom={zoomMap}
               />
+              </div>
             </div>
       </div>
     )
@@ -415,42 +422,37 @@ if(step === STEPS.CATEGORY){
             subtitle="When are you opening?"
           />
          
-         <div className="flex flex-col max-h-[60vh] overflow-y-auto">
+         <div className="flex flex-col overflow-y-auto max-h-[50vh] 3xl:max-h-[60vh]">
          {
            horary.map((item:any,i:number) =>(
             <div key={item.day} className="flex flex-col mb-2">
-            <div className="flex flex-row items-center justify-center mb-2">
-              <div className="mr-4 min-w-[100px] font-bold">
+            <div className="flex flex-col sm:flex-row items-center justify-center mb-2">
+              <div className="sm:mr-4 pl-5 sm:pl-0 min-w-[100px] w-[100%] sm:w-auto font-bold text-left">
                   {item.day}
               </div>
+              <div className="flex flex-row">
               <div className="max-w-[220px]">
-                <InputUnregistered
-                  value={item.open}
-                  label=""
-                  small
-                  type="time"
-                  disabled={isLoading}
-                  onChange={(e) => {
-                    item.open = e.target.value;
-                    setValue('horary',[...horary]);
-                  }}
-              />
+                <CustomSelect
+                    value={item.open}
+                    onChange={(value) => {
+                      item.open = value;
+                      setValue('horary',[...horary]);
+                    }}
+                />
+               
               </div>
             <div className="font-bold m-2"> - </div>
             <div className="max-w-[220px]">
-              <InputUnregistered
-                  value={item.close}
-                  label=""
-                  type="time"
-                  small
-                  disabled={isLoading}
-                  onChange={(e) => {
-                    item.close = e.target.value;
-                    setValue('horary',[...horary]);
-                  }}
-              />
+                <CustomSelect
+                    value={item.open}
+                    onChange={(value) => {
+                      item.close = value;
+                      setValue('horary',[...horary]);
+                    }}
+                />
             </div>
-            <div className="flex flex-col">
+              </div>
+            <div className="flex flex-row sm:flex-col">
                 <div className="flex items-center pl-2 ml-4">
                   <InputUnregistered
                         value={item.fulltime}
