@@ -96,8 +96,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     absolute
                     rounded-xl
                     shadow-md
-                    w-[40vw]
-                    md:w-3/4
+                    md:w-4/4 
                     bg-white
                     overflow-hidden
                     right-0
@@ -126,7 +125,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                         /> 
                         <MenuItem
                             onClick={rentModal.onOpen}
-                            label="Weedgrowers my home"
+                            label="Weedgrowers My Home"
                         /> 
                         <hr />
                         <MenuItem

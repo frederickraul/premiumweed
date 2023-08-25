@@ -9,7 +9,6 @@ export type StateSelectValue ={
   flag: string;
   label: string;
   latlng: number[];
-  region: string;
   value: string;
 }
 
@@ -18,10 +17,11 @@ interface StateSelectProps{
   register: UseFormRegister<FieldValues>,
   errors: FieldErrors,
   required?: boolean,
+  countryCode: string;
+  value?: StateSelectValue;
+  isClearable?:boolean;
+  onChange: (value: StateSelectValue) => void;
 
-    countryCode: string;
-    value?: StateSelectValue;
-    onChange: (value: StateSelectValue) => void;
 }
 
 const StateSelect:React.FC<StateSelectProps> = ({
@@ -29,11 +29,12 @@ const StateSelect:React.FC<StateSelectProps> = ({
   register,
   errors,
   required,
-
+  isClearable,
   countryCode,
   value,
   onChange
 }) => {
+ 
   const {getStatesOfCountry} = useCountries();
   return ( 
     <div>
@@ -41,7 +42,7 @@ const StateSelect:React.FC<StateSelectProps> = ({
         id={id}
         {...register(id,{required})}
         placeholder="Anywhere"
-        isClearable
+        isClearable={isClearable}
         options={getStatesOfCountry(countryCode)}
         value={value}
         onChange={(value) => onChange(value as StateSelectValue)}
@@ -58,9 +59,9 @@ const StateSelect:React.FC<StateSelectProps> = ({
           </div>
         )}
         classNames={{
-          control: ()=> 'p-3 border-2',
-          input: ()=> 'text-lg',
-          option: ()=> 'text-lg'
+          control: ()=> 'p-1 2xl:p-3 border-2',
+          input: ()=> '2xl:text-lg',
+          option: ()=> '2xl:text-lg',
         }}
         theme={(theme) => ({
           ...theme,

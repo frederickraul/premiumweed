@@ -16,6 +16,7 @@ import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import Loading from "@/app/Loading";
+import useCountries from "@/app/hooks/useCountries";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -36,6 +37,10 @@ const ListingClient: React.FC<ListingClientProps> = ({
   reservations = [],
   currentUser
 }) => {
+  const { getStatesOfCountry } = useCountries();
+
+  const states = getStatesOfCountry(listing.locationValue);
+
   const loginModal = useLoginModal();
   const router = useRouter();
 
@@ -111,6 +116,10 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }
   }, [dateRange, listing.price]);
 
+
+  
+  
+  
   return ( 
     <Container isLoading={isLoading}>
       <div 
@@ -145,6 +154,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               guestCount={listing.guestCount}
               bathroomCount={listing.bathroomCount}
               locationValue={listing.locationValue}
+              pin={listing.pin}
             />
             <div 
               className="

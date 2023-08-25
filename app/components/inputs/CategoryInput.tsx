@@ -21,9 +21,9 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
       className={`
         rounded-xl
         border-2
-        p-4
+        p-2 2xl:p-4
         flex
-        flex-col
+        flex-row 2xl:flex-col
         gap-3
         hover:border-black
         transition

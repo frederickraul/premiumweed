@@ -15,6 +15,7 @@ const Map = dynamic(() => import('../Map'), {
 
 interface ListingInfoProps {
   user: SafeUser | null,
+  pin: any,
   description: string;
   guestCount: number;
   roomCount: number;
@@ -22,7 +23,7 @@ interface ListingInfoProps {
   category: {
     icon: IconType,
     label: string;
-    description: string;
+    value: string;
   } | undefined
   locationValue: string;
 }
@@ -35,6 +36,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
   bathroomCount,
   category,
   locationValue,
+  pin,
 }) => {
   const { getByValue } = useCountries();
 
@@ -81,7 +83,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         <ListingCategory
           icon={category.icon} 
           label={category?.label}
-          description={category?.description} 
+          description={category?.value} 
         />
       )}
       <hr />
@@ -90,7 +92,7 @@ const ListingInfo: React.FC<ListingInfoProps> = ({
         {description}
       </div>
       <hr />
-      <Map center={coordinates} zoom={4} />
+      <Map center={pin} zoom={4} />
     </div>
    );
 }

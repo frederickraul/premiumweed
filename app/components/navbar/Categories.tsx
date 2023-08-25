@@ -14,57 +14,57 @@ export const categories = [
   {
     label: 'Growers',
     icon: GiGraveFlowers,
-    description:'Growers'
+    value:'Growers'
   },
   {
     label: 'Delivery',
     icon: GiDeliveryDrone,
-    description:'Delivery'
+    value:'Delivery'
   },
   {
     label: 'Dispensaries',
     icon: MdWarehouse,
-    description:'Dispensaries'
+    value:'Dispensaries'
   },
   {
     label: 'Hydroponics',
     icon: GiWaterFountain,
-    description:'Hydroponics'
+    value:'Hydroponics'
   },
   {
     label: 'Doctors',
     icon: TbMedicineSyrup,
-    description:'Doctors'
+    value:'Doctors'
   },
   {
     label: 'Vendors',
     icon: MdOutlineVilla,
-    description:'Vendors'
+    value:'Vendors'
   },
   {
     label: 'Bus Tours',
     icon: BiBus,
-    description:'Bus Tours'
+    value:'Bus Tours'
   },
   {
     label: 'Restaurant',
     icon: MdRestaurant,
-    description:'Restaurant'
+    value:'Restaurant'
   },
   {
     label: 'Bars',
     icon: GiBarStool,
-    description:'Bars'
+    value:'Bars'
   },
   {
     label: 'Lounge',
     icon: TbMountain,
-    description:'Lounge'
+    value:'Lounge'
   },
   {
     label: 'Seeds',
     icon: TbSeeding,
-    description:'Seeds'
+    value:'Seeds'
   },
 ]
 

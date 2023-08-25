@@ -15,18 +15,18 @@ import DoubleButton from '../DoubleButton';
 import ConfirmModal from '../modals/ConfirmModal';
 
 interface ListingCardProps{
-  data: Listing;
+  data: any;
   reservation?: Reservation;
   onEditAction?:(id:string) => void;
   onAction?:(id:string) => void;
-  onActionSecond?:(id:string) => void;
+  onActionSecond?:() => void;
   disabled?: boolean;
   actionLabel?: string;
   actionLabelSecond?: string;
   actionId?: string;
   currentUser?: SafeUser | null;
 }
-const ListingCard: React.FC<ListingCardProps> = ({
+const PreviewListingCard: React.FC<ListingCardProps> = ({
   data,
   reservation,
   onEditAction,
@@ -35,23 +35,20 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   actionLabel,
   actionLabelSecond,
-  actionId,
+  actionId= "",
   currentUser 
-}) => {
-  
+}) => {  
   const router = useRouter();
   const { getByValue} = useCountries();
   const location = getByValue(data.locationValue);
-  const title = data.title;
   const [stars, setStars] = useState<number | null>(2);
+
   const handleDelete = useCallback(
     () => {
       if(disabled){
         return;
       }
-      if(actionId){
-        onAction?.(actionId);
-      }
+      onAction?.(actionId);
     },
     [onAction, actionId, disabled],
   );
@@ -62,12 +59,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
       if(disabled){
         return;
       }
-      if(actionId){
-        onActionSecond?.(actionId);
-      }
-      console.log(actionId);
+      onActionSecond?.();
     },
-    [onActionSecond,actionId],
+    [onActionSecond],
   );
 
   const handleEditAction = useCallback(
@@ -76,37 +70,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
       if(disabled){
         return;
       }
-      if(actionId){
       onEditAction?.(actionId);
-      }
     },
     [onEditAction, actionId, disabled],
   );
   
-  const price = useMemo(() => {
-    if(reservation){
-      return reservation.totalPrice;
-    }
-
-    return data.price;
-  }, [reservation, data.price]);
-
-  const reservationDate = useMemo(() => {
-    if(!reservation){
-      return null;
-    }
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
-
-    return `${format(start, "PP")} - ${format(end, "PP")}`;
-  }, [reservation]);
-
+ 
   return (
       <div 
-        className='col-span-1 cursor-pointer group'> 
+        className='col-span-1 cursor-pointer group min-w-min'> 
         <div className='flex flex-col w-full'>
           <div 
-              onClick={()=> router.push(`/listings/${data.id}`)}
               className='aspect-square w-full relative overflow-hidden rounded-xl'>
             <Image
               sizes='100'
@@ -120,17 +94,18 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 <HeartButton
                   listingId={data.id}
                   currentUser={currentUser}
+                  disable
                 />
             </div>
           </div>
           <div className='font-bold text-sm mt-2'>
-            {title}
+            {data.title}
           </div>
-          <div className='font-light text-sm'>
+          <div className='font-light text-sm whitespace-break-spaces'>
           {data.address} {data.city}, {data.state} {data.zipcode}
           </div>
-          <div className='font-light text-sm'>
-          {data.formattedPhone}
+          <div className='font-light text-sm whitespace-break-spaces'>
+          {data.formattedPhone} 
           </div>
           <div className='font-bold text-green-700 flex flex-row items-center '>
             <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>Open Now</span>
@@ -139,14 +114,18 @@ const ListingCard: React.FC<ListingCardProps> = ({
             <Rating
               size='small'
               name="simple-controlled"
-              value={stars}
               precision={0.5}
-              onChange={(event, newValue) => {
-                setStars(newValue);
+              value={3.5}
+              readOnly
+              sx={{
+                fontSize: {
+                  sm: 14, // theme.breakpoints.up('sm')
+                  md: 18, // theme.breakpoints.up('md')
+                },
               }}
             />
-            <div className='ml-2 text-neutral-500 text-sm'>
-              {stars} (34)
+            <div className='ml-2 text-neutral-500 text-xs lg:text-sm'>
+              {3.5} (34)
             </div>
             
           </div>
@@ -157,22 +136,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
             {data.category}
           </div>
         </div>
-          {onAction && actionLabel && (
-            <>
-            <DoubleButton
-              disabled={disabled}
-              label={actionLabel}
-              labelSecond={actionLabelSecond}
-              onClick={handleEditAction}
-              onClickSecond={handleSecondAction}
-            />
-              <ConfirmModal onSubmit={handleDelete}/>
-
-            </>
-            
-          )}
       </div>
   )
 }
 
-export default ListingCard
+export default PreviewListingCard

@@ -7,6 +7,7 @@ const GetTheApp = () => {
       <Button
         label='Get The App'
         color='bg-black'
+        styles='border-white'
         borderless
         roundless
         onClick={()=>{}}

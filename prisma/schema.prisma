@@ -51,27 +51,32 @@ type Horary {
 }
 
 model Listing {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  address       String?
-  apartment     String?
-  bathroomCount Int
-  category      String
-  city          String?
-  coverSrc      String?
-  createdAt     DateTime @default(now())
-  horary        Horary[]
-  description   String
-  guestCount    Int
-  imageSrc      String
-  locationValue String
-  phone         String?
-  pin           String[]
-  zipcode       String?
-  price         Int
-  roomCount     Int
-  state         String?
-  title         String
-  userId        String   @db.ObjectId
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  address         String?
+  visibleAddress  Boolean?
+  apartment       String?
+  bathroomCount   Int
+  category        String
+  city            String?
+  cityCode        String?
+  coverSrc        String?
+  createdAt       DateTime @default(now())
+  horary          Horary[]
+  description     String
+  guestCount      Int
+  imageSrc        String
+  locationValue   String
+  website         String?
+  phone           String?
+  formattedPhone  String?
+  pin             String[]
+  zipcode         String?
+  price           Int
+  roomCount       Int
+  state           String?
+  stateCode       String?
+  title           String
+  userId          String   @db.ObjectId
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]

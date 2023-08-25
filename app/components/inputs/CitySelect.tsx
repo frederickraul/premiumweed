@@ -16,20 +16,26 @@ interface CitySelectProps{
     countryCode: string;
     value?: CitySelectValue;
     onChange: (value: CitySelectValue) => void;
+    isClearable?:boolean;
 }
 
 const CitySelect:React.FC<CitySelectProps> = ({
   countryCode,
   stateCode,
   value,
+  isClearable,
   onChange
 }) => {
+  // console.log("City Select");
+  // console.log(value);
+  // console.log('->>>>>>>>>>>>');
+  
   const {getCitiesOfState} = useCountries();
   return ( 
     <div>
       <Select
         placeholder="Anywhere"
-        isClearable
+        isClearable={isClearable}
         options={getCitiesOfState(countryCode, stateCode)}
         value={value}
         onChange={(value) => onChange(value as CitySelectValue)}
@@ -46,9 +52,9 @@ const CitySelect:React.FC<CitySelectProps> = ({
           </div>
         )}
         classNames={{
-          control: ()=> 'p-3 border-2',
-          input: ()=> 'text-lg',
-          option: ()=> 'text-lg'
+          control: ()=> 'p-1 2xl:p-3 border-2',
+          input: ()=> '2xl:text-lg',
+          option: ()=> '2xl:text-lg',
         }}
         theme={(theme) => ({
           ...theme,

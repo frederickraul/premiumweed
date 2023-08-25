@@ -54,10 +54,9 @@ const CountrySelect:React.FC<CountrySelectProps> = ({
           </div>
         )}
         classNames={{
-          control: ()=> 'p-3 border-2',
-          input: ()=> 'text-lg',
-          option: ()=> 'text-lg',
-          
+          control: ()=> 'p-1 2xl:p-3 border-2',
+          input: ()=> '2xl:text-lg',
+          option: ()=> '2xl:text-lg',
         }}
         theme={(theme) => ({
           ...theme,

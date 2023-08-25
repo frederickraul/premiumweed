@@ -82,7 +82,7 @@ const Modal: React.FC<ModalProps> = ({
         z-50
         outline-none
         focus:outline-none
-        bg-neutral-800/70
+        bg-neutral-800/30
 
 
       ">
@@ -110,8 +110,7 @@ const Modal: React.FC<ModalProps> = ({
             <div className='
               translate
               h-full
-              lg:h-auto
-              md:h-auto
+              sm:max-h-[85vh] 
               border-0
               rounded-lg
               shadow-lg
@@ -146,12 +145,12 @@ const Modal: React.FC<ModalProps> = ({
                 >
                   <IoMdClose size={18} />
                 </button>
-                <div className="text-lg font-semibold">
+                <div className="text-base xl:text-lg font-semibold">
                     {title}
                 </div>
               </div>
               {/* BODY */}
-              <div className="relative p-6 flex-auto">
+              <div className="relative p-6 flex-auto overflow-y-auto">
                 {body}
               </div>
               {/* FOOTER */}

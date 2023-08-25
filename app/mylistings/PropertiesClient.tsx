@@ -10,6 +10,8 @@ import { SafeListing, SafeUser } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
+import confirmModal from '../components/modals/ConfirmModal';
+import useConfirmModal from "../hooks/useConfirmModal";
 
 interface PropertiesClientProps {
   listings: SafeListing[],
@@ -31,14 +33,12 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 
      
   }, [listings]);
-
+  const confirmModal = useConfirmModal();
   const router = useRouter();
   const [deletingId, setDeletingId] = useState('');
 
-  const onDelete = useCallback((id: string) => {
-    setDeletingId(id);
-
-    axios.delete(`/api/listings/${id}`)
+  const onDelete = useCallback(() => {
+    axios.delete(`/api/listings/${deletingId}`)
     .then(() => {
       toast.success('Listing deleted');
       router.refresh();
@@ -49,12 +49,21 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
     .finally(() => {
       setDeletingId('');
     })
-  }, [router]);
+  }, [router,deletingId]);
 
+  const openConfirmModal = (id: string) =>{
+      confirmModal.onOpen();
+      setDeletingId(id);
+  }
+
+  const editButtonHandler = (id: string) => {
+    router.push(`/mylistings/${id}`);
+  }
 
   return ( 
     <Container  isLoading={isLoading}>
-      <Heading
+     <div className="mt-0 sm:mt-5 md:mt-0">
+     <Heading
         title="Listings"
         subtitle="List of your listings"
       />
@@ -77,8 +86,9 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             key={listing.id}
             data={listing}
             actionId={listing.id}
+            onEditAction={editButtonHandler}
             onAction={onDelete}
-            onActionSecond={onDelete}
+            onActionSecond={openConfirmModal}
             disabled={deletingId === listing.id}
             actionLabel="Edit"
             actionLabelSecond="Delete listing"
@@ -86,6 +96,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           />
         ))}
       </div>
+     </div>
     </Container>
    );
 }

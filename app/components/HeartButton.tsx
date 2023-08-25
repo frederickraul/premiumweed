@@ -10,11 +10,13 @@ import ClientOnly from "./ClientOnly";
 interface HeartButtonProps {
   listingId: string
   currentUser?: SafeUser | null
+  disable?: boolean;
 }
 
 const HeartButton: React.FC<HeartButtonProps> = ({ 
   listingId,
-  currentUser
+  currentUser,
+  disable
 }) => {
   const { hasFavorited, toggleFavorite } = useFavorite({
     listingId,
@@ -23,7 +25,10 @@ const HeartButton: React.FC<HeartButtonProps> = ({
 
   return (
     <div 
-      onClick={toggleFavorite}
+      onClick={()=>{
+        if(disable){return}
+        toggleFavorite
+      }}
       className="
         relative
         hover:opacity-80

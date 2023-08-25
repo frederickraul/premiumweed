@@ -2,57 +2,51 @@
 'use client';
 
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
-import { BiDollar } from "react-icons/bi";
-
+import PhoneInput from "react-phone-input-2";
+import '@/app/reactInputPhone.css'
 interface InputProps{
-  id: string;
-  label?: string;
+  country: string;
+  value?: any;
+  checked?: boolean;
+  onChange: (phone: any, formattedPhone: any) => void;
+  label: string;
   type?: string;
   disabled?: boolean;
   small?: boolean;
   optional?: boolean;
   formatPrice?: boolean;
   required?: boolean;
-  register: UseFormRegister<FieldValues>,
-  errors: FieldErrors
+  disableDropdown?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({
-  id,
+const InputPhone: React.FC<InputProps> = ({
+  country,
+  value,
+  onChange,
+  checked,
   label,
   optional,
   type,
   disabled,
+  disableDropdown,
   small,
   formatPrice,
   required,
-  register,
-  errors
 
 }) => {
   return (
     <div className="w-full relative">
-      {formatPrice  && (
-        <BiDollar
-          size={24}
-          className="
-            text-neutral-700
-            absolute
-            top-5
-            left-2
-          "
-        />
-      )}
-      <input
-        id={id}
+      <PhoneInput
+        country={country}
+        value={value}
+        onChange={(phone,data,evet,formattedPhone) => onChange(phone,formattedPhone)
+      }
         disabled={disabled}
-        {...register(id,{required})}
+        disableDropdown={disableDropdown}
         placeholder=" "
-        type={type}
-        className={`
-          peer
+        inputClass={
+          `
           w-full
-          font-light
           bg-white
           border-2
           rounded-md
@@ -60,22 +54,18 @@ const Input: React.FC<InputProps> = ({
           transition
           disabled:opacity-70
           disabled:cursor-not-allowed
-          ${formatPrice ? 'pl-9' : 'pl-4'}
-          ${errors[id] ? 'border-red-500' : 'border-neutral-300'}
-          ${errors[id] ? 'focus: border-red-500' : 'focus:border-black'}
           ${small ? 'text-xs' : 'text-sm 2xl:text-base'}
           ${small ? 'p-2' : 'p-2 2xl:p-4'}
           ${small ? 'p-3' : label ? 'pt-4 2xl:pt-6' : 'pt-3'}
           ${small ? 'font-light' : 'font-semibold'}
-          ${type === "checkbox" ? 'w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600': ''}
-        `}
+          `
+        }
+        containerClass=""
+        dropdownClass="hidden"
       />
-       {errors[id]  && (<p className="text-red-500 text-xs italic">Please fill out this field.</p>)}
-      
-
-      
       <label 
         className={`
+          pl-3
           absolute
           text-xs 2xl:text-base
           duration-150
@@ -84,12 +74,11 @@ const Input: React.FC<InputProps> = ({
           top-4 2xl:top-5
           z-10
           origin-[0]
-          ${formatPrice ? 'left-9' : 'left-4'}
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0
           peer-focus:scale-75
           peer-focus:-translate-y-3
-          ${errors[id] ? 'text-red-500' : 'text-zinc-400'}
+           text-zinc-400
         `}
       >
         {label}
@@ -99,4 +88,4 @@ const Input: React.FC<InputProps> = ({
   )
 }
 
-export default Input
+export default InputPhone

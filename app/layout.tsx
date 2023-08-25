@@ -46,6 +46,7 @@ export default async function RootLayout({
               <LoginModal/>
               <SearchModal/>
               <RegisterModal/>
+           
               <Navbar currentUser={currentUser}/>
             </div>
             <Suspense fallback={<Loading/>}>

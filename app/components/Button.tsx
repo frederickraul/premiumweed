@@ -7,6 +7,7 @@ interface ButtonProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   outline?: boolean;
+  styles?: string;
   small?: boolean;
   icon?: IconType;
   color?: string,
@@ -23,7 +24,8 @@ const Button: React.FC<ButtonProps> = ({
   icon: Icon,
   roundless,
   color,
-  borderless
+  borderless,
+  styles
 }) => {
   return ( 
     <button
@@ -37,13 +39,14 @@ const Button: React.FC<ButtonProps> = ({
         hover:opacity-80
         transition
         w-full
-        ${color ? color :  outline ? 'bg-white' : 'bg-rose-500'}
-        ${borderless ? 'border-transparent' : outline ? 'border-black' : 'border-rose-500'}
+        ${outline ? 'bg-white' : color ? color : 'bg-rose-500'}
+        ${outline ? 'border-black' : borderless ? borderless : 'border-rose-500'}
         ${outline ? 'text-black' : 'text-white'}
         ${small ? 'text-sm' : 'text-md'}
         ${small ? 'py-1' : 'py-3'}
         ${small ? 'font-light' : 'font-semibold'}
         ${small ? 'border-[1px]' : 'border-2'}
+        ${styles ?styles : ''}
       `}
     >
       {Icon && (

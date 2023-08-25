@@ -28,6 +28,8 @@ export async function POST(
       pin,
       zipcode,
       phone,
+      formattedPhone,
+      website,
       address,
       apartment,
       horary,
@@ -53,13 +55,17 @@ export async function POST(
         bathroomCount,
         locationValue: location.value,
         state: state.label,
+        stateCode: state.value,
         city: city.label,
+        cityCode: state.value,
         pin,
         horary: {
           set: horary
         },
         zipcode,
         phone,
+        formattedPhone,
+        website,
         address,
         apartment,
         price: parseInt(price,10),
@@ -67,5 +73,5 @@ export async function POST(
       }
     })
 
-    return NextResponse.json(body);
+    return NextResponse.json(listing);
 }

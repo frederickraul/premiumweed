@@ -19,6 +19,9 @@ import CountrySelect from "../inputs/CountrySelect";
 import InputUnregistered from '../inputs/InputUnregistered';
 import { AiOutlineClockCircle } from "react-icons/ai";
 import CustomSelect from "../inputs/Select";
+import { hours } from "@/app/const/hours";
+import InputPhone from "../inputs/InputPhone";
+import { log } from "console";
 
 
 enum STEPS{
@@ -34,14 +37,24 @@ enum STEPS{
 }
 
 const week = [
-  {day: "Monday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Tuesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Wednesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Thursday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Friday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Saturday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Sunday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
+  {day: "Monday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
+  {day: "Tuesday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
+  {day: "Wednesday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
+  {day: "Thursday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
+  {day: "Friday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
+  {day: "Saturday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
+  {day: "Sunday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
 ];
+
+const defaultLocation = {
+  "value": "US",
+  "label": "United States",
+  "flag": "🇺🇸",
+  "latlng": [
+      "38.00000000",
+      "-97.00000000"
+  ]
+};
 
 const RentModal = () => {
 
@@ -49,7 +62,7 @@ const RentModal = () => {
   const rentModal = useRentModal();
   const router = useRouter();
 
-  const [step, setStep] = useState(STEPS.OPERATION);
+  const [step, setStep] = useState(STEPS.DESCRIPTION);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedState, setSelectedState] = useState('');
@@ -69,12 +82,15 @@ const RentModal = () => {
     defaultValues:{
       category: '',
       address: '',
+      visibleAddress:'',
       apartment: '',
       zipCode: '',
-      location: null,
+      location: defaultLocation,
       state: null,
       city: null,
       pin: null,
+      phone:'',
+      formattedPhone:'',
       XYZ: "xyz",
       guestCount: 1,
       roomCount: 1,
@@ -84,6 +100,7 @@ const RentModal = () => {
       price: 1,
       title: '',
       description: '',
+      website:'',
       horary: week,
     }
   });
@@ -93,19 +110,23 @@ const RentModal = () => {
   const state = watch('state');
   const city = watch('city');
   const pin = watch('pin');
+  const visibleAddress = watch('visibleAddress');
   const guestCount = watch('guestCount');
   const roomCount = watch('roomCount');
   const bathroomCount = watch('bathroomCount');
   const imageSrc = watch('imageSrc');
   const coverSrc = watch('coverSrc');
   const horary = watch('horary');
+  const phone = watch('phone');
+  const formattedPhone = watch('formattedPhone');
+  const website = watch('website');
   
-  //Testing Area  
-  useEffect(() => {
-    if(pin){
-      console.log(pin[0] + ','+pin[1]);
-    }
-  }, [pin]);
+  // //Testing Area  
+  // useEffect(() => {
+  //   if(pin){
+  //     console.log(pin[0] + ','+pin[1]);
+  //   }
+  // }, [pin]);
   
 
   // .Testing Area
@@ -179,7 +200,7 @@ const RentModal = () => {
 
 
   //For Regular Inputs
-  const setCustomValue = (id: string, value:any) => {
+  const setCustomValue = (id: string, value:any) => {    
     setValue(id, value, {
       shouldValidate: true,
       shouldDirty: true,
@@ -247,6 +268,7 @@ const RentModal = () => {
       setIsLoading(false);
     }); 
   }
+  
   const actionLabel = useMemo(() => {
     if(step === STEPS.FINISH){
       return 'Create';
@@ -279,7 +301,6 @@ const RentModal = () => {
         errors={errors}
         required
       />
-      <hr/>
       {/* <Input
         id="description"
         label="Description"
@@ -306,8 +327,7 @@ if(step === STEPS.CATEGORY){
           grid-cols-
           md:grid-cols-2
           gap-3
-          overflow-y-auto
-          max-h-[50vh]
+          max-h-[45vh] 2xl:max-h-[50vh]
         ">
         {categories.map((item) =>(
           <div key={item.label} className="col-span-1">
@@ -327,6 +347,52 @@ if(step === STEPS.CATEGORY){
   )
 }
 
+// ADDRESS STEP
+if(step === STEPS.ADDRESS){
+  bodyContent = (
+    <div className="flex flex-col gap-8">
+      <Heading
+        title="Bussiness Address"
+        subtitle="show where they can find you!"
+      />
+      <div 
+        className="
+          grid
+          gap-3 2xl:gap-4
+          overflow-y-auto max-h-[45vh] 2xl:max-h-[50vh]
+        ">
+          <Input
+            id="address"
+            label="Address"
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+            required
+          />
+          <hr/>
+          <Input
+            id="apartment"
+            label="Apt/Suite/other"
+            optional
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+          />
+          <hr/>
+          <Input
+            id="zipCode"
+            label="Zip code"
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+            required
+          />
+      </div>
+    </div>
+  )
+
+}
+
 // LOCATION STEP
   if(step === STEPS.LOCATION){
     bodyContent = (
@@ -335,8 +401,8 @@ if(step === STEPS.CATEGORY){
             title="Where is your listing located?"     
             subtitle="Help guest find you!"
           />
-            <div className="flex flex-col overflow-y-auto max-h-[50vh] 3xl:max-h-[60vh] ">
-            <div className="flex flex-col gap-3 pr-5 3xl:pr-0">
+            <div className="flex flex-col ">
+            <div className="flex flex-col gap-3 2xl:gap-4 pr-5 3xl:pr-0">
 
               <CountrySelect
                 id='location'
@@ -391,24 +457,38 @@ if(step === STEPS.CATEGORY){
             title="Share contact info"     
             subtitle="What your business contact info?"
           />
-          <Input
-            id="phone"
-            label="Phone number"
-            type="number"
-            disabled={isLoading}
-            register={register}
-            errors={errors}
-            required
-          />
-          <hr/>
-          <Input
-            id="website"
-            label="Website Link"
-            optional
-            disabled={isLoading}
-            register={register}
-            errors={errors}
-          />
+          <div 
+            className="
+              grid
+              gap-3 2xl:gap-4
+              overflow-y-auto max-h-[45vh] 2xl:max-h-[50vh]
+            ">
+              <InputPhone
+                country="us"
+                //id="phone"
+                label="Phone number"
+                type="number"
+                disableDropdown
+                disabled={isLoading}
+                value={phone}
+                onChange={(phone,formattedPhone) => {
+                  setValue('phone',phone);
+                  setValue('formattedPhone',formattedPhone);
+                }}
+                //register={register}
+                //errors={errors}
+                required
+              />
+              <hr/>
+              <Input
+                id="website"
+                label="Website Link"
+                optional
+                disabled={isLoading}
+                register={register}
+                errors={errors}
+              />
+          </div>
       </div>
     )
   }
@@ -422,7 +502,7 @@ if(step === STEPS.CATEGORY){
             subtitle="When are you opening?"
           />
          
-         <div className="flex flex-col overflow-y-auto max-h-[50vh] 3xl:max-h-[60vh]">
+         <div className="flex flex-col">
          {
            horary.map((item:any,i:number) =>(
             <div key={item.day} className="flex flex-col mb-2">
@@ -431,8 +511,9 @@ if(step === STEPS.CATEGORY){
                   {item.day}
               </div>
               <div className="flex flex-row">
-              <div className="max-w-[220px]">
+              <div className="w-[150px]">
                 <CustomSelect
+                    options={hours}
                     value={item.open}
                     onChange={(value) => {
                       item.open = value;
@@ -442,9 +523,10 @@ if(step === STEPS.CATEGORY){
                
               </div>
             <div className="font-bold m-2"> - </div>
-            <div className="max-w-[220px]">
+            <div className="w-[150px]">
                 <CustomSelect
-                    value={item.open}
+                    options={hours}
+                    value={item.close}
                     onChange={(value) => {
                       item.close = value;
                       setValue('horary',[...horary]);
@@ -519,7 +601,7 @@ if(step === STEPS.CATEGORY){
       )
     }
 
-        // IMAGES STEP
+    // IMAGES STEP
     if(step === STEPS.COVER){
       bodyContent = (
         <div className="flex flex-col gap-8">
@@ -533,46 +615,6 @@ if(step === STEPS.CATEGORY){
           />
         </div>
       )
-    
-    }
-    
-    // ADDRESS STEP
-    if(step === STEPS.ADDRESS){
-      bodyContent = (
-        <div className="flex flex-col gap-8">
-          <Heading
-            title="Bussiness Address"
-            subtitle="show where they can find you!"
-          />
-          <Input
-            id="address"
-            label="Address"
-            disabled={isLoading}
-            register={register}
-            errors={errors}
-            required
-          />
-          <hr/>
-          <Input
-            id="apartment"
-            label="Apt/Suite/other"
-            optional
-            disabled={isLoading}
-            register={register}
-            errors={errors}
-          />
-          <hr/>
-          <Input
-            id="zipCode"
-            label="Zip code"
-            disabled={isLoading}
-            register={register}
-            errors={errors}
-            required
-          />
-        </div>
-      )
-    
     }
 
     // PRICE STEP
@@ -601,6 +643,7 @@ if(step === STEPS.CATEGORY){
     title="Weedgrowers your home"
     body={bodyContent}
     size={step === STEPS.OPERATION ? 'lg' : 'md'}
+    disabled={isLoading}
    />
   )
 }
