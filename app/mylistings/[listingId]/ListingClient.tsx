@@ -138,7 +138,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
     .then(()=>{
       toast.success('Listing Updated');
       router.refresh();
-      reset();
     })
     .catch(() => {
       toast.error('Something went wrong.')

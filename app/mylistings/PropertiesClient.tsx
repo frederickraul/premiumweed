@@ -30,10 +30,12 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
     if(listings.length > 0){
       setIsLoading(false);
      }
-
      
   }, [listings]);
+
+
   const confirmModal = useConfirmModal();
+
   const router = useRouter();
   const [deletingId, setDeletingId] = useState('');
 
@@ -53,10 +55,11 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 
   const openConfirmModal = (id: string) =>{
       confirmModal.onOpen();
-      setDeletingId(id);
+        setDeletingId(id);
   }
 
   const editButtonHandler = (id: string) => {
+    setIsLoading(true);
     router.push(`/mylistings/${id}`);
   }
 
@@ -89,7 +92,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             onEditAction={editButtonHandler}
             onAction={onDelete}
             onActionSecond={openConfirmModal}
-            disabled={deletingId === listing.id}
+            disabled={isLoading}
             actionLabel="Edit"
             actionLabelSecond="Delete listing"
             currentUser={currentUser}

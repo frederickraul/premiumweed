@@ -22,6 +22,7 @@ const ConfirmModal: React.FC<ModalProps> = ({
     confirmModal.onClose();
   }
 
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
         <Heading 

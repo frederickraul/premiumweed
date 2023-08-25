@@ -65,7 +65,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
       if(actionId){
         onActionSecond?.(actionId);
       }
-      console.log(actionId);
+      //console.log(actionId);
     },
     [onActionSecond,actionId],
   );
@@ -91,15 +91,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
     return data.price;
   }, [reservation, data.price]);
 
-  const reservationDate = useMemo(() => {
-    if(!reservation){
-      return null;
-    }
-    const start = new Date(reservation.startDate);
-    const end = new Date(reservation.endDate);
 
-    return `${format(start, "PP")} - ${format(end, "PP")}`;
-  }, [reservation]);
 
   return (
       <div 
