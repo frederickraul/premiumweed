@@ -37,6 +37,7 @@ export async function POST(
     formattedPhone,
     website,
     address,
+    visibleAddress,
     apartment,
     horary,
     price
@@ -78,14 +79,12 @@ export async function POST(
       formattedPhone,
       website,
       address,
+      visibleAddress,
       apartment,
       price: parseInt(price,10),
       userId: currentUser.id
     }
   })
-
-
-
   return NextResponse.json(listing);
 }
 

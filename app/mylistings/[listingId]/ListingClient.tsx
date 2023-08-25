@@ -81,7 +81,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     defaultValues:{
       category: listing.category,
       address: listing.address,
-      visibleAddress: listing.visibleAddress || false,
+      visibleAddress: listing.visibleAddress,
       apartment: listing.apartment,
       zipCode: listing.address,
       location: listing.locationValue,
@@ -440,7 +440,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
                   <div className="flex flex-row items-start ml-4 pt-0 md:pt-2">
                    <div className="max-w-[50px] flex ">
                    <InputUnregistered
-                          value={true}
                           label=""
                           type="checkbox"
                           disabled={isLoading}

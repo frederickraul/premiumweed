@@ -40,6 +40,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   const [deletingId, setDeletingId] = useState('');
 
   const onDelete = useCallback(() => {
+    setIsLoading(true);
     axios.delete(`/api/listings/${deletingId}`)
     .then(() => {
       toast.success('Listing deleted');
@@ -50,6 +51,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
     })
     .finally(() => {
       setDeletingId('');
+      setIsLoading(false);
     })
   }, [router,deletingId]);
 

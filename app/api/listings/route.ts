@@ -31,6 +31,7 @@ export async function POST(
       formattedPhone,
       website,
       address,
+      visibleAddress,
       apartment,
       horary,
       price
@@ -66,6 +67,7 @@ export async function POST(
         phone,
         formattedPhone,
         website,
+        visibleAddress,
         address,
         apartment,
         price: parseInt(price,10),
