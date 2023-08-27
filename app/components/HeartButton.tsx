@@ -25,8 +25,8 @@ const HeartButton: React.FC<HeartButtonProps> = ({
 
   return (
     <div 
-      onClick={()=>{
-        if(disable){return}
+      onClick={(e)=>{
+        console.log('heart')
         toggleFavorite
       }}
       className="
@@ -34,6 +34,7 @@ const HeartButton: React.FC<HeartButtonProps> = ({
         hover:opacity-80
         transition
         cursor-pointer
+        z-20
       "
     >
       <AiOutlineHeart

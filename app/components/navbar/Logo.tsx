@@ -7,17 +7,19 @@ const Logo = () => {
     const router = useRouter();
 
   return (
+    <a onClick={(e)=>e.preventDefault()} href="/">
     <Image
         priority={false} 
         sizes="100"
         height={60}
         width={60}
-        onClick={()=>{router.push('/')}}
         alt="Logo"
-        className="md:block cursor-pointer w-[40px] sm:w-[40px] md:w-[50px] lg:w-[60px]"  
+        className="md:block cursor-pointer w-[40px] sm:w-[40px] md:w-[50px] lg:w-[60px] "  
         src="/images/logo.png"
+        onClick={()=>{router.push('/')}} 
         quality={50}
         />
+  </a>
   )
 }
 
