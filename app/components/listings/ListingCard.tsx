@@ -119,7 +119,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             {title}
           </div>
           <div className='font-light text-sm'>
-          {!data.visibleAddress && `${data.address},`} {data.apartment && `${data.apartment},`} {data.city}, {data.state} {data.zipcode}
+          {!data.visibleAddress && `${data.address},`} {data.apartment && `${data.apartment},`} {data.city}, {data.state} {data.zipcode}, {data.locationValue}
           </div>
           <div className='font-light text-sm'>
           {data.formattedPhone}

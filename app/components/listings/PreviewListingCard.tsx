@@ -47,6 +47,7 @@ const PreviewListingCard: React.FC<ListingCardProps> = ({
       id, 
       imageSrc, 
       state, city, 
+      country,
       apartment,
       address, zipCode, 
       visibleAddress, 
@@ -112,7 +113,7 @@ const PreviewListingCard: React.FC<ListingCardProps> = ({
             {data.title}
           </div>
           <div className='font-light text-sm whitespace-break-spaces'>
-           {!visibleAddress && `${address},`} {apartment && `${apartment},`} {city}, {state} {zipCode}
+           {!visibleAddress && `${address},`} {apartment && `${apartment},`} {city}, {state} {zipCode}, {country}
           </div>
           <div className='font-light text-sm whitespace-break-spaces'>
           {formattedPhone} 

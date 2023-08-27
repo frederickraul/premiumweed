@@ -728,7 +728,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         title: title,
                         apartment: apartment,
                         address: address,
-                        country: country,
+                        country: location?.value,
                         state: state?.label,
                         city: city?.label,
                         zipCode: zipCode,
