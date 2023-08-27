@@ -82,7 +82,7 @@ const RentModal = () => {
     defaultValues:{
       category: '',
       address: '',
-      visibleAddress:'',
+      visibleAddress:false,
       apartment: '',
       zipCode: '',
       location: defaultLocation,
@@ -176,6 +176,7 @@ const RentModal = () => {
     setCustomValue('city', null);
     setCustomValue('pin', state?.latlng);
     setSelectedState(state?.value);
+    console.log(state);
     setCenterMap(state?.latlng);
     setZoomMap(5);
 
@@ -211,16 +212,11 @@ const RentModal = () => {
   //Week Hours
   const setWeekHours = (itemSelected: any) => {
     horary.map((item:any)=>{
-      if(item.day === "Sunday" || item.day == "Saturday"){
-        console.log(item.day);
-
-      }else{
         item.open = itemSelected.open;
         item.close = itemSelected.close;
         item.fulltime = itemSelected.fulltime;
         item.closed = itemSelected.closed;
         setValue('horary',[...horary]);
-      }
     })
   }
 
@@ -437,7 +433,7 @@ if(step === STEPS.ADDRESS){
                     type="hidden"
                     disabled={isLoading}
                     onChange={(value)=>{setCustomValue('pin',value)}}
-                    
+ 
                   />
               <Map 
                 center={centerMap}

@@ -32,7 +32,7 @@ const useCountries = () => {
 
   const getStatesOfCountry = (country: string) => {
       return State.getStatesOfCountry(country).map((country) => ({
-        value: country.latitude,
+        value: country.isoCode,
         label: country.name,
         flag: country.countryCode,
         latlng: [country.latitude,country.longitude],
