@@ -25,15 +25,27 @@ const formatedCities = City.getCitiesOfState('US','CA').map((country) => ({
   //region: country.region
 }));
 
+
+
 const useCountries = () => {
   const getAll = () => formatedCountries;
 
   const getStatesOfCountry = (country: string) => {
       return State.getStatesOfCountry(country).map((country) => ({
-        value: country.isoCode,
+        value: country.latitude,
         label: country.name,
         flag: country.countryCode,
         latlng: [country.latitude,country.longitude],
+        //region: country.region
+      }));
+  };
+
+  const getCitiesOfCountry = (country: string) => {
+      return City.getCitiesOfCountry(country)?.map((city) => ({
+        value: city.countryCode,
+        label: city.name,
+        stateCode: city.stateCode,
+        latlng: [city.latitude,city.longitude],
         //region: country.region
       }));
   };
@@ -42,7 +54,7 @@ const useCountries = () => {
       return City.getCitiesOfState(country, state).map((city) => ({
         value: city.countryCode,
         label: city.name,
-        flag: city.countryCode,
+        stateCode: city.stateCode,
         latlng: [city.latitude,city.longitude],
         //region: country.region
       }));
@@ -68,7 +80,7 @@ const useCountries = () => {
     const formatedCities = City.getCitiesOfState(countryCode, stateCode).map((city) => ({
       value: city.countryCode,
       label: city.name,
-      flag: city.countryCode,
+      stateCode: city.stateCode,
       latlng: [city.latitude,city.longitude],
       //region: country.region
     }));
@@ -80,6 +92,7 @@ const useCountries = () => {
     getAll,
     getByValue,
     getStatesOfCountry,
+    getCitiesOfCountry,
     getCitiesOfState,
     getStateByValue,
     getCityByValue,

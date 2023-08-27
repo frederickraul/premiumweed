@@ -43,6 +43,15 @@ const PreviewListingCard: React.FC<ListingCardProps> = ({
   const location = getByValue(data.locationValue);
   const [stars, setStars] = useState<number | null>(2);
 
+  const { 
+      id, 
+      imageSrc, 
+      state, city, 
+      address, zipCode, 
+      visibleAddress, 
+      formattedPhone, 
+      category  } = data;
+
   const handleDelete = useCallback(
     () => {
       if(disabled){
@@ -87,12 +96,12 @@ const PreviewListingCard: React.FC<ListingCardProps> = ({
               priority={false}
               fill
               alt='Listing'
-              src={data.imageSrc ? data.imageSrc : "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg"}
+              src={imageSrc ? imageSrc : "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg"}
               className='object-cover h-full w-full group-hover:scale-110 transition'
               />
             <div className='absolute top-3 right-3'>
                 <HeartButton
-                  listingId={data.id}
+                  listingId={id}
                   currentUser={currentUser}
                   disable
                 />
@@ -102,10 +111,10 @@ const PreviewListingCard: React.FC<ListingCardProps> = ({
             {data.title}
           </div>
           <div className='font-light text-sm whitespace-break-spaces'>
-          {data.address} {data.city}, {data.state} {data.zipcode}
+          {!visibleAddress && `${address},`} {city}, {state} {zipCode}
           </div>
           <div className='font-light text-sm whitespace-break-spaces'>
-          {data.formattedPhone} 
+          {formattedPhone} 
           </div>
           <div className='font-bold text-green-700 flex flex-row items-center '>
             <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>Open Now</span>
@@ -133,7 +142,7 @@ const PreviewListingCard: React.FC<ListingCardProps> = ({
             View Menu
           </div>
           <div className='font-bold text-neutral-500 text-sm'>
-            {data.category}
+            {category}
           </div>
         </div>
       </div>

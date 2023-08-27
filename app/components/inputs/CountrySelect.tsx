@@ -18,6 +18,7 @@ interface CountrySelectProps{
     errors: FieldErrors,
     required?: boolean,
     value?: CountrySelectValue;
+    isClearable?:boolean;
     onChange: (value: CountrySelectValue) => void;
 }
 
@@ -27,6 +28,7 @@ const CountrySelect:React.FC<CountrySelectProps> = ({
   errors,
   required,
   value,
+  isClearable,
   onChange
 }) => {
   const {getAll,getByValue, getStatesOfCountry} = useCountries();
@@ -34,21 +36,19 @@ const CountrySelect:React.FC<CountrySelectProps> = ({
     <div>
       <Select
         id={id}
+        instanceId={id}
         {...register(id,{required})}
         placeholder="Anywhere"
-        isClearable
+        isClearable={isClearable}
         options={getAll()}
         value={value}
         onChange={(value) => onChange(value as CountrySelectValue)}
         
         formatOptionLabel={(option: any) => (
           <div className="flex flex-row items-center gap-3">
-            <div>{option.flag}</div>
+            <div>{option?.value}</div>
             <div>
-              {option.label},
-              <span className="text-neutral-800 ml-1">
-                {option.region}
-              </span>
+              {option.label}
             </div>
 
           </div>

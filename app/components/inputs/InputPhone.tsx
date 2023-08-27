@@ -61,7 +61,7 @@ const InputPhone: React.FC<InputProps> = ({
           `
         }
         containerClass=""
-        dropdownClass="hidden"
+        dropdownClass={`${disableDropdown && 'hidden'}`}
       />
       <label 
         className={`

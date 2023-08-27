@@ -12,7 +12,7 @@ export type CitySelectValue ={
 }
 
 interface CitySelectProps{
-    stateCode: string;
+    stateCode?: string;
     countryCode: string;
     value?: CitySelectValue;
     onChange: (value: CitySelectValue) => void;
@@ -30,23 +30,21 @@ const CitySelect:React.FC<CitySelectProps> = ({
   // console.log(value);
   // console.log('->>>>>>>>>>>>');
   
-  const {getCitiesOfState} = useCountries();
+  const {getCitiesOfState, getCitiesOfCountry} = useCountries();
+
   return ( 
     <div>
       <Select
         placeholder="Anywhere"
         isClearable={isClearable}
-        options={getCitiesOfState(countryCode, stateCode)}
+        options={stateCode? getCitiesOfState(countryCode, stateCode): getCitiesOfCountry(countryCode)}
         value={value}
         onChange={(value) => onChange(value as CitySelectValue)}
         formatOptionLabel={(option: any) => (
           <div className="flex flex-row items-center gap-3">
-            <div>{option.flag}</div>
+            <div>{option.stateCode}</div>
             <div>
-              {option.label},
-              <span className="text-neutral-800 ml-1">
-                {option.region}
-              </span>
+              {option.label}
             </div>
 
           </div>

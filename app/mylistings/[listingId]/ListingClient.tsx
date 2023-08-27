@@ -29,6 +29,8 @@ import Modal from "@/app/components/modals/Modal";
 import { AiFillPicture, AiOutlineClockCircle } from "react-icons/ai";
 import { MdMonochromePhotos } from "react-icons/md";
 import { hours } from "@/app/const/hours";
+import CountrySelect from "@/app/components/inputs/CountrySelect";
+import { getStateByCode } from "country-state-city/lib/state";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -60,7 +62,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   currentUser
 }) => {
 
-  const {getStateByValue, getCityByValue} = useCountries();
+  const {getByValue,getStateByValue, getCityByValue} = useCountries();
   
   const currentCountryCode = listing.locationValue;
   const currentStateCode = listing.stateCode ? listing.stateCode : '';
@@ -84,7 +86,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
       visibleAddress: listing.visibleAddress,
       apartment: listing.apartment,
       zipCode: listing.address,
-      location: listing.locationValue,
+      location: getByValue(listing.locationValue),
       state: getStateByValue(currentCountryCode, currentStateCode),
       city: getCityByValue(currentCountryCode, currentStateCode,currentCityName),
       pin: listing.pin,
@@ -120,12 +122,14 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const country = watch('country');
   const state = watch('state');
   const city = watch('city');
+  const zipCode = watch('zipCode');
   const phone = watch('phone');
   const formattedPhone = watch('formattedPhone');
 
  
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(location?.value);
   const [selectedState, setSelectedState] = useState(state?.value);
   const [step, setStep] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -167,7 +171,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const StateSelect = useMemo(() => dynamic(() => import ("@/app/components/inputs/StateSelect"),{
     ssr:false
         // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [currentCountryCode]);
+  }), [selectedCountry]);
 
   const CitySelect = useMemo(() => dynamic(() => import ("@/app/components/inputs/CitySelect"),{
     ssr:false
@@ -176,21 +180,36 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
 
   const resetStateSelect = () => {
-   // setCustomValue('state', null);
-   // setCustomValue('city', null);
-   // setCustomValue('pin', location?.latlng);
+    if(selectedCountry === location?.value){
+      // console.log("Wait a second");
+      return;
+    }
+    // console.log(selectedCountry);
+    // console.log(location?.value);
+    
+    setCustomValue('pin', location?.latlng);
+    setSelectedCountry(location?.value);
+    setCustomValue('state', null);
+    setCustomValue('city', null);
+    setCustomValue('pin', location?.latlng);
+    
   }
   
   const resetCitySelect = () => {
-    setCustomValue('pin', state?.latlng);
     if(selectedState === state?.value){
       // console.log("Wait a second");
       return;
     }
+    if(state?.value == city?.stateCode){
+      return;
+    }
+    
     // console.log(selectedState);
-    // console.log(state?.value);
+    //  console.log(state?.value);
+    //  console.log(city?.stateCode);
     // console.log("----->>>>>>");
     
+    setCustomValue('pin', state?.latlng);
     setCustomValue('city', null);
     setSelectedState(state?.value);
 
@@ -205,6 +224,13 @@ const ListingClient: React.FC<ListingClientProps> = ({
     if(city?.value === undefined){
       setCustomValue('pin', state?.latlng);
     }
+
+    const stateCode = city?.stateCode;
+    const newState = getStateByValue(selectedCountry, stateCode);
+    if(newState){
+      // console.log(newState);
+      setCustomValue('state',newState);
+    }    
   }
   //For Regular Inputs
   const setCustomValue = (id: string, value:any) => {    
@@ -218,16 +244,12 @@ const ListingClient: React.FC<ListingClientProps> = ({
     //Week Hours
     const setWeekHours = (itemSelected: any) => {
       horary.map((item:any)=>{
-        if(item.day === "Sunday" || item.day == "Saturday"){
-          console.log(item.day);
-  
-        }else{
+
           item.open = itemSelected.open;
           item.close = itemSelected.close;
           item.fulltime = itemSelected.fulltime;
           item.closed = itemSelected.closed;
           setValue('horary',[...horary]);
-        }
       })
     }
   
@@ -324,6 +346,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         checked={item.fulltime}
                         onChange={(e) => {
                           item.fulltime = !item.fulltime;
+                          if(item.fulltime){
+                            item.closed = false;
+                            }
                           setValue('horary',[...horary]);
                         }}
                     />
@@ -338,6 +363,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         disabled={isLoading}
                         onChange={(e) => {
                           item.closed = !item.closed;
+                          if(item.closed){
+                          item.fulltime = false;
+                          }
                           setValue('horary',[...horary]);
                         }}
                     />
@@ -382,7 +410,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 <div className="w-full">
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 mb-2" htmlFor="grid-business-name">
+                    <label className="block tracking-wide text-gray-700 mb-2">
                       Business Name
                     </label>
                     <Input
@@ -394,7 +422,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                       />
                   </div>
                   <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 mb-2" htmlFor="grid-state" >
+                    <label className="block tracking-wide text-gray-700 mb-2">
                       Listing Category
                     </label>
                       <CustomSelect
@@ -408,11 +436,30 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 </div>
                 <hr/>
                 <div className="flex font-bold mt-2 mb-1">
-                    Business Address
+                Where is your company located?
                 </div>
+                <div className="flex flex-wrap -mx-3 mb-6 mt-2">
+                  <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
+                    <label className="block tracking-wide text-gray-700 text-xs mb-2">
+                      Country
+                    </label>
+                    <CountrySelect
+                      id='location'
+                      register={register}
+                      errors={errors}
+                      required
+                      value={location}
+                      onChange={(value)=>{
+                        setCustomValue('location',value); 
+                      }}
+                    />
+
+                  </div>
+                </div>
+
                 <div className="flex flex-wrap -mx-3 mb-2">
                   <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                    <label className="text-xs block tracking-wide text-gray-700 mb-2" htmlFor="grid-address">
+                    <label className="text-xs block tracking-wide text-gray-700 mb-2">
                       Address
                     </label>
                     <Input
@@ -456,12 +503,12 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-2">
                   <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 text-xs mb-2" htmlFor="grid-city">
+                    <label className="block tracking-wide text-gray-700 text-xs mb-2">
                       City
                     </label>
                     <CitySelect
-                      stateCode={selectedState}
-                      countryCode={currentCountryCode}
+                      //stateCode={selectedState}
+                      countryCode={selectedCountry}
                       value={city}
                       onChange={(value)=>{setCustomValue('city',value)}}
                     /> 
@@ -478,7 +525,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                       errors={errors}
                       required
                       value={state}
-                      countryCode={currentCountryCode}
+                      countryCode={location.value}
                       onChange={(value)=>{setCustomValue('state',value)}}
                     />
 
@@ -527,7 +574,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 <hr/>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-2 justify-between">
                     <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2" htmlFor="grid-phone">
+                      <label className="block tracking-wide text-gray-700 mb-2">
                         Hours of Operation
                       </label>
                       <div className="">
@@ -538,15 +585,27 @@ const ListingClient: React.FC<ListingClientProps> = ({
                                 <div className="sm:mr-4 pl-5 sm:pl-0 min-w-[100px] w-[100%] sm:w-auto text-xs">
                                     {item.day}
                                 </div>
-                                <div className="flex flex-row items-center whitespace-nowrap">
-                                  <div className="max-w-[220px] text-xs">
-                                  {item.open}
+                              {item.fulltime &&
+                                  <div className='font-bold text-green-700 flex flex-row items-center '>
+                                    <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>Open 24 Hours</span>
                                   </div>
-                                  <div className="ml-2 mr-2"> - </div>
-                                <div className="max-w-[220px] text-xs">
-                                  {item.close}
+                              }
+                              {item.closed &&
+                                  <div className='font-bold text-red-700 flex flex-row items-center '>
+                                    <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>Closed</span>
+                                  </div>
+                              }
+                              {!item.closed && !item.fulltime &&
+                                <div className="flex flex-row items-center whitespace-nowrap">
+                                    <div className="max-w-[220px] text-xs">
+                                    {item.open}
+                                    </div>
+                                    <div className="ml-2 mr-2"> - </div>
+                                    <div className="max-w-[220px] text-xs">
+                                      {item.close}
+                                    </div>
                                 </div>
-                                </div>
+                              }  
                             </div>
                           </div>
                           ))
@@ -569,7 +628,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 <hr/>
                 <div className="flex flex-wrap -mx-3 mb-6 mt-2">
                     <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2" htmlFor="grid-website">
+                      <label className="block tracking-wide text-gray-700 mb-2">
                         Website Link <span className="text-xs text-neutral-400">(Optional)</span>
                       </label>
                       <Input
@@ -584,7 +643,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
                 <div className="flex flex-wrap -mx-3 mb-6 mt-2">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2" htmlFor="grid-logo">
+                      <label className="block tracking-wide text-gray-700 mb-2">
                        Logo
                       </label>
                       <Button
@@ -601,7 +660,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         />                    
                       </div>
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2" htmlFor="grid-cover">
+                      <label className="block tracking-wide text-gray-700 mb-2">
                        Cover Photo
                       </label>
                         <Button
@@ -651,7 +710,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
             </div>
             {/* PREVIEW LISTING */}
             <div className="hidden md:flex w-[20%] 2xl:w-[30%] ml-10 2xl:ml-20 overflow-y-auto">
-              <div className='text-start overflow-y-auto h-[90vh]'>
+              <div className='text-start overflow-y-auto h-[90vh]  w-full'>
                   <div className="font-bold text-neutral-500">
                       Business Preview
                   </div>
@@ -669,8 +728,10 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         country: country,
                         state: state?.label,
                         city: city?.label,
+                        zipCode: zipCode,
                         formattedPhone: formattedPhone,
-                        category:category
+                        category:category,
+                        visibleAddress: visibleAddress,
                       }}
                   />
             
