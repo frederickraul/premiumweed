@@ -176,7 +176,6 @@ const RentModal = () => {
     setCustomValue('city', null);
     setCustomValue('pin', state?.latlng);
     setSelectedState(state?.value);
-    console.log(state);
     setCenterMap(state?.latlng);
     setZoomMap(5);
 

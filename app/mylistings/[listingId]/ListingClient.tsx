@@ -85,7 +85,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
       address: listing.address,
       visibleAddress: listing.visibleAddress,
       apartment: listing.apartment,
-      zipCode: listing.address,
+      zipcode: listing.zipcode,
       location: getByValue(listing.locationValue),
       state: getStateByValue(currentCountryCode, currentStateCode),
       city: getCityByValue(currentCountryCode, currentStateCode,currentCityName),
@@ -123,7 +123,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const country = watch('country');
   const state = watch('state');
   const city = watch('city');
-  const zipCode = watch('zipCode');
+  const zipcode = watch('zipcode');
   const phone = watch('phone');
   const formattedPhone = watch('formattedPhone');
 
@@ -538,7 +538,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                       Zip
                     </label>
                     <Input
-                        id="zipCode"
+                        id="zipcode"
                         disabled={isLoading}
                         register={register}
                         errors={errors}
@@ -685,6 +685,14 @@ const ListingClient: React.FC<ListingClientProps> = ({
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
                     <Button
                             styles='text-white'
+                            label="CANCEL"
+                            disabled={isLoading}
+                            onClick={()=>{router.push('/mylistings')}} 
+                            />
+                    </div>
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
+                    <Button
+                            styles='text-white border-blue-500'
                             color="bg-blue-500"
                             borderless
                             label="UPDATE"
@@ -731,7 +739,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         country: location?.value,
                         state: state?.label,
                         city: city?.label,
-                        zipCode: zipCode,
+                        zipcode: zipcode,
                         formattedPhone: formattedPhone,
                         category:category,
                         visibleAddress: visibleAddress,

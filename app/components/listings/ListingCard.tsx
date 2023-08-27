@@ -38,12 +38,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
   actionId,
   currentUser 
 }) => {
+
+  var d=new Date();
+  const currentDayNumber = d.getDay();
   
   const router = useRouter();
   const { getByValue} = useCountries();
   const location = getByValue(data.locationValue);
   const title = data.title;
+
   const [stars, setStars] = useState<number | null>(2);
+
   const handleDelete = useCallback(
     () => {
       if(disabled){
@@ -92,6 +97,47 @@ const ListingCard: React.FC<ListingCardProps> = ({
   }, [reservation, data.price]);
 
 
+  const dayOfWeekAsString = (dayIndex:number) => {
+    return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
+  }
+
+  const OperationStatus = () => {
+    let currentDay:any;
+    let STATUS:any;
+    let STATUSCOLOR:any;
+
+    const today = dayOfWeekAsString(currentDayNumber);
+    
+    data.horary.filter((item,)=>{
+        if(today === item.day){
+            if(item.fulltime){
+              STATUS = (<div>Open Now</div>);
+              STATUSCOLOR = `text-green-700`;
+              return
+            } 
+            if(item.closed){
+              STATUS = (<div>Close Now</div>);
+              STATUSCOLOR = `text-red-500`;
+              return
+            }
+            STATUS = (<div>Soon</div>);
+            STATUSCOLOR = `text-neutral-500`;
+        }
+      })
+
+    //console.log(currentDay);
+    
+    return (
+      <div>
+        <div className={`font-bold flex flex-row items-center ${STATUSCOLOR}`}>
+              <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>{STATUS}</span>
+        </div>
+        
+      </div>
+      
+    )
+  }
+  
 
   return (
       <div 
@@ -124,8 +170,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <div className='font-light text-sm'>
           {data.formattedPhone}
           </div>
-          <div className='font-bold text-green-700 flex flex-row items-center '>
-            <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>Open Now</span>
+          <div onClick={()=>{alert(currentDayNumber)}}>
+            <OperationStatus/>
           </div>
           <div className='flex flex-row items-center'>
             <Rating
