@@ -8,13 +8,15 @@ import { SafeUser } from "@/app/types";
 import ClientOnly from "./ClientOnly";
 
 interface HeartButtonProps {
-  listingId: string
+  listingId: string;
+  disable?: boolean;
   currentUser?: SafeUser | null
 }
 
 const HeartButton: React.FC<HeartButtonProps> = ({ 
   listingId,
-  currentUser
+  currentUser,
+  disable,
 }) => {
   const { hasFavorited, toggleFavorite } = useFavorite({
     listingId,
