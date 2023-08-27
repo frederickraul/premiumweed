@@ -116,6 +116,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const imageSrc = watch('imageSrc');
   const coverSrc = watch('coverSrc');
   const horary = watch('horary');
+  const apartment = watch('apartment');
   const address = watch('address');
   const visibleAddress = watch('visibleAddress');
   const location = watch('location');
@@ -477,6 +478,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                     <div className="relative">
                     <Input
                         id="apartment"
+                        placeholder="Ste 5"
                         disabled={isLoading}
                         register={register}
                         errors={errors}
@@ -724,6 +726,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         id: listing.id,
                         imageSrc: imageSrc,
                         title: title,
+                        apartment: apartment,
                         address: address,
                         country: country,
                         state: state?.label,
