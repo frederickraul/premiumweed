@@ -47,7 +47,7 @@ const CustomSelect:React.FC<SelectProps> = ({
         onChange={e => onChange(e.target.value)} 
       >
         {options.map((option,i)=>(
-          <option key={i}>{option.label}</option>
+          <option key={i} value={option.value}>{option.label}</option>
         ))}
         </select>
         <i className="z-0"></i>

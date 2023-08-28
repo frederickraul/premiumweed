@@ -1,6 +1,6 @@
 'use client'
 import useCountries from '@/app/hooks/useCountries';
-import {Listing, Reservation, User } from '@prisma/client';
+import { Listing, Reservation, User, Horary } from '@prisma/client';
 import { format } from 'date-fns';
 import Image from 'next/image';
 
@@ -13,6 +13,8 @@ import { AiOutlineClockCircle } from 'react-icons/ai';
 import { SafeUser } from '@/app/types';
 import DoubleButton from '../DoubleButton';
 import ConfirmModal from '../modals/ConfirmModal';
+import { formatTime, isOpen } from '@/app/const/hours';
+import OperationStatus from './ListingTime';
 
 interface ListingCardProps{
   data: Listing;
@@ -39,8 +41,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
   currentUser 
 }) => {
 
-  var d=new Date();
-  const currentDayNumber = d.getDay();
+  const {horary} = data;
+
   
   const router = useRouter();
   const { getByValue} = useCountries();
@@ -97,46 +99,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
   }, [reservation, data.price]);
 
 
-  const dayOfWeekAsString = (dayIndex:number) => {
-    return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex] || '';
-  }
-
-  const OperationStatus = () => {
-    let currentDay:any;
-    let STATUS:any;
-    let STATUSCOLOR:any;
-
-    const today = dayOfWeekAsString(currentDayNumber);
-    
-    data.horary.filter((item,)=>{
-        if(today === item.day){
-            if(item.fulltime){
-              STATUS = (<div>Open Now</div>);
-              STATUSCOLOR = `text-green-700`;
-              return
-            } 
-            if(item.closed){
-              STATUS = (<div>Close Now</div>);
-              STATUSCOLOR = `text-red-500`;
-              return
-            }
-            STATUS = (<div>Soon</div>);
-            STATUSCOLOR = `text-neutral-500`;
-        }
-      })
-
-    //console.log(currentDay);
-    
-    return (
-      <div>
-        <div className={`font-bold flex flex-row items-center ${STATUSCOLOR}`}>
-              <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>{STATUS}</span>
-        </div>
-        
-      </div>
-      
-    )
-  }
   
 
   return (
@@ -170,8 +132,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <div className='font-light text-sm'>
           {data.formattedPhone}
           </div>
-          <div onClick={()=>{alert(currentDayNumber)}}>
-            <OperationStatus/>
+          <div>
+            <OperationStatus
+              horary={horary}
+            />
           </div>
           <div className='flex flex-row items-center'>
             <Rating

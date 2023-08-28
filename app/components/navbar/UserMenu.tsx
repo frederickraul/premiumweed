@@ -112,24 +112,30 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                             label="My trips"
                         />  */}
                         <MenuItem
-                            onClick={()=>route.push('/favorites')}
+                            onClick={()=>{
+                                toggleOpen();route.push('/favorites')}}
                             label="My favorites"
                         /> 
                         <MenuItem
-                            onClick={()=>route.push('/cart')}
+                            onClick={()=>{
+                                toggleOpen();route.push('/cart')}}
                             label="My cart"
                         /> 
                         <MenuItem
-                            onClick={()=>route.push('/mylistings')}
+                            onClick={()=>{
+                                toggleOpen();route.push('/mylistings')}}
                             label="My listings"
                         /> 
                         <MenuItem
-                            onClick={rentModal.onOpen}
+                            onClick={()=>{
+                                toggleOpen();
+                                rentModal.onOpen();
+                            }}
                             label="Weedgrowers My Home"
                         /> 
                         <hr />
                         <MenuItem
-                            onClick={()=>{signOut()}}
+                            onClick={()=>{toggleOpen();signOut()}}
                             label="Logout"
                         /> 
 

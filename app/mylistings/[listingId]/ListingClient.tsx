@@ -28,7 +28,7 @@ import ImageUpload from "@/app/components/inputs/ImageUpload";
 import Modal from "@/app/components/modals/Modal";
 import { AiFillPicture, AiOutlineClockCircle } from "react-icons/ai";
 import { MdMonochromePhotos } from "react-icons/md";
-import { hours } from "@/app/const/hours";
+import { formatTime, hours } from "@/app/const/hours";
 import CountrySelect from "@/app/components/inputs/CountrySelect";
 import { getStateByCode } from "country-state-city/lib/state";
 
@@ -47,13 +47,13 @@ interface ListingClientProps {
 }
 
 const week = [
-  {day: "Monday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Tuesday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Wednesday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Thursday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Friday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Saturday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Sunday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
+  {day: "Monday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
+  {day: "Tuesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
+  {day: "Wednesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
+  {day: "Thursday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
+  {day: "Friday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
+  {day: "Saturday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
+  {day: "Sunday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
 ];
 
 
@@ -319,6 +319,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                     options={hours}
                     value={item.open}
                     onChange={(value) => {
+                      console.log(value);
                       item.open = value;
                       setValue('horary',[...horary]);
                     }}
@@ -600,11 +601,11 @@ const ListingClient: React.FC<ListingClientProps> = ({
                               {!item.closed && !item.fulltime &&
                                 <div className="flex flex-row items-center whitespace-nowrap">
                                     <div className="max-w-[220px] text-xs">
-                                    {item.open}
+                                    {formatTime(item.open)}
                                     </div>
                                     <div className="ml-2 mr-2"> - </div>
                                     <div className="max-w-[220px] text-xs">
-                                      {item.close}
+                                      {formatTime(item.close)}
                                     </div>
                                 </div>
                               }  
