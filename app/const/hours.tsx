@@ -111,28 +111,23 @@ export const formatTime =(timeString:string) => {
 }
 
 export const isOpen =(timeString:string, ClosetimeString:string) => {
-  // const [hourString, minute] = timeString.split(":");
-  // const [ClosehourString,closeMinutes] = ClosetimeString.split(":");
-  
-  // const integerCurrentMinutes = Number(currentTime)/60;
-  // const integerCurrentTime = Number(currentTime) + integerCurrentMinutes;
-  // const integerOpenMinutes = Number(minute)/60;
-  // const integerCloseMinutes = Number(closeMinutes)/60;
-  // const integerOpenHour = Number(hourString) + integerOpenMinutes;
-  // const integerCloseHour = Number(ClosehourString) + integerCloseMinutes;
-
   const date = new Date();
+
   const currentHour = date.getHours();
   const currentMinute = date.getMinutes();
-const startTime=timeString;
-const endTime=ClosetimeString;
+
+  const startTime=timeString;
+  const endTime=ClosetimeString;
+
   const str1 = startTime.split(":");
   const str2 = endTime.split(":");
-  let currentTotal = currentHour * 3600 + currentMinute * 60;
-  const startTimeTotal = Number(Number(str1[0]) * 3600 + Number(str1[1]) * 60);
-  let endTimeTotal = Number(Number(str2[0]) * 3600 + Number(str2[1]) * 60);
 
-  console.log(currentTotal+ " - " + startTimeTotal + " - " + endTimeTotal);
+  const currentTotal = currentHour * 3600 + currentMinute * 60;
+  const startTimeTotal = Number(Number(str1[0]) * 3600 + Number(str1[1]) * 60);
+  const endTimeTotal = Number(Number(str2[0]) * 3600 + Number(str2[1]) * 60);
+
+  //console.log(currentTotal+ " - " + startTimeTotal + " - " + endTimeTotal);
+  
   if (startTimeTotal <= endTimeTotal) {
     // If the end time is on the same day
     if ((startTimeTotal - currentTotal) <= 3600 && (startTimeTotal - currentTotal) > 0) {
@@ -148,21 +143,4 @@ const endTime=ClosetimeString;
   }
 
   return "Close Now";
-
-
-  // if(integerOpenHour - integerCurrentTime <= 1){
-  //  
-  // }
-  // if(integerCurrentTime >= integerOpenHour && integerCurrentTime <= integerCloseHour){
-    
-  //   if(integerCloseHour - integerCurrentTime <= 1){
-  //     return "Close Soon";
-  //   }
-  //   return "Open Now";
-  // }
-
-  // return "Close Now";
-
-
-  // return (hour % 12 <= 9 ? "0" :"") + (hour % 12 || 12) + ":" + minute + (hour < 12 ? " AM" : " PM");
 }
