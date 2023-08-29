@@ -318,6 +318,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 <CustomSelect
                     options={hours}
                     value={item.open}
+                    disabled={item.fulltime || item.closed}
                     onChange={(value) => {
                       console.log(value);
                       item.open = value;
@@ -331,6 +332,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 <CustomSelect
                     options={hours}
                     value={item.close}
+                    disabled={item.fulltime || item.closed}
                     onChange={(value) => {
                       item.close = value;
                       setValue('horary',[...horary]);

@@ -15,17 +15,20 @@ interface SelectProps{
     value?: string;
     onChange: (value?: string) => void;
     small?:string;
+    disabled?: boolean;
 }
 
 const CustomSelect:React.FC<SelectProps> = ({
   options,
   value,
   small,
+  disabled,
   onChange
 }) => {
   return ( 
     <div className="custom-select relative">
       <select
+        disabled={disabled}
         placeholder=""
         value={value}
         className={`
@@ -40,7 +43,7 @@ const CustomSelect:React.FC<SelectProps> = ({
         border-2
         rounded-md
         transition
-        disabled:opacity-70
+         disabled:bg-gray-300
         disabled:cursor-not-allowed
         z-10
         `}
