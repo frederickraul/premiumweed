@@ -35,7 +35,7 @@ const CitySelect:React.FC<CitySelectProps> = ({
   return ( 
     <div>
       <Select
-        placeholder="Anywhere"
+        placeholder="City"
         isClearable={isClearable}
         options={stateCode? getCitiesOfState(countryCode, stateCode): getCitiesOfCountry(countryCode)}
         value={value}

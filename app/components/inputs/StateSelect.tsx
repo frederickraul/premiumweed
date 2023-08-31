@@ -41,7 +41,7 @@ const StateSelect:React.FC<StateSelectProps> = ({
       <Select
         id={id}
         {...register(id,{required})}
-        placeholder="Anywhere"
+        placeholder="State"
         isClearable={isClearable}
         options={getStatesOfCountry(countryCode)}
         value={value}
