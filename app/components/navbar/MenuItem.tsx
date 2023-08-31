@@ -1,16 +1,26 @@
-'use client'; 
+'use client';
+import { IconType } from "react-icons";
+
+ 
 
 interface MenuItemProps {
     onClick: () => void;
     label: String;
+    icon?: IconType;
+    style?: String;
+    link?: string;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({
+    icon: Icon,
+    style,
     onClick,
-    label
+    label,
+    link
 }) => {
   return (
-    <div 
+    <a onClick={(e)=>e.preventDefault()}  href={link}>
+      <div
         onClick={onClick}
         className="
              px-4
@@ -18,9 +28,14 @@ const MenuItem: React.FC<MenuItemProps> = ({
              hover:bg-neutral-100
              transition
              font-semibold
+             flex
+             flex-row
+             items-center
         ">
-            {label}
-    </div>
+        {Icon && <Icon size={16} className={`mr-1 ${style}`}/>}
+        {label}
+      </div>
+    </a>
   )
 }
 

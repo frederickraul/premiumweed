@@ -1,6 +1,7 @@
 'use client';
+import {useRef,useEffect } from 'react';
 
- import { AiOutlineMenu } from 'react-icons/ai';
+ import { AiFillPlusCircle, AiFillStar, AiOutlineMenu, AiOutlinePlus, AiOutlineStar } from 'react-icons/ai';
 import Avatar from '../Avatar';
 
 import { useState,useCallback } from 'react';
@@ -15,18 +16,41 @@ import useRentModal from '@/app/hooks/useRentModal';
 import { useRouter } from 'next/navigation';
 import GetTheApp from './GetTheApp';
 import { SafeUser } from '@/app/types';
-import { MdKeyboardArrowDown } from 'react-icons/md';
+import { MdFormatListBulleted, MdKeyboardArrowDown } from 'react-icons/md';
+import { BiLogIn, BiLogOut, BiSolidCart, BiSolidLogIn } from 'react-icons/bi';
+
 
 interface UserMenuProps {
     currentUser?: SafeUser | null
 }
 
 export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
+    
+
+    const [isOpen, setIsOpen] = useState(false);
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
     const rentModal = useRentModal();
     const route = useRouter();
-    const [isOpen, setIsOpen] = useState(false);
+
+    const defaultValue = {
+        current: null,
+    } 
+    const dropdown = useRef<HTMLInputElement>(null);
+
+        useEffect(() => {
+ 
+            window.addEventListener("mousedown", handleOutSideClick);
+            
+           
+        }, [dropdown]);
+
+        const handleOutSideClick = (event: any) => {
+            if (!dropdown.current?.contains(event.target)) {
+                setIsOpen(false);
+            }
+            };
+
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value=> !value));
@@ -67,6 +91,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                 Premium Weed
             </div> */}
             <div 
+                ref={dropdown}
                 onClick={toggleOpen} 
                 className="
                     p-4
@@ -92,6 +117,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
         </div>
         {isOpen &&(
             <div
+                ref={dropdown}
                 className='
                     absolute
                     rounded-xl
@@ -114,28 +140,42 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                         <MenuItem
                             onClick={()=>{
                                 toggleOpen();route.push('/favorites')}}
+                                icon={AiFillStar}
+                                style='text-neutral-500'
+                            link='/favorites'
                             label="My favorites"
                         /> 
                         <MenuItem
                             onClick={()=>{
                                 toggleOpen();route.push('/cart')}}
+                                icon={BiSolidCart}
+                                style='text-neutral-500'
                             label="My cart"
+                            link='/cart'
                         /> 
                         <MenuItem
                             onClick={()=>{
                                 toggleOpen();route.push('/mylistings')}}
+                            link='/mylistings'
                             label="My listings"
-                        /> 
+                            icon={MdFormatListBulleted}
+                            style='text-neutral-500'
+                            /> 
                         <MenuItem
                             onClick={()=>{
                                 toggleOpen();
                                 rentModal.onOpen();
                             }}
-                            label="Weedgrowers My Home"
+                            icon={AiFillPlusCircle}
+                            style='text-blue-400'
+
+                            label="Add Business"
                         /> 
                         <hr />
                         <MenuItem
                             onClick={()=>{toggleOpen();signOut()}}
+                            icon={BiLogOut}
+                            style='text-neutral-500'
                             label="Logout"
                         /> 
 
@@ -143,12 +183,17 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     ):(
                         <>
                         <MenuItem
+                            icon={BiSolidLogIn}
+                            style='text-neutral-500'
                             onClick={loginModal.onOpen}
                             label="Login"
                         /> 
                         <MenuItem
                             onClick={registerModal.onOpen}
                             label="Sign up"
+                            style='text-neutral-500'
+                            icon={BiLogIn}
+
                         /> 
                     </>
                     )}
