@@ -30,7 +30,6 @@ import { AiFillPicture, AiOutlineClockCircle } from "react-icons/ai";
 import { MdMonochromePhotos } from "react-icons/md";
 import { formatTime, hours } from "@/app/const/hours";
 import CountrySelect from "@/app/components/inputs/CountrySelect";
-import { getStateByCode } from "country-state-city/lib/state";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -46,15 +45,7 @@ interface ListingClientProps {
   currentUser?: SafeUser | null;
 }
 
-const week = [
-  {day: "Monday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Tuesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Wednesday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Thursday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Friday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Saturday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-  {day: "Sunday", open:"12:00:00", close:"13:00:00",fulltime: false, closed: false},
-];
+
 
 
 const ListingClient: React.FC<ListingClientProps> = ({

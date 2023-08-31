@@ -22,6 +22,8 @@ import CustomSelect from "../inputs/Select";
 import { hours } from "@/app/const/hours";
 import InputPhone from "../inputs/InputPhone";
 import { log } from "console";
+import useCountries from "@/app/hooks/useCountries";
+import { week } from "@/app/const/week";
 
 
 enum STEPS{
@@ -36,15 +38,6 @@ enum STEPS{
   FINISH = 9
 }
 
-const week = [
-  {day: "Monday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Tuesday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Wednesday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Thursday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Friday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Saturday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-  {day: "Sunday", open:"12:00 PM", close:"13:00 PM",fulltime: false, closed: false},
-];
 
 const defaultLocation = {
   "value": "US",
@@ -58,6 +51,7 @@ const defaultLocation = {
 
 const RentModal = () => {
 
+  const {getStateByValue} = useCountries();
 
   const rentModal = useRentModal();
   const router = useRouter();
@@ -164,6 +158,10 @@ const RentModal = () => {
 
 
   const resetStateSelect = () => {
+    if(selectedCountry === location?.value){
+      // console.log("Wait a second");
+      return;
+    }
     setCustomValue('state', null);
     setCustomValue('city', null);
     setCustomValue('pin', location?.latlng);
@@ -173,6 +171,14 @@ const RentModal = () => {
   }
   
   const resetCitySelect = () => {
+    if(selectedState === state?.value){
+      // console.log("Wait a second");
+      return;
+    }
+    if(state?.value == city?.stateCode){
+      return;
+    }
+
     setCustomValue('city', null);
     setCustomValue('pin', state?.latlng);
     setSelectedState(state?.value);
@@ -195,6 +201,14 @@ const RentModal = () => {
       setCustomValue('pin', state?.latlng);
       setZoomMap(4);
     }
+
+    const stateCode = city?.stateCode;
+    const newState = getStateByValue(selectedCountry, stateCode);
+    if(newState){
+      // console.log(newState);
+      setCustomValue('state',newState);
+    }   
+    
   }
   
 
@@ -411,6 +425,12 @@ if(step === STEPS.ADDRESS){
                 }}
               />
 
+              <CitySelect
+                //stateCode={selectedState}
+                countryCode={selectedCountry}
+                value={city}
+                onChange={(value)=>{setCustomValue('city',value)}}
+              />
               <StateSelect
                 id='state'
                 register={register}
@@ -421,12 +441,6 @@ if(step === STEPS.ADDRESS){
                 onChange={(value)=>{setCustomValue('state',value)}}
               />
 
-              <CitySelect
-                stateCode={selectedState}
-                countryCode={selectedCountry}
-                value={city}
-                onChange={(value)=>{setCustomValue('city',value)}}
-              />
               <InputUnregistered
                     label=""
                     type="hidden"
