@@ -130,7 +130,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     text-sm
                 '
             >
-                <div className='flex flex-col cursor-pointer'>
+                <div className='flex flex-col cursor-pointer whitespace-nowrap'>
                     {currentUser ? (
                         <>
                         {/* <MenuItem

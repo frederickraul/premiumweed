@@ -71,9 +71,6 @@ export async function POST(
       city: city.label,
       cityCode: state.value,
       pin,
-      horary: {
-        set: horary
-      },
       zipcode,
       phone,
       formattedPhone,
@@ -82,7 +79,10 @@ export async function POST(
       visibleAddress,
       apartment,
       price: parseInt(price,10),
-      userId: currentUser.id
+      userId: currentUser.id,
+      horary: {
+        set: horary
+      },
     }
   })
   return NextResponse.json(listing);

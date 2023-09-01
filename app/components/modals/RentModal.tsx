@@ -78,7 +78,7 @@ const RentModal = () => {
       address: '',
       visibleAddress:false,
       apartment: '',
-      zipCode: '',
+      zipcode: '',
       location: defaultLocation,
       state: null,
       city: null,
@@ -114,6 +114,7 @@ const RentModal = () => {
   const phone = watch('phone');
   const formattedPhone = watch('formattedPhone');
   const website = watch('website');
+  const zipcode = watch('zipcode');
   
   // //Testing Area  
   // useEffect(() => {
@@ -389,7 +390,7 @@ if(step === STEPS.ADDRESS){
           />
           <hr/>
           <Input
-            id="zipCode"
+            id="zipcode"
             label="Zip code"
             disabled={isLoading}
             register={register}

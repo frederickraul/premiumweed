@@ -312,7 +312,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
                     value={item.open}
                     disabled={item.fulltime || item.closed}
                     onChange={(value) => {
-                      console.log(value);
                       item.open = value;
                       setValue('horary',[...horary]);
                     }}
@@ -639,15 +638,15 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 <hr/>
 
                 <div className="flex flex-wrap -mx-3 mb-6 mt-2">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2">
+                    <div className="w-1/2 px-3 mb-6 md:mb-0">
+                      <label className="block tracking-wide text-gray-700 mb-2 text">
                        Logo
                       </label>
                       <Button
                         icon={MdMonochromePhotos}
                         label='Update Logo'
                         color='bg-black'
-                        styles='border-white'
+                        styles='border-white text-xs md:text-base'
                         borderless
                         roundless
                         onClick={()=>{
@@ -656,7 +655,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         }}
                         />                    
                       </div>
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-1/2 px-3 mb-6 md:mb-0">
                       <label className="block tracking-wide text-gray-700 mb-2">
                        Cover Photo
                       </label>
@@ -664,7 +663,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                           icon={MdMonochromePhotos}
                           label='Update Cover'
                           color='bg-black'
-                          styles='border-white'
+                          styles='border-white text-xs md:text-base'
                           borderless
                           roundless
                           onClick={()=>{
@@ -677,7 +676,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 <hr/>
 
                 <div className="flex flex-wrap -mx-3 mb-6 mt-2 justify-center">
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
+                  <div className="w-1/2 px-3 mb-6 md:mb-0 mt-5">
                     <Button
                             styles='text-white'
                             label="CANCEL"
@@ -685,7 +684,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                             onClick={()=>{router.push('/mylistings')}} 
                             />
                     </div>
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
+                  <div className="w-1/2 px-3 mb-6 md:mb-0 mt-5">
                     <Button
                             styles='text-white border-blue-500'
                             color="bg-blue-500"

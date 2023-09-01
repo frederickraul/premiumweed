@@ -32,7 +32,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       onClick={onClick}
       className={`
-        relative
+        relative items-center justify-center
         disabled:opacity-70
         disabled:cursor-not-allowed
         ${roundless || 'rounded-lg'}
@@ -55,11 +55,13 @@ const Button: React.FC<ButtonProps> = ({
           className="
             absolute
             left-4
-            top-3
+            top-2 md:top-3
           "
         />
       )}
-      {label}
+      <div className="ml-2">
+       {label}
+      </div>
     </button>
    );
 }
