@@ -576,7 +576,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                       <div className="">
                         {
                         horary.map((item:any,i:number) =>(
-                          <div key={item.day} className="flex flex-col">
+                          <div key={item.day} className="flex flex-col whitespace-nowrap">
                               <div className="flex flex-row items-center justify-between">
                                 <div className="sm:mr-4 pl-5 sm:pl-0 min-w-[100px] w-[100%] sm:w-auto text-xs">
                                     {item.day}
@@ -608,17 +608,19 @@ const ListingClient: React.FC<ListingClientProps> = ({
                         }
                       </div>
                     </div>
-                    <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 pt-10">
+                    <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 md:pt-10 items-center flex flex-wrap justify-end">
+                       <div className="w-1/2 md:w-full">
                         <Button
-                          styles='border-blue-500 text-blue-500'
-                          outline
-                          label="Edit"
-                          onClick={()=>{
-                            setStep('operation');
-                            setModalOpen();
-                          }}
-                          small
-                        />
+                            styles='border-blue-500 text-blue-500'
+                            outline
+                            label="Edit"
+                            onClick={()=>{
+                              setStep('operation');
+                              setModalOpen();
+                            }}
+                            small
+                          />
+                       </div>
                     </div>
                 </div>
                 <hr/>
