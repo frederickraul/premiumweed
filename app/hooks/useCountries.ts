@@ -42,7 +42,7 @@ const useCountries = () => {
 
   const getCitiesOfCountry = (country: string) => {
       return City.getCitiesOfCountry(country)?.map((city) => ({
-        value: city.countryCode,
+        value: city.stateCode+city.name,
         label: city.name,
         stateCode: city.stateCode,
         latlng: [city.latitude,city.longitude],

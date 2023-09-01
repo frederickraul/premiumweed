@@ -1,10 +1,14 @@
 'use client';
 
 import useCountries from "@/app/hooks/useCountries";
-import Select from 'react-select';
+import Select,{ createFilter} from "react-select";
+import { FixedSizeList as List } from "react-window";
+import WindowedSelect from "react-windowed-select";
+
+
 
 export type CitySelectValue ={
-  flag: string;
+  stateCode: String;
   label: string;
   latlng: number[];
   region: string;
@@ -32,12 +36,14 @@ const CitySelect:React.FC<CitySelectProps> = ({
   
   const {getCitiesOfState, getCitiesOfCountry} = useCountries();
 
+  const cities = stateCode? getCitiesOfState(countryCode, stateCode): getCitiesOfCountry(countryCode) || [];
+
   return ( 
-    <div>
-      <Select
+    <WindowedSelect 
+      windowThreshold={50}
         placeholder="City"
         isClearable={isClearable}
-        options={stateCode? getCitiesOfState(countryCode, stateCode): getCitiesOfCountry(countryCode)}
+        options={cities}
         value={value}
         onChange={(value) => onChange(value as CitySelectValue)}
         formatOptionLabel={(option: any) => (
@@ -51,8 +57,8 @@ const CitySelect:React.FC<CitySelectProps> = ({
         )}
         classNames={{
           control: ()=> 'p-1 2xl:p-3 border-2',
-          input: ()=> '2xl:text-lg',
-          option: ()=> '2xl:text-lg',
+          input: ()=> '2xl:text-lg hover:none',
+          option: ()=> '2xl:text-lg hover:none',
         }}
         theme={(theme) => ({
           ...theme,
@@ -64,7 +70,7 @@ const CitySelect:React.FC<CitySelectProps> = ({
           }
         })}
       />
-    </div>
+
     
   )
 }
