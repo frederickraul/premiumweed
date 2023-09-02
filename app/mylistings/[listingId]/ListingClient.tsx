@@ -60,7 +60,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const currentStateCode = listing.stateCode ? listing.stateCode : '';
   const currentCityName = listing.city ? listing.city : '';
 
-  console.log(getCityByValue(currentCountryCode, currentStateCode,currentCityName));
+  //console.log(getCityByValue(currentCountryCode, currentStateCode,currentCityName));
   
   const {
     register,

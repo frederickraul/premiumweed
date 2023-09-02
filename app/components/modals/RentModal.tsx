@@ -468,17 +468,14 @@ if(step === STEPS.ADDRESS){
             subtitle="What your business contact info?"
           />
           <div 
-            className="
-              grid
-              gap-3 2xl:gap-4
-              overflow-y-auto max-h-[45vh] 2xl:max-h-[50vh]
+            className="           
+              overflow-y-auto h-[40vh] 2xl:max-h-[50vh]
             ">
               <InputPhone
                 country="us"
                 //id="phone"
                 label="Phone number"
                 type="number"
-                disableDropdown
                 disabled={isLoading}
                 value={phone}
                 onChange={(phone,formattedPhone) => {
@@ -489,7 +486,9 @@ if(step === STEPS.ADDRESS){
                 //errors={errors}
                 required
               />
+              <br/>
               <hr/>
+              <br/>
               <Input
                 id="website"
                 label="Website Link"

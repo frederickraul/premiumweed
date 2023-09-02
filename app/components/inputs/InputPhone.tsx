@@ -60,7 +60,7 @@ const InputPhone: React.FC<InputProps> = ({
           ${small ? 'font-light' : 'font-semibold'}
           `
         }
-        containerClass=""
+        containerClass="relative"
         dropdownClass={`${disableDropdown && 'hidden'}`}
       />
       <label 
