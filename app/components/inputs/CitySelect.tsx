@@ -40,7 +40,7 @@ const CitySelect:React.FC<CitySelectProps> = ({
 
   return ( 
     <WindowedSelect 
-      windowThreshold={50}
+      windowThreshold={20}
         placeholder="City"
         isClearable={isClearable}
         options={cities}
