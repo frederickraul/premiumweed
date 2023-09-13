@@ -130,7 +130,9 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
         sm:pl-10
 " onClick={toggleVisible}>
         <OperationStatus horary={data} fontBase iconSize={20} showCurrentHorary />
-        {isVisible ? (<MdArrowDropUp size={18} />) : (<MdArrowDropDown size={18} />)}
+        <div className='ml-2'>
+        {isVisible ? (<MdArrowDropUp size={28} />) : (<MdArrowDropDown size={28} />)}
+        </div>
 
       </div>
 
@@ -140,7 +142,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
         bg-white
         w-[100%]
         h-[220px]
-        border border-neutral-400
+        shadow-2xl
         flex DropDownInfo
         flex-row 
         mb-6 
