@@ -1,4 +1,6 @@
-import { isOpen } from '@/app/const/hours';
+'use client'
+
+import { formatTime, isOpen } from '@/app/const/hours';
 import { Horary } from '@prisma/client';
 import React from 'react'
 import { AiOutlineClockCircle } from 'react-icons/ai';
@@ -11,18 +13,25 @@ const dayOfWeekAsString = (dayIndex:number) => {
 }
 
 interface ListingHoraryProps {
-  horary:any,
-
+  horary: any;
+  fontBase?: boolean;
+  iconSize? : number;
+  showCurrentHorary?: boolean;
 }
 
-const OperationStatus:React.FC<ListingHoraryProps> = (
-  horary
-) => {
+const OperationStatus:React.FC<ListingHoraryProps> = ({
+  horary,
+  fontBase,
+  iconSize,
+  showCurrentHorary
+}) => {
   let STATUS="Soon";
   let STATUSCOLOR ="text-black";
+  let HORARY="";
   const today = dayOfWeekAsString(currentDayNumber);
     horary.horary.filter((item:any)=>{
       if(today === item.day){
+        HORARY = formatTime(item.open) + " - " + formatTime(item.close);
           if(item.fulltime){
             STATUS = "Open Now";
             STATUSCOLOR = `text-green-700`;
@@ -45,8 +54,15 @@ const OperationStatus:React.FC<ListingHoraryProps> = (
   
   return (
     <div>
-      <div className={`font-bold flex flex-row items-center ${STATUSCOLOR}`}>
-            <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>{STATUS}</span>
+      <div className={`font-bold flex flex-col md:flex-row ${STATUSCOLOR}`}>
+            <div className='flex flex-row'>
+              <AiOutlineClockCircle size={iconSize ? iconSize : 12 }/> 
+            <span className={`ml-1 ${fontBase ? '' : 'text-sm'}`}>{STATUS}</span>
+
+            </div>
+            <div className='text-black ml-2'>
+              {showCurrentHorary && HORARY}
+            </div>
       </div>
       
     </div>

@@ -134,7 +134,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
           <div>
             <OperationStatus
-              horary={horary}
+              horary={data}
             />
           </div>
           <div className='flex flex-row items-center'>

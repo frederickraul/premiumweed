@@ -15,7 +15,7 @@ interface ButtonProps {
   roundless?:boolean
 }
 
-const Button: React.FC<ButtonProps> = ({ 
+const FloatingButton: React.FC<ButtonProps> = ({ 
   label, 
   onClick, 
   disabled, 
@@ -28,17 +28,29 @@ const Button: React.FC<ButtonProps> = ({
   styles
 }) => {
   return ( 
+
     <button
+      title={label}
       disabled={disabled}
       onClick={onClick}
       className={`
-        relative items-center justify-center
-        disabled:opacity-70
-        disabled:cursor-not-allowed
-        ${roundless || 'rounded-lg'}
-        hover:opacity-80
-        transition
-        w-full
+        relative 
+        z-90 
+        bottom-10 
+        right-8 
+        w-20 
+        h-20 
+        rounded-full 
+        drop-shadow-lg 
+        flex 
+        justify-center 
+        items-center 
+        text-4xl 
+        hover:bg-neutral-800
+        hover:border-neutral-800
+        hover:drop-shadow-2xl 
+        transition-colors
+        duration-300
         ${outline ? 'bg-white' : color ? color : 'bg-rose-500'}
         ${outline ? 'border-black' : borderless ? borderless : 'border-rose-500'}
         ${outline ? 'text-black' : 'text-white'}
@@ -51,19 +63,15 @@ const Button: React.FC<ButtonProps> = ({
     >
       {Icon && (
         <Icon
-          size={24}
+          size={38}
           className="
-            absolute
-            left-4
-            top-2 md:top-3
+           
           "
         />
       )}
-      <div className="ml-2">
-       {label}
-      </div>
+
     </button>
    );
 }
  
-export default Button;
+export default FloatingButton;

@@ -17,6 +17,11 @@ import ListingInfo from "@/app/components/listings/ListingInfo";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import Loading from "@/app/Loading";
 import useCountries from "@/app/hooks/useCountries";
+import ListingCardHorizontal from "@/app/components/listings/ListingCardHorizontal";
+import Heading from "@/app/components/Heading";
+import { AiFillClockCircle } from "react-icons/ai";
+import { BiCheckShield } from "react-icons/bi";
+import { Listing } from "@prisma/client";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -64,6 +69,17 @@ const ListingClient: React.FC<ListingClientProps> = ({
       items.label === listing.category);
   }, [listing.category]);
 
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+  const formatDate = (value:any) =>{
+    var dt = new Date(value);
+    const joined = (monthNames[dt.getMonth()]) + " " + dt.getFullYear();
+
+    return joined;
+
+  }
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
@@ -126,16 +142,38 @@ const ListingClient: React.FC<ListingClientProps> = ({
         className="
           max-w-screen-lg 
           mx-auto
+          mt-0 sm:mt-5 md:mt-0
         "
       >
         <div className="flex flex-col gap-6">
-          <ListingHead
-            title={listing.title}
-            imageSrc={listing.imageSrc}
-            locationValue={listing.locationValue}
-            id={listing.id}
-            currentUser={currentUser}
+
+          <div className="flex flex-row text-2xl">
+              <div className="text-neutral-500">{listing.category}</div>
+              <div className="flex flex-row text-blue-500 font-bold items-center ml-3">
+                <BiCheckShield/>
+                <span > Claimed</span>
+              </div>
+              <div className="capitalize ml-3">
+                Joined {formatDate(listing.createdAt)}
+              </div>
+          </div>
+
+      
+          
+          <ListingCardHorizontal
+           key={listing.id}
+           data={listing}
+           actionId={listing.id}
+           //onEditAction={editButtonHandler}
+           //onAction={onDelete}
+           //onActionSecond={openConfirmModal}
+           disabled={isLoading}
+           actionLabel="Edit"
+           actionLabelSecond="Delete listing"
+           currentUser={currentUser}
           />
+  
+      
           <div 
             className="
               grid 
@@ -146,34 +184,8 @@ const ListingClient: React.FC<ListingClientProps> = ({
               mb-10
             "
           >
-            <ListingInfo
-              user={listing.user}
-              category={category}
-              description={listing.description}
-              roomCount={listing.roomCount}
-              guestCount={listing.guestCount}
-              bathroomCount={listing.bathroomCount}
-              locationValue={listing.locationValue}
-              pin={listing.pin}
-            />
-            <div 
-              className="
-                order-first 
-                mb-10 
-                md:order-last 
-                md:col-span-3
-              "
-            >
-              <ListingReservation
-                price={listing.price}
-                totalPrice={totalPrice}
-                onChangeDate={(value) => setDateRange(value)}
-                dateRange={dateRange}
-                onSubmit={onCreateReservation}
-                disabled={isLoading}
-                disabledDates={disabledDates}
-              />
-            </div>
+           
+           
           </div>
         </div>
       </div>
