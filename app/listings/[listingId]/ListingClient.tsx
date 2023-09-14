@@ -147,14 +147,16 @@ const ListingClient: React.FC<ListingClientProps> = ({
       >
         <div className="flex flex-col gap-6">
 
-          <div className="flex flex-row text-2xl">
+          <div className="flex flex-col md:flex-row text-base sm:text-2xl">
               <div className="text-neutral-500">{listing.category}</div>
-              <div className="flex flex-row text-blue-500 font-bold items-center ml-3">
-                <BiCheckShield/>
-                <span > Claimed</span>
-              </div>
-              <div className="capitalize ml-3">
-                Joined {formatDate(listing.createdAt)}
+              <div className="flex flex-row"> 
+                <div className="flex flex-row text-blue-500 font-bold items-center ml-0 sm:ml-3">
+                  <BiCheckShield/>
+                  <span > Claimed</span>
+                </div>
+                <div className="capitalize ml-3">
+                  Joined {formatDate(listing.createdAt)}
+                </div>
               </div>
           </div>
 

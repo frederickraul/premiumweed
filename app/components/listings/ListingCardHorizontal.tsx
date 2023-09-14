@@ -141,7 +141,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
         absolute
         bg-white
         w-[100%]
-        h-[220px]
+        h-[250px]
         shadow-2xl
         flex DropDownInfo
         flex-row 
@@ -158,7 +158,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
         
         `}>
         <div className="w-full md:w-2/3 px-3 mb-6">
-          <label className="block tracking-wide text-gray-700 mb-2">
+          <label className="block tracking-wide text-gray-700 mb-5 mt-5 font-bold">
             Hours of Operation
           </label>
           <div className="">
@@ -166,7 +166,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
               data.horary.map((item: any, i: number) => (
                 <div key={item.day} className="flex flex-col whitespace-nowrap">
                   <div className="flex flex-row items-center justify-between">
-                    <div className="sm:mr-4 pl-5 sm:pl-0 min-w-[100px] w-[100%] sm:w-auto text-xs">
+                    <div className="sm:mr-4 sm:pl-0 min-w-[100px] w-[100%] sm:w-auto text-xs">
                       {item.day}
                     </div>
                     {item.fulltime &&
@@ -320,7 +320,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
           pl-5 
           pr-5 
           gap-6 
-          mt-20 
+          mt-10 
           lg:mt-0 
           items-center 
           justify-center'>
