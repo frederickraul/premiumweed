@@ -141,6 +141,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
         absolute
         bg-white
         w-[100%]
+        md:w-auto
         h-[250px]
         shadow-2xl
         flex DropDownInfo
