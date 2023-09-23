@@ -53,7 +53,7 @@ const FloatingButton: React.FC<ButtonProps> = ({
         ${outline ? 'border-black' : borderless ? borderless : 'border-rose-500'}
         ${outline ? 'text-black' : 'text-white'}
         ${small ? 'text-sm' : 'text-md'}
-        ${small ? 'p-1' : 'p-3 sm:p-4'}
+        ${small ? 'p-2' : 'p-3 sm:p-4'}
         ${small ? 'font-light' : 'font-semibold'}
         
         ${styles ?styles : ''}
@@ -61,10 +61,10 @@ const FloatingButton: React.FC<ButtonProps> = ({
     >
       {Icon && (
         <Icon
-          className="
+          className={`
             text-2xl
-            sm:text-3xl
-          "
+            ${small? 'sm:text-xl' : 'sm:text-3xl'}
+          `}
         />
       )}
 

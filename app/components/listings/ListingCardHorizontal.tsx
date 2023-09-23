@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import HeartButton from '../HeartButton';
 import Button from '../Button';
 import { Rating } from '@mui/material';
@@ -57,6 +57,29 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
   const [stars, setStars] = useState<number | null>(2);
 
   const [isVisible, setIsVisible] = useState(false);
+
+  
+  const dropdown = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+
+      window.addEventListener("mousedown", handleOutSideClick);
+      
+     
+  }, [dropdown]);
+
+  const handleOutSideClick = (event: any) => {dropdown
+      if (!dropdown.current?.contains(event.target)) {
+        setIsVisible(false);
+      }
+      };
+
+
+const toggleOpen = useCallback(() => {
+  setIsVisible((value=> !value));
+},[],
+)
+
 
   const toggleVisible = () => {
     setIsVisible(!isVisible);
@@ -119,7 +142,9 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
           mt-5 
           relative 
           '>
-      <div className="
+      <div 
+      ref={dropdown}
+      className="
         text-base 
         capitalize 
         flex 
@@ -136,7 +161,8 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
 
       </div>
 
-      <div className={`
+      <div 
+      className={`
         pl-10 pr-10
         absolute
         bg-white

@@ -22,6 +22,12 @@ import Heading from "@/app/components/Heading";
 import { AiFillClockCircle } from "react-icons/ai";
 import { BiCheckShield } from "react-icons/bi";
 import { Listing } from "@prisma/client";
+import FilterPanel from "./FilterPanel";
+import { dataList } from "@/app/const";
+import List from "./List";
+import EmptyView from "@/app/components/common/EmptyView";
+import FloatingButton from "@/app/components/FloatingButton";
+import { MdFilterList } from "react-icons/md";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -83,6 +89,16 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+  const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
+
+  const toggleFilterPanel = () => {
+    
+    setIsFilterPanelVisible(!isFilterPanelVisible);
+  }
+
+  const closeFilterPane = () => {
+    setIsFilterPanelVisible(false);
+  }
 
   const onCreateReservation = useCallback(() => {
       if (!currentUser) {
@@ -133,10 +149,118 @@ const ListingClient: React.FC<ListingClientProps> = ({
   }, [dateRange, listing.price]);
 
 
-  
+  // FILTER
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedRating, setSelectedRating] = useState(null);
+  const [selectedPrice, setSelectedPrice] = useState([1000, 5000]);
+
+  const cuisinesDefaultState = [
+    { id: 1, checked: false, label: 'American' },
+    { id: 2, checked: false, label: 'Chinese' },
+    { id: 3, checked: false, label: 'Italian' },
+  ];
+
+  const [cuisines, setCuisines] = useState(cuisinesDefaultState);
+
+  const [list, setList] = useState(dataList);
+  const [resultsFound, setResultsFound] = useState(true);
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSelectCategory = (event:any,value:any) =>{
+    if(value == 'all'){
+      setSelectedCategory(null); return;
+    }
+    !value ? null : setSelectedCategory(value);
+  }
+
+  const handleSelectRating = (event:any, value:any) =>{
+    if(value == 'all'){
+      setSelectedRating(null);
+      return;
+    }
+    !value ? null : setSelectedRating(value)};
+
+  const handleChangeChecked = (id:any) => {
+    console.log(id);
+    if(id == 'all'){
+      setCuisines(cuisinesDefaultState);
+      return;
+    }
+    const cusinesStateList = cuisines;
+    const changeCheckedCuisines = cusinesStateList.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setCuisines(changeCheckedCuisines);
+  };
+
+  const handleChangePrice = (event:any, value:any) => {
+    if(value == 'all'){
+      setSelectedPrice([1000, 5000]);
+      return;
+    }
+    setSelectedPrice(value);
+  };
+
+  const applyFilters = () => {
+    let updatedList = dataList;
+
+    // Rating Filter
+    if (selectedRating) {
+      updatedList = updatedList.filter(
+        (item) => item.rating === parseInt(selectedRating)
+      );
+    }
+
+    // Category Filter
+    if (selectedCategory) {
+      updatedList = updatedList.filter(
+        (item) => item.category === selectedCategory
+      );
+    }
+
+    // Cuisine Filter
+    const cuisinesChecked = cuisines
+      .filter((item) => item.checked)
+      .map((item) => item.label.toLowerCase());
+
+    if (cuisinesChecked.length) {
+      updatedList = updatedList.filter((item) =>
+        cuisinesChecked.includes(item.cuisine)
+      );
+    }
+
+    // Search Filter
+    if (searchInput) {
+      updatedList = updatedList.filter(
+        (item) =>
+          item.title.toLowerCase().search(searchInput.toLowerCase().trim()) !==
+          -1
+      );
+    }
+
+    // Price Filter
+    const minPrice = selectedPrice[0];
+    const maxPrice = selectedPrice[1];
+
+    updatedList = updatedList.filter(
+      (item) => item.price >= minPrice && item.price <= maxPrice
+    );
+
+    setList(updatedList);
+
+    !updatedList.length ? setResultsFound(false) : setResultsFound(true);
+  };
+
+  useEffect(() => {
+    applyFilters();
+  }, [selectedRating, selectedCategory, cuisines, searchInput, selectedPrice]);
+
+
+  // ./FILTER
   
   
   return ( 
+    <>
     <Container isLoading={isLoading}>
       <div 
         className="
@@ -145,6 +269,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
           mt-0 sm:mt-5 md:mt-0
         "
       >
+        
         <div className="flex flex-col gap-6">
 
           <div className="flex flex-col md:flex-row text-base sm:text-2xl">
@@ -183,7 +308,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
               md:grid-cols-7 
               md:gap-10 
               mt-6
-              mb-10
+              mb-0
             "
           >
            
@@ -192,6 +317,47 @@ const ListingClient: React.FC<ListingClientProps> = ({
         </div>
       </div>
     </Container>
+    <Container full>
+      <div className="
+         border-b-[1px]
+         shadow-sm
+      ">
+
+        <FilterPanel
+            isVisible={isFilterPanelVisible}
+            selectedCategory={selectedCategory}
+            selectCategory={handleSelectCategory}
+            selectedRating={selectedRating}
+            selectedPrice={selectedPrice}
+            selectRating={handleSelectRating}
+            cuisines={cuisines}
+            changeChecked={handleChangeChecked}
+            changePrice={handleChangePrice}
+            closeFilterPane={closeFilterPane}
+          />
+
+      </div>
+      <div 
+      className='
+          lg:w-[960px]
+          w-full
+          m-auto
+          mt-5
+          mb-10
+          '>
+            <div className='w-full my-5 flex flex-row items-center justify-between'>
+                <div>
+                    <div className='text-xs font-sans ml-5 mb-1 text-neutral-500'>{list.length} results found</div>
+                    <div className='text-lg font-bold m-0 ml-5'> All Products</div>
+                </div>
+                <div>
+                      <FloatingButton color='bg-black' icon={MdFilterList} small onClick={toggleFilterPanel} label=''/>
+                </div>
+            </div>
+            {resultsFound ? <List list={list} /> : <EmptyView/>}
+        </div>
+    </Container>
+   </>
    );
 }
  
