@@ -63,21 +63,23 @@ const handleOutSideClick = (event: any) => {
       ${isVisible? 'block' : 'hidden'}
       fixed z-10
       md:absolute
-      h-auto 
+      h-full
+      sm:h-auto 
       w-full
       sm:w-[300px]
       left-0
       sm:left-10 
-      -top-10
+      top-0
       sm:top-10 
-      mt-20 
+      mt-0
+      sm:mt-20 
       p-5 
       shadow-xl 
       border-[1px] 
       bg-white
       `}>
     <div className='relative w-full'>
-      <div className='absolute right-1 top-0 z-10 cursor-pointer hover:scale-110 transition text-neutral-600' onClick={closeFilterPane}>
+      <div className='absolute right-1 top-0 z-10 cursor-pointer hover:scale-110 transition text-neutral-600 -top' onClick={closeFilterPane}>
       <AiOutlineClose size={20}/>
       </div>
     </div>
