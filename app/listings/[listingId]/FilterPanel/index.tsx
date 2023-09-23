@@ -68,7 +68,8 @@ const handleOutSideClick = (event: any) => {
       sm:w-[300px]
       left-0
       sm:left-10 
-      top-10 
+      -top-10
+      sm:top-10 
       mt-20 
       p-5 
       shadow-xl 
