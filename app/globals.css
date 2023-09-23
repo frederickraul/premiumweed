@@ -98,7 +98,10 @@ body,
 
 
 .MuiSlider-valueLabelOpen .MuiSlider-valueLabel  {
-  transform: scale(1) translateY(-10px); }
+  transform: scale(1) translateY(-10px);
+  background-color: transparent !important;
+
+}
 
 .css-nnid7-MuiSlider-valueLabel{
 	background-color: transparent !important;
