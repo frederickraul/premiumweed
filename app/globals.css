@@ -99,7 +99,10 @@ body,
 
 .MuiSlider-valueLabelOpen .MuiSlider-valueLabel  {
   transform: scale(1) translateY(-10px);
-  background-color: transparent !important;
+}
+
+.css-3besu{
+	background-color: transparent !important;
 
 }
 
