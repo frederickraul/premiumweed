@@ -4,6 +4,8 @@ import './styles.css';
 import { AiFillStar } from 'react-icons/ai';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import StyledRating from '@/app/components/StyledRating';
+import { colors } from '@/app/const/theme';
 
 
 
@@ -36,18 +38,17 @@ return(
     <div className='w-full aspect-square relative'>
     <Image src={item.coverSrc ? item.coverSrc : "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg"} fill alt='' className='group-hover:scale-110 transition'/>
     </div>
-    <header>
-      <h4>{item.title}</h4>
-      <span className='flex flex-row items-center bg-black text-white py-1 px-2'>{item.rating} <AiFillStar size={14} className='text-yellow-400'/></span>
-    </header>
-    <footer>
-      <p>  
-
-        <b>{item.serviceTime}</b> <span> Delivery Fee ${item.deliveryFee}</span>
-      </p>
-      <p>
-        <b>${item.price}</b>
-      </p>
+      <h4 className='mt-4 font-bold'>{item.title}</h4>
+    <div className='flex flex-row mt-1'>
+      <StyledRating/>
+      <span className='ml-1'>5.0</span>
+    </div>
+    <div className='flex flex-row justify-between font-bold mt-1 text-sm' style={{color: colors.primary}}>
+        <div>THC 75%</div>
+        <div>CBD 25%</div>
+    </div>
+    <footer className='font-bold uppercase mt-1 text-blue-600'>
+      {item.category}
     </footer>
   </div>
 );
