@@ -285,8 +285,10 @@ const toggleOpen = useCallback(() => {
                 </div>
               </div>
               <div className='w-full md:w-1/2 pl-5 mt-5 lg:mt-0 flex flex-col gap-2'>
+                {data.website !== '' &&
                 <div className='text-neutral-600 flex flex-row items-center'>
                   <TbWorld size={20} /> <span className='text-base font-bold ml-4'>{data.website}</span></div>
+                }
                 <div className='text-neutral-600 flex flex-row items-center'>
                   <BiLogoFacebookCircle size={20} /><span className='text-blue-500 ml-4'>Facebook Page</span></div>
                 <div className='text-neutral-600 flex flex-row items-center'>

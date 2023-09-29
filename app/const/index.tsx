@@ -1,3 +1,5 @@
+export const defaultImage = "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg";
+
 export const categoryList = [
   {
     id: 1,
@@ -6,8 +8,8 @@ export const categoryList = [
   },
   {
     id: 2,
-    value: 'pre-rolls',
-    label: 'Pre-Rolls',
+    value: 'pre rolls',
+    label: 'Pre Rolls',
   },
   {
     id: 3,
@@ -82,7 +84,7 @@ export const dataList = [
     title: 'Cannabis Culture',
     serviceTime: '30-22min',
     deliveryFee: 4.94,
-    category: 'pre-rolls',
+    category: 'pre rolls',
     cuisine: 'chinese',
     rating: 3,
     price: 2000,
@@ -126,7 +128,7 @@ export const dataList = [
     title: 'Checkpoint coffeeshop',
     serviceTime: '50-65min',
     deliveryFee: 8.5,
-    category: 'pre-rolls',
+    category: 'pre rolls',
     cuisine: 'american',
     rating: 2,
     price: 2200,
@@ -137,7 +139,7 @@ export const dataList = [
     title: 'Mushroom Risotto',
     serviceTime: '10-15min',
     deliveryFee: 1.8,
-    category: 'pre-rolls',
+    category: 'pre rolls',
     cuisine: 'italian',
     rating: 1,
     price: 1900,
@@ -159,7 +161,7 @@ export const dataList = [
     title: 'Canopy Growth',
     serviceTime: '30-38min',
     deliveryFee: 1.9,
-    category: 'pre-rolls',
+    category: 'pre rolls',
     cuisine: 'american',
     rating: 2,
     price: 4350,

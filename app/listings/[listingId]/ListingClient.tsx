@@ -166,6 +166,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const [resultsFound, setResultsFound] = useState(true);
   const [searchInput, setSearchInput] = useState('');
 
+  const toggleIsLoading = () => {
+    setIsLoading(true);
+  }
   const handleSelectCategory = (event:any,value:any) =>{
     if(value == 'all'){
       setSelectedCategory(null); return;
@@ -354,7 +357,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                       <FloatingButton color='bg-black' icon={MdFilterList} small onClick={toggleFilterPanel} label=''/>
                 </div>
             </div>
-            {resultsFound ? <List list={list} /> : <EmptyView/>}
+            {resultsFound ? <List isLoading={()=>{toggleIsLoading()}} list={list} /> : <EmptyView/>}
         </div>
     </Container>
    </>
