@@ -34,7 +34,9 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       onClick={onClick}
       className={`
-        relative items-center justify-center
+        relative 
+        items-center 
+        justify-center
         disabled:opacity-70
         disabled:cursor-not-allowed
         ${roundless || 'rounded-lg'}
@@ -57,11 +59,14 @@ const Button: React.FC<ButtonProps> = ({
           className={`
             absolute
             ${iconLeft ? 'right-4' : 'left-4'}
-            ${small ? 'top-1' : 'top-2 md:top-3'}
+            ${small ? 'top-1' : 'top-3 md:top-3'}
           `
           }/>
       )}
-      <div className={`${iconLeft ? 'mr-2' : 'ml-2'}`}>
+      <div className={
+        `${iconLeft ? 'mr-2' : 'ml-2'}
+          whitespace-nowrap
+        `}>
        {label}
       </div>
     </button>

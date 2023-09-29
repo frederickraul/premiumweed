@@ -38,14 +38,23 @@ return(
     <div className='w-full aspect-square relative'>
     <Image src={item.coverSrc ? item.coverSrc : "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg"} fill alt='' className='group-hover:scale-110 transition'/>
     </div>
-      <h4 className='mt-4 font-bold'>{item.title}</h4>
+      <h4 className='mt-4 font-bold text-sm sm:text-base'>
+        {item.title}</h4>
     <div className='flex flex-row mt-1'>
       <StyledRating/>
       <span className='ml-1'>5.0</span>
     </div>
-    <div className='flex flex-row justify-between font-bold mt-1 text-sm text-neutral-500'>
-        <div>THC 75<span>%</span></div>
-        <div>CBD 25%<span>%</span></div>
+    <div className='
+        flex 
+        flex-row 
+        justify-between 
+        font-bold 
+        mt-1 
+        text-xs
+        sm:text-sm 
+        text-neutral-500'>
+        <div>THC 75%</div>
+        <div>CBD 25%</div>
     </div>
     <footer className='font-bold uppercase mt-1 text-blue-600'>
       {item.category}

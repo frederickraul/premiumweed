@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import cx from 'classnames';
-import { IoIosArrowDown, IoMdArrowDown } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp, IoMdArrowDown } from 'react-icons/io';
 import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
 import Button from '../Button';
 
@@ -65,7 +65,7 @@ function Dropdown({
 		<div ref={wrapperRef} className="border-[#979797] relative w-[100%]">
             <Button 
                 label={labelName} 
-                icon={IoIosArrowDown}
+                icon={isFocused ? IoIosArrowUp : IoIosArrowDown}
                 iconLeft
                 outline
                 onClick={()=>{setIsFocused(true)}} 

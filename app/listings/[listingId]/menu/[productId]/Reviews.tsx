@@ -26,7 +26,7 @@ interface ReviewsProps {
                 ]
                 }/>
            </div>
-           <div className="w-1/4 ml-2">
+           <div className="w-[200px] ml-2 ">
               <Dropdown
                 labelName="Filter by rating" 
                 type="arrow-down"
