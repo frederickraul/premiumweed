@@ -74,6 +74,7 @@ function Dropdown({
 				<ul className="absolute w-auto mt-2 border-1px z-10 shadow-xl">
 					{options.map(({ label, labelValue }) => (
 						<li
+                            key={label}
 							onClick={() => onValueChange(labelValue)}
 							className="
                                 cursor-pointer
