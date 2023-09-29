@@ -11,7 +11,7 @@ interface ReviewsProps {
   return (
     <div className="mt-16">
         {reviewList.map((review:any) =>(
-            <ReviewCard data={review}/>
+            <ReviewCard key={review.id} data={review}/>
         ))}
     </div>
   )

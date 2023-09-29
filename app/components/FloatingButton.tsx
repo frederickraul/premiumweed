@@ -11,6 +11,7 @@ interface ButtonProps {
   small?: boolean;
   icon?: IconType;
   color?: string,
+  hoverColor?: string,
   borderless?:boolean
   roundless?:boolean
 }
@@ -24,6 +25,8 @@ const FloatingButton: React.FC<ButtonProps> = ({
   icon: Icon,
   roundless,
   color,
+  hoverColor,
+  
   borderless,
   styles
 }) => {
@@ -43,9 +46,9 @@ const FloatingButton: React.FC<ButtonProps> = ({
         flex 
         justify-center 
         items-center 
-        text-xl 
-        hover:bg-neutral-800
-        hover:border-neutral-800
+        text-xl
+        ${hoverColor ? hoverColor : 'hover:bg-neutral-800'} 
+        hover:border-transparent
         hover:drop-shadow-2xl 
         transition-colors
         duration-300

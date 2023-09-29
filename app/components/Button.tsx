@@ -51,13 +51,14 @@ const Button: React.FC<ButtonProps> = ({
     >
       {Icon && (
         <Icon
-          size={24}
-          className="
-            absolute
-            left-4
-            top-2 md:top-3
-          "
-        />
+          size={small ? 18 : 24}
+          className={`
+          absolute
+          left-4
+            
+            ${small ? 'top-1' : 'top-2 md:top-3'}
+          `
+          }/>
       )}
       <div className="ml-2">
        {label}

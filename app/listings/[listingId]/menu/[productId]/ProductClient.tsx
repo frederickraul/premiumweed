@@ -11,7 +11,7 @@ import { BiArrowBack, BiCheckShield } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { MdArrowBackIos, MdArrowLeft } from "react-icons/md";
+import { MdArrowBackIos, MdArrowLeft, MdOutlineReviews } from "react-icons/md";
 import { TbArrowLeft } from "react-icons/tb";
 import ProductCardHorizontal from "@/app/components/products/ProductCardHorizontal";
 import List from "../../List";
@@ -24,6 +24,7 @@ import Reviews from "./Reviews";
 import Modal from "@/app/components/modals/Modal";
 import ReviewModal from "@/app/components/modals/ReviewModal";
 import { reviewList } from "@/app/const/reviews";
+import FloatingButton from "@/app/components/FloatingButton";
 
 
 
@@ -152,12 +153,16 @@ const [reviews, setReviews] = useState(reviewList);
           '>
             <div className='w-full flex flex-row items-center justify-between'>
               <div className='text-lg font-bold '> Reviews</div>
-              <div className="w-[140px]">
-                <Button
-                  color="bg-cyan-500 border-cyan-500"
-                  borderless
-                  label="Write a review"
-                  onClick={toggleReviewModal}
+                  <div className="w-[70px] md:w-[60px] lg:w-[50px]">
+                    <FloatingButton
+                      label='Write a review'
+                      onClick={toggleReviewModal}
+                      color='bg-cyan-500'
+                      hoverColor='hover:bg-cyan-400'
+                      icon={MdOutlineReviews}
+                      borderless
+                      styles='border-cyan-500'
+                      
                 />
 
               </div>
