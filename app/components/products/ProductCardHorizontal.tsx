@@ -228,7 +228,7 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                   border-b-neutral-300
                     border-b-[1px] pb-10'>
                   <span className='font-bold text-lg pb-5'>Product description</span>
-                  <div className='font-light text-neutral-500'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </div>
+                  <div className='font-light text-neutral-700'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </div>
                 </div>
                 
               </div>
