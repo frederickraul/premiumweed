@@ -47,7 +47,7 @@ interface ReviewProps {
 
             <div className="mt-4 flex flex-col">
                 <div className="font-bold mb-3">{title}</div>
-                <span className="text-neutral-500">
+                <span className="text-neutral-700">
                     {body}  
                 </span>
             </div>
