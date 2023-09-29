@@ -138,7 +138,7 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
           </div>
           {/* List of products */}
-          {resultsFound ? <List isLoading={() => { setIsLoading(true) }} list={list} items={5} /> : <EmptyView />}
+          {resultsFound ? <List small isLoading={() => { setIsLoading(true) }} list={list} items={5} /> : <EmptyView />}
         </div>
       </Container>
 

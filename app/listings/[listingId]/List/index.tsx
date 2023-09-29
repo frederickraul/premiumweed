@@ -10,11 +10,13 @@ import { MdFilterList } from 'react-icons/md';
 interface ListProps {
   list: any;
   items?: number;
+  small?:boolean;
   isLoading:() => void;
 }
 const List: React.FC<ListProps> = ({
   list,
   items,
+  small,
   isLoading
 }) => (
   <>
@@ -28,7 +30,7 @@ const List: React.FC<ListProps> = ({
     mb-10
     `}>
     {list.map((item:any) => (
-      <ListItem key={item.id} item={item} isLoading={isLoading} />
+      <ListItem small={small} key={item.id} item={item} isLoading={isLoading} />
       ))}
   </div>
   </div>

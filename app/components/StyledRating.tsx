@@ -3,14 +3,24 @@ import { Rating } from '@mui/material';
 import React from 'react'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
-const StyledRating = () => {
-    const StyledRating = styled(Rating)({
+
+
+
+interface ReviewsProps {
+  size?: number;
+}
+
+const StyledRating: React.FC<ReviewsProps> = ({
+  size,
+}) => {
+
+const StyledRating = styled(Rating)({
         '& .MuiRating-iconFilled': {
           color: '#000',
-          fontSize: 13
+          fontSize: size ? size : 13,
         },
         '& .MuiRating-iconEmpty': {
-          fontSize: 13
+          fontSize: size ? size : 13,
         },
         '& .MuiRating-iconHover': {
           color: '#444',

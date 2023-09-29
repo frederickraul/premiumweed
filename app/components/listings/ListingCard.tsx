@@ -139,6 +139,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
           <div className='flex flex-row items-center'>
             <Rating
+              readOnly
               size='small'
               name="simple-controlled"
               value={stars}

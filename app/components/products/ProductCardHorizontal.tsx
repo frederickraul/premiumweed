@@ -184,6 +184,7 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                 </div>
                 <div className='flex flex-row items-center'>
                   <Rating
+                    readOnly
                     size='small'
                     name="simple-controlled"
                     value={stars}

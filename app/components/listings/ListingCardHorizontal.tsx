@@ -271,7 +271,7 @@ const toggleOpen = useCallback(() => {
                 
                 <div className='flex flex-row items-center'>
                   <Rating
-                    name="simple-controlled"
+                    readOnly
                     value={stars}
                     precision={0.5}
                     onChange={(event, newValue) => {

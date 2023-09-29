@@ -65,7 +65,7 @@ const Input: React.FC<InputProps> = ({
           ${formatPrice ? 'pl-9' : 'pl-4'}
           ${errors[id] ? 'border-red-500' : 'border-neutral-300'}
           ${errors[id] ? 'focus: border-red-500' : 'focus:border-black'}
-          ${small ? 'text-xs' : 'text-sm 2xl:text-base'}
+          ${small ? 'text-xs' : 'text-xs sm:text-sm 2xl:text-base'}
           ${small ? 'p-2' : 'p-2 2xl:p-4'}
           ${small ? 'p-3' : label ? 'pt-4 2xl:pt-6' : 'pt-3'}
           ${small ? 'font-light' : 'font-semibold'}

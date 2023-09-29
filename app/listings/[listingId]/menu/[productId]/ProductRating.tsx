@@ -2,13 +2,8 @@
 
 import StyledRating from "@/app/components/StyledRating";
 import { colors } from "@/app/const/theme";
-import styled from "@emotion/styled";
-import { Rating } from "@mui/material";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 const ProductRating = () => {
-
-
   return (
     <div className="flex flex-row mt-10 w-full mb-10">
       <div className="flex w-1/3 items-center justify-center lg:justify-start">

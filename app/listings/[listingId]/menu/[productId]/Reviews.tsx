@@ -4,9 +4,11 @@ import Button from "@/app/components/Button";
 import Dropdown from "@/app/components/inputs/Dropdown";
 import ReviewCard from "@/app/components/reviews/ReviewCard";
 import { reviewList } from "@/app/const/reviews";
+
 interface ReviewsProps {
     reviewList: any;
   }
+  
   const Reviews: React.FC<ReviewsProps> = ({
     reviewList,
   }) => {
@@ -26,13 +28,12 @@ interface ReviewsProps {
                 ]
                 }/>
            </div>
-           <div className="w-[200px] ml-2 ">
+           <div className="w-[160px] sm:w-[200px] ml-2 ">
               <Dropdown
                 labelName="Filter by rating" 
                 type="arrow-down"
                 name="sort"
                 options={[
-                  { label: '6 stars', labelValue:'6'},
                   { label: '5 stars', labelValue:'5'},
                   { label: '4 stars', labelValue:'4'},
                   { label: '3 stars', labelValue:'3'},
