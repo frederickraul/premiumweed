@@ -43,9 +43,9 @@ return(
       <StyledRating/>
       <span className='ml-1'>5.0</span>
     </div>
-    <div className='flex flex-row justify-between font-bold mt-1 text-sm' style={{color: colors.primary}}>
-        <div>THC 75%</div>
-        <div>CBD 25%</div>
+    <div className='flex flex-row justify-between font-bold mt-1 text-sm text-neutral-500'>
+        <div>THC 75<span>%</span></div>
+        <div>CBD 25%<span>%</span></div>
     </div>
     <footer className='font-bold uppercase mt-1 text-blue-600'>
       {item.category}
