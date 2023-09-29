@@ -41,9 +41,9 @@ const ProductClient: React.FC<ProductClientProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [resultsFound, setResultsFound] = useState(true);
-const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
-const [reviews, setReviews] = useState(reviewList);
+  const [reviews, setReviews] = useState(reviewList);
   const router = useRouter();
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const [reviews, setReviews] = useState(reviewList);
 
   const list = shuffleArray(dataList);
 
-  const handleReviewSave = (data:any) =>{
+  const handleReviewSave = (data: any) => {
     data['user'] = currentUser?.name;
     setReviews(reviews => [...reviews, data]);
     toggleReviewModal();
@@ -151,30 +151,30 @@ const [reviews, setReviews] = useState(reviewList);
           mb-10
 
           '>
-            <div className='w-full flex flex-row items-center justify-between'>
-              <div className='text-lg font-bold '> Reviews</div>
-                  <div className="w-[70px] md:w-[60px] lg:w-[50px]">
-                    <FloatingButton
-                      label='Write a review'
-                      onClick={toggleReviewModal}
-                      color='bg-cyan-500'
-                      hoverColor='hover:bg-cyan-400'
-                      icon={MdOutlineReviews}
-                      borderless
-                      styles='border-cyan-500'
-                      
-                />
+          <div className='w-full flex flex-row items-center justify-between'>
+            <div className='text-lg font-bold '> Reviews</div>
+            <div className="w-[70px] md:w-[60px] lg:w-[50px]">
+              <FloatingButton
+                label='Write a review'
+                onClick={toggleReviewModal}
+                color='bg-cyan-500'
+                hoverColor='hover:bg-cyan-400'
+                icon={MdOutlineReviews}
+                borderless
+                styles='border-cyan-500'
 
-              </div>
+              />
+
             </div>
-            <ProductRating/>
+          </div>
+          <ProductRating />
 
-            <Reviews reviewList={reviews.reverse()}/>
-            <ReviewModal
-              isOpen={isReviewModalOpen}
-              onClose={toggleReviewModal}
-              onSave={handleReviewSave}
-            />
+          <Reviews reviewList={reviews.reverse()} />
+          <ReviewModal
+            isOpen={isReviewModalOpen}
+            onClose={toggleReviewModal}
+            onSave={handleReviewSave}
+          />
         </div>
       </Container>
 

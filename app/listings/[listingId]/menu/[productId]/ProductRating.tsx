@@ -1,8 +1,12 @@
 'use client';
 
+import StyledRating from "@/app/components/StyledRating";
+import styled from "@emotion/styled";
 import { Rating } from "@mui/material";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
 const ProductRating = () => {
+
 
   return (
     <div className="flex flex-row mt-10 w-full mb-10">
@@ -15,7 +19,7 @@ const ProductRating = () => {
               <div className="absolute top-0 bottom-7 right-0 left-0 items-center">
                 <div className="flex flex-col items-center justify-center h-full relative">
                 <h3 className="flex text-neutral-500 text-xl sm:text-3xl">5.0</h3>
-                <Rating readOnly value={5}  className="text-black text-xs sm:text-sm"/>
+                <StyledRating/>
                 </div>
               </div>
               <h4 className="text-neutral-400 mt-2">34 review</h4>

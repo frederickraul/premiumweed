@@ -3,6 +3,7 @@
 import { defaultImage } from "@/app/const";
 import { Rating } from "@mui/material";
 import Image from "next/image";
+import StyledRating from "../StyledRating";
 
 
 interface ReviewProps {
@@ -38,8 +39,9 @@ interface ReviewProps {
                 </div>
             </div>
 
-            <div className="mt-6 flex flex-row">
-                <Rating readOnly value={stars}  className="text-black text-xs sm:text-sm"/>
+            <div className="mt-6 flex flex-row items-center">
+            <StyledRating/>
+
                 <span className="text-xs ml-2">{stars}</span>
             </div>
 
