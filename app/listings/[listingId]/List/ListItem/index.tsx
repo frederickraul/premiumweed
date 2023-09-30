@@ -54,18 +54,21 @@ return(
     <div className={`
         flex 
         flex-row 
-         
         ${small ? 'justify-between' : 'justify-start'}
         font-bold 
         mt-1 
-        ${small ? 'text-xs' : 'text-base'}    
-        ${small ? 'text-sm' : 'text-lg'}      
+        ${small ? 'text-xs' : 'text-sm'}    
+        ${small ? 'sm:text-sm' : 'sm:text-lg'}      
         text-neutral-500
         `}>
         <div>THC 75%</div>
         <div className={`${small ? 'ml-0' : 'ml-4'}`}>CBD 25%</div>
     </div>
-    <div className={`${small ? 'text-xs' : 'text-base'} font-bold uppercase mt-1 text-blue-600`}>
+    <div className={`
+        ${small ? 'text-xs' : 'text-sm'}    
+        ${small ? 'sm:text-sm' : 'sm:text-lg'}  
+        font-bold uppercase mt-1 
+        text-blue-600`}>
       {item.category}
     </div>
   </div>

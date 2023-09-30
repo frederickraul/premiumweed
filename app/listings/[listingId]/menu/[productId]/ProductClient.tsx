@@ -172,12 +172,12 @@ const ProductClient: React.FC<ProductClientProps> = ({
           </div>
           <ProductRating />
           <div id="reviews">
-          <Reviews reviewList={reviews.reverse()} />
-          <ReviewModal
-            isOpen={isReviewModalOpen}
-            onClose={toggleReviewModal}
-            onSave={handleReviewSave}
-            />
+            <Reviews reviewList={reviews.reverse()} />
+            <ReviewModal
+              isOpen={isReviewModalOpen}
+              onClose={toggleReviewModal}
+              onSave={handleReviewSave}
+              />
           </div>
         </div>
       </Container>
