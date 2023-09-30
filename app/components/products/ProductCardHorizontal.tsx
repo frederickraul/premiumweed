@@ -193,9 +193,9 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                       setStars(newValue);
                     }}
                   />
-                  <div className='ml-2 text-neutral-500 text-xs'>
+                  <a className='ml-2 text-neutral-500 text-xs' href='#reviews'>
                     {stars} (34)
-                  </div>
+                  </a>
 
                 </div>
                 <div className='text-xs text-neutral-700 mt-4'>
