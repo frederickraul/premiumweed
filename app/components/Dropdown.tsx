@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { IoIosArrowDown, IoIosArrowUp, IoMdArrowDown } from 'react-icons/io';
 import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
-import Button from '../Button';
+import Button from './Button';
 
 export interface IDropdownOption {
 	label: string | number;
@@ -11,6 +11,7 @@ export interface IDropdownOption {
 
 interface IDropdownProps {
 	name?: string;
+	textLeft?:boolean;
 	options: IDropdownOption[];
 	required?: boolean;
 	tabIndex?: number;
@@ -23,6 +24,7 @@ interface IDropdownProps {
 function Dropdown({
 	labelName,
 	name,
+	textLeft,
 	options,
 	placeHolder,
 	type,
@@ -64,6 +66,7 @@ function Dropdown({
 	return (
 		<div ref={wrapperRef} className="border-[#979797] relative w-[100%]">
             <Button 
+				textLeft={textLeft}
                 label={labelName} 
                 icon={isFocused ? IoIosArrowUp : IoIosArrowDown}
                 iconLeft

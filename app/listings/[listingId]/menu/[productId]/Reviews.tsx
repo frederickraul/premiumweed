@@ -1,9 +1,7 @@
 'use client';
 
-import Button from "@/app/components/Button";
-import Dropdown from "@/app/components/inputs/Dropdown";
+import Dropdown from "@/app/components/Dropdown";
 import ReviewCard from "@/app/components/reviews/ReviewCard";
-import { reviewList } from "@/app/const/reviews";
 
 interface ReviewsProps {
     reviewList: any;
@@ -17,6 +15,7 @@ interface ReviewsProps {
         <div className="flex flex-row">
            <div className="w-[120px]">
               <Dropdown
+                textLeft
                 labelName="Sort" 
                 type="arrow-down"
                 name="sort"
@@ -30,6 +29,7 @@ interface ReviewsProps {
            </div>
            <div className="w-[160px] sm:w-[200px] ml-2 ">
               <Dropdown
+                textLeft
                 labelName="Filter by rating" 
                 type="arrow-down"
                 name="sort"

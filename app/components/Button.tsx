@@ -11,6 +11,7 @@ interface ButtonProps {
   small?: boolean;
   icon?: IconType;
   iconLeft?:boolean;
+  textLeft?:boolean;
   color?: string,
   borderless?:boolean
   roundless?:boolean
@@ -24,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   small,
   icon: Icon,
   iconLeft,
+  textLeft,
   roundless,
   color,
   borderless,
@@ -65,9 +67,10 @@ const Button: React.FC<ButtonProps> = ({
           }/>
       )}
       <div className={
-        `${iconLeft ? 'ml-3 sm:ml-0' : 'ml-12 sm:ml-0'}
+        `${iconLeft && 'ml-3 sm:ml-0'}
             whitespace-nowrap
-            text-left sm:text-center
+            ${textLeft && 'text-left ml-12 sm:ml-0'} 
+            sm:text-center
         `}>
        {label}
       </div>

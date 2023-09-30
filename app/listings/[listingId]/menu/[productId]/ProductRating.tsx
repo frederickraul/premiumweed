@@ -8,7 +8,7 @@ const ProductRating = () => {
     <div className="flex flex-row mt-10 w-full mb-10">
       <div className="flex w-1/3 items-center justify-center lg:justify-start">
             <div className="relative items-center justify-center text-center mt-0 md:mt-3">
-              <svg aria-hidden="true" viewBox="0 0 120 120" className="relative w-[80px] h-[80px] sm:w-[120px] sm:h-[120px]">
+              <svg aria-hidden="true" viewBox="0 0 120 120" className="relative w-[85px] h-[85px] sm:w-[120px] sm:h-[120px]">
                 <circle cx="60" cy="60" r="56" fill="transparent" stroke="#E6E6E6" stroke-width="6" className=""></circle>
                 <circle cx="60" cy="60" r="56" fill="transparent" stroke={colors.primary} stroke-width="6" ></circle>
               </svg>
