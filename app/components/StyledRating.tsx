@@ -33,7 +33,7 @@ const StyledRating = styled(Rating)({
     <div>
          <StyledRating
                   readOnly
-                  defaultValue={value}
+                  defaultValue={value || 5}
                   getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
                   precision={0.5}
                   icon={<AiFillStar fontSize="inherit" />}
