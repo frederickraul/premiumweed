@@ -124,7 +124,7 @@ const LoginModal = () => {
               text-blue-500
               cursor-pointer
               hover:underline
-              text-xs sm:text-base
+              text-sm sm:text-base
             ">
               Create an account
             </div>

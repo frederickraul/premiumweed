@@ -130,7 +130,7 @@ const RegisterModal = () => {
             text-blue-500
             cursor-pointer
               hover:underline
-              text-xs sm:text-base
+              text-sm sm:text-base
             ">
               Log in
             </div>
