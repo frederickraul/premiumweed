@@ -115,15 +115,16 @@ const LoginModal = () => {
           font-light
         ">
           <div className="justify-center flex flex-row items-center gap-2">
-            <div>
+            <div className='text-xs sm:text-base'>
               First time using Weedgrowers?
             </div>
             <div 
             onClick={toggle}
             className="
-              text-neutral-800
+              text-blue-500
               cursor-pointer
               hover:underline
+              text-xs sm:text-base
             ">
               Create an account
             </div>
