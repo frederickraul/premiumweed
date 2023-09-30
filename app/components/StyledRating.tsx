@@ -8,10 +8,12 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
 interface ReviewsProps {
   size?: number;
+  value?:number;
 }
 
 const StyledRating: React.FC<ReviewsProps> = ({
   size,
+  value
 }) => {
 
 const StyledRating = styled(Rating)({
@@ -31,7 +33,7 @@ const StyledRating = styled(Rating)({
     <div>
          <StyledRating
                   readOnly
-                  defaultValue={5}
+                  defaultValue={value}
                   getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
                   precision={0.5}
                   icon={<AiFillStar fontSize="inherit" />}
