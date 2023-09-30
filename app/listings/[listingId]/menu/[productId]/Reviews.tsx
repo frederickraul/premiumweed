@@ -12,10 +12,9 @@ interface ReviewsProps {
   }) => {
   return (
     <div className="mt-16">
-        <div className="flex flex-row">
+        <div className="flex flex-row items-center">
            <div className="w-[120px]">
               <Dropdown
-                textLeft
                 labelName="Sort" 
                 type="arrow-down"
                 name="sort"
@@ -27,9 +26,8 @@ interface ReviewsProps {
                 ]
                 }/>
            </div>
-           <div className="w-[160px] sm:w-[200px] ml-2 ">
+           <div className="w-[170px] sm:w-[200px] ml-2 ">
               <Dropdown
-                textLeft
                 labelName="Filter by rating" 
                 type="arrow-down"
                 name="sort"

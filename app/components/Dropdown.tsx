@@ -69,7 +69,7 @@ function Dropdown({
 				textLeft={textLeft}
                 label={labelName} 
                 icon={isFocused ? IoIosArrowUp : IoIosArrowDown}
-                iconLeft
+                iconRight
                 outline
                 onClick={()=>{setIsFocused(true)}} 
                     />
