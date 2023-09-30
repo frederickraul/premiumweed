@@ -70,19 +70,19 @@ interface ReviewProps {
                             className='text-3xl text-black'/>
                       {errors.stars && <div className='text-red-500 font-bold'>You must rate the product</div>}
               </div>
+              {errors.title && <div className='text-red-500 font-bold'>The title is too short</div>}
             <InputUnregistered
               label="Title"
               onChange={(value)=>{onChange('title',value.target.value);}}
               required
             />
-            {errors.title && <div className='text-red-500 font-bold'>The title is too short</div>}
 
+            {errors.body && <div className='text-red-500 font-bold'>The body is too short</div>}
             <InputText
                 label='Body'
                 onChange={(value)=>{onChange('body',value.target.value);}}
                 required
                 />
-             {errors.body && <div className='text-red-500 font-bold'>The body is too short</div>}
 
             
         </div>
