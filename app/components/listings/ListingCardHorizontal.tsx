@@ -324,7 +324,9 @@ const toggleOpen = useCallback(() => {
             <Button
               label='Write a review'
               icon={AiOutlineStar}
-              onClick={() => { }}
+              onClick={() => {
+                window.location.href="#reviews";
+               }}              
               color='bg-black'
               borderless
               styles='border-black'
@@ -364,7 +366,9 @@ const toggleOpen = useCallback(() => {
             <FloatingButton
               label='Write a review'
               icon={AiOutlineStar}
-              onClick={() => { }}
+              onClick={() => {
+                window.location.href="#reviews";
+               }}
               color='bg-black'
               borderless
               styles='border-black'
