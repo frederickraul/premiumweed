@@ -278,9 +278,9 @@ const toggleOpen = useCallback(() => {
                       setStars(newValue);
                     }}
                   />
-                  <div className='ml-2 text-neutral-500 text-base'>
+                  <a href="#reviews" className='ml-2 text-neutral-500 text-base'>
                     {stars} (34)
-                  </div>
+                  </a>
 
                 </div>
               </div>

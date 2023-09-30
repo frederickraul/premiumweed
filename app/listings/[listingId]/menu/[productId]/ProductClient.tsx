@@ -124,6 +124,7 @@ const ProductClient: React.FC<ProductClientProps> = ({
       <Container>
         <div
           className='
+          pl-5 sm:pl-0
           lg:w-[960px]
           w-full
           m-auto
@@ -145,6 +146,7 @@ const ProductClient: React.FC<ProductClientProps> = ({
       <Container>
         <div
           className='
+          pl-5 sm:pl-0
           lg:w-[768px]
           w-full
           m-auto
@@ -171,12 +173,12 @@ const ProductClient: React.FC<ProductClientProps> = ({
           <ProductRating />
           <div id="reviews">
           <Reviews reviewList={reviews.reverse()} />
-          </div>
           <ReviewModal
             isOpen={isReviewModalOpen}
             onClose={toggleReviewModal}
             onSave={handleReviewSave}
-          />
+            />
+          </div>
         </div>
       </Container>
 

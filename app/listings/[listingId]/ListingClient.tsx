@@ -27,7 +27,11 @@ import { dataList } from "@/app/const";
 import List from "./List";
 import EmptyView from "@/app/components/common/EmptyView";
 import FloatingButton from "@/app/components/FloatingButton";
-import { MdFilterList } from "react-icons/md";
+import { MdFilterList, MdOutlineReviews } from "react-icons/md";
+import ProductRating from "./menu/[productId]/ProductRating";
+import Reviews from "./menu/[productId]/Reviews";
+import { reviewList } from "@/app/const/reviews";
+import ReviewModal from "@/app/components/modals/ReviewModal";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -51,6 +55,22 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const { getStatesOfCountry } = useCountries();
 
   const states = getStatesOfCountry(listing.locationValue);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviews, setReviews] = useState(reviewList);
+
+
+  const toggleReviewModal = () => {
+    setIsReviewModalOpen(!isReviewModalOpen);
+  }
+
+  const handleReviewSave = (data: any) => {
+    data['user'] = currentUser?.name;
+    setReviews(reviews => [...reviews, data]);
+    toggleReviewModal();
+
+    console.log(data);
+  }
+
 
   const loginModal = useLoginModal();
   const router = useRouter();
@@ -360,6 +380,44 @@ const ListingClient: React.FC<ListingClientProps> = ({
             {resultsFound ? <List isLoading={()=>{toggleIsLoading()}} list={list} /> : <EmptyView/>}
         </div>
     </Container>
+    <Container>
+        <div
+          className='
+          pl-5 sm:pl-0
+          lg:w-[768px]
+          w-full
+          m-auto
+          mt-16
+          mb-10
+
+          '>
+          <div className='w-full flex flex-row items-center justify-between'>
+            <div className='text-lg font-bold '> Reviews</div>
+            <div className="w-[70px] md:w-[60px] lg:w-[50px]">
+              <FloatingButton
+                label='Write a review'
+                onClick={toggleReviewModal}
+                color='bg-cyan-500'
+                hoverColor='hover:bg-cyan-400'
+                icon={MdOutlineReviews}
+                borderless
+                styles='border-cyan-500'
+
+              />
+
+            </div>
+          </div>
+          <ProductRating />
+          <div id="reviews">
+            <Reviews reviewList={reviews.reverse()} />
+            <ReviewModal
+              isOpen={isReviewModalOpen}
+              onClose={toggleReviewModal}
+              onSave={handleReviewSave}
+              />
+          </div>
+        </div>
+      </Container>
    </>
    );
 }
