@@ -49,7 +49,7 @@ return(
         {item.title}</h4>
     <div className='flex flex-row mt-1'>
       <StyledRating size={small ? 13 : 18}/>
-      <span className='ml-1'>5.0</span>
+      <span className='ml-1 text-sm lg:text-base'>5.0</span>
     </div>
     <div className={`
         flex 
