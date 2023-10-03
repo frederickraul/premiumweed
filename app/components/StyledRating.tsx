@@ -1,4 +1,3 @@
-import { ClassNames } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Rating } from '@mui/material';
 import React from 'react'
@@ -11,14 +10,12 @@ interface ReviewsProps {
   size?: number;
   value?:number;
   color?:string;
-  className?:string;
 }
 
 const StyledRating: React.FC<ReviewsProps> = ({
   size,
   value,
-  color,
-  className
+  color
 }) => {
 
 const StyledRating = styled(Rating)({
@@ -37,7 +34,6 @@ const StyledRating = styled(Rating)({
   return (
     <div>
          <StyledRating
-                  className={`${className}`}
                   readOnly
                   defaultValue={value || 5}
                   getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}

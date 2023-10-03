@@ -29,8 +29,13 @@ const CircleRating: React.FC<CircleProps> = ({
       <div className="w-full">
         <div className="flex flex-col items-center justify-center h-full relative">
           <h3 className="flex text-neutral-500 text-5xl md:text-7xl font-thin">5.0</h3>
-          <StyledRating color="#666" size={14} className="visible md:hidden"/>
-          <StyledRating color="#666" size={20}  className="hidden md:visible"/>
+          <div className="visible md:hidden">
+            <StyledRating color="#666" size={14} />
+
+          </div>
+          <div className="hidden md:visible">
+            <StyledRating color="#666" size={20}  />
+          </div>
         </div>
       </div>
       <h4 className="text-neutral-600 mt-2 flex flex-row items-center w-full justify-center">
