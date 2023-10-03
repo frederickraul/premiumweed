@@ -10,7 +10,7 @@ import { BiSolidUser } from "react-icons/bi";
 const ProductRating = () => {
   return (
     <div className="flex flex-row mt-4 w-full mb-10">
-      <div className="flex w-1/3 items-center justify-center lg:justify-start p-0 sm:p-5">
+      <div className="flex flex-row w-1/3 items-center justify-center">
            <CircleRating/>
       </div>
       <div className="flex flex-col w-3/4 sm:full justify-center items-center ml-4 sm:ml-0">
