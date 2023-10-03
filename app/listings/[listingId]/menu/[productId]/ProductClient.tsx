@@ -150,7 +150,8 @@ const ProductClient: React.FC<ProductClientProps> = ({
           lg:w-[768px]
           w-full
           m-auto
-          mt-16
+          mt-5
+          md:mt-16
           mb-10
 
           '>
