@@ -9,16 +9,18 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 interface ReviewsProps {
   size?: number;
   value?:number;
+  color?:string;
 }
 
 const StyledRating: React.FC<ReviewsProps> = ({
   size,
-  value
+  value,
+  color
 }) => {
 
 const StyledRating = styled(Rating)({
         '& .MuiRating-iconFilled': {
-          color: '#000',
+          color: color ? color : '#000',
           fontSize: size ? size : 13,
         },
         '& .MuiRating-iconEmpty': {

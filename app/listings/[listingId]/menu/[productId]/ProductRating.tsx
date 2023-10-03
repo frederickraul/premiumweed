@@ -1,64 +1,20 @@
 'use client';
 
+import BarRating from "@/app/components/BarRating";
+import CircleRating from "@/app/components/CircleRating";
 import StyledRating from "@/app/components/StyledRating";
+import { ratingData } from "@/app/const/rating";
 import { colors } from "@/app/const/theme";
+import { BiSolidUser } from "react-icons/bi";
 
 const ProductRating = () => {
   return (
-    <div className="flex flex-row mt-10 w-full mb-10">
-      <div className="flex w-1/3 items-center justify-center lg:justify-start">
-            <div className="relative items-center justify-center text-center mt-0 md:mt-3">
-              <svg aria-hidden="true" viewBox="0 0 120 120" className="relative w-[85px] h-[85px] sm:w-[120px] sm:h-[120px]">
-                <circle cx="60" cy="60" r="56" fill="transparent" stroke="#E6E6E6" stroke-width="6" className=""></circle>
-                <circle cx="60" cy="60" r="56" fill="transparent" stroke={colors.primary} stroke-width="6" ></circle>
-              </svg>
-              <div className="absolute top-0 bottom-7 right-0 left-0 items-center">
-                <div className="flex flex-col items-center justify-center h-full relative">
-                <h3 className="flex text-neutral-500 text-xl sm:text-3xl">5.0</h3>
-                <StyledRating/>
-                </div>
-              </div>
-              <h4 className="text-neutral-400 mt-2">34 review</h4>
-            </div>
+    <div className="flex flex-row mt-4 w-full mb-10">
+      <div className="flex w-1/3 items-center justify-center lg:justify-start p-0 sm:p-5">
+           <CircleRating/>
       </div>
-      <div className="flex flex-col w-3/4 sm:w-full">
-            <p className="font-bold">Overall rating</p>
-            <div className="flex items-center mt-2">
-              <a href="#" className="whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">5 star</a>
-              <div className="w-full h-2 mx-4 bg-gray-600 rounded dark:bg-gray-700">
-                <div className="h-2 bg-blue-500 rounded w-[70%]"></div>
-              </div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-[40px]">70%</span>
-            </div>
-            <div className="flex items-center mt-2">
-              <a href="#" className="whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">4 star</a>
-              <div className="w-full h-2 mx-4 bg-gray-600 rounded dark:bg-gray-700">
-                <div className="h-2 bg-blue-500 rounded w-[17%]"></div>
-              </div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-[40px]">17%</span>
-            </div>
-            <div className="flex items-center mt-2">
-              <a href="#" className="whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">3 star</a>
-              <div className="w-full h-2 mx-4 bg-gray-600 rounded dark:bg-gray-700">
-                <div className="h-2 bg-blue-500 rounded w-[8%]"></div>
-              </div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-[40px]"> 8%</span>
-            </div>
-            <div className="flex items-center mt-2">
-              <a href="#" className="whitespace-nowrap text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">2 star</a>
-              <div className="w-full h-2 mx-4 bg-gray-600 rounded dark:bg-gray-700">
-                <div className="h-2 bg-blue-500 rounded w-[4%]"></div>
-              </div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-[40px]"> 4%</span>
-            </div>
-            <div className="flex items-center mt-2">
-              <a href="#" className="whitespace-nowrap  text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">1 star</a>
-              <div className="w-full h-2 mx-4 bg-gray-600 rounded dark:bg-gray-700">
-                <div className="h-2 bg-blue-500 rounded w-[1%]"></div>
-              </div>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-[40px]"> 1%</span>
-            </div>
-
+      <div className="flex flex-col w-3/4 sm:full justify-center items-center ml-4 sm:ml-0">
+            <BarRating data={ratingData} factor={4}/>
       </div>
 
           </div>

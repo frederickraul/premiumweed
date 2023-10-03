@@ -155,7 +155,7 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
           '>
           <div className='w-full flex flex-row items-center justify-between'>
-            <div className='text-lg font-bold '> Reviews</div>
+            <div className='text-lg font-bold uppercase text-neutral-500'> Reviews</div>
             <div className="w-[70px] md:w-[60px] lg:w-[50px]">
               <FloatingButton
                 label='Write a review'
