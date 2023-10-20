@@ -49,7 +49,7 @@ const defaultLocation = {
   ]
 };
 
-const RentModal = () => {
+const ListingModal = () => {
 
   const {getStateByValue} = useCountries();
 
@@ -116,16 +116,7 @@ const RentModal = () => {
   const website = watch('website');
   const zipcode = watch('zipcode');
   
-  // //Testing Area  
-  // useEffect(() => {
-  //   if(pin){
-  //     console.log(pin[0] + ','+pin[1]);
-  //   }
-  // }, [pin]);
-  
-
-  // .Testing Area
-
+ 
   useEffect(() => {
     resetStateSelect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -657,4 +648,4 @@ if(step === STEPS.ADDRESS){
   )
 }
 
-export default RentModal
+export default ListingModal

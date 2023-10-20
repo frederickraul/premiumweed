@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { differenceInDays, eachDayOfInterval } from 'date-fns';
 
 import useLoginModal from "@/app/hooks/useLoginModal";
-import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
+import { SafeListing, SafeProduct, SafeReservation, SafeUser } from "@/app/types";
 
 import Container from "@/app/components/Container";
 import { categories } from "@/app/components/navbar/Categories";
@@ -32,6 +32,7 @@ import ProductRating from "./menu/[productId]/ProductRating";
 import Reviews from "./menu/[productId]/Reviews";
 import { reviewList } from "@/app/const/reviews";
 import ReviewModal from "@/app/components/modals/ReviewModal";
+import EmptySpace from "@/app/components/EmptySpace";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -40,16 +41,16 @@ const initialDateRange = {
 };
 
 interface ListingClientProps {
-  reservations?: SafeReservation[];
   listing: SafeListing & {
     user: SafeUser;
   };
+  products:SafeProduct[];
   currentUser?: SafeUser | null;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
-  reservations = [],
+  products,
   currentUser
 }) => {
   const { getStatesOfCountry } = useCountries();
@@ -75,20 +76,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const loginModal = useLoginModal();
   const router = useRouter();
 
-  const disabledDates = useMemo(() => {
-    let dates: Date[] = [];
 
-    reservations.forEach((reservation: any) => {
-      const range = eachDayOfInterval({
-        start: new Date(reservation.startDate),
-        end: new Date(reservation.endDate)
-      });
-
-      dates = [...dates, ...range];
-    });
-
-    return dates;
-  }, [reservations]);
 
   const category = useMemo(() => {
      return categories.find((items) => 
@@ -370,14 +358,22 @@ const ListingClient: React.FC<ListingClientProps> = ({
           '>
             <div className='w-full my-5 flex flex-row items-center justify-between'>
                 <div>
-                    <div className='text-xs font-sans ml-5 mb-1 text-neutral-500'>{list.length} results found</div>
+                    <div className='text-xs font-sans ml-5 mb-1 text-neutral-500'>{products.length} results found</div>
                     <div className='text-lg font-bold m-0 ml-5'> All Products</div>
                 </div>
                 <div>
                       <FloatingButton color='bg-black' icon={MdFilterList} small onClick={toggleFilterPanel} label=''/>
                 </div>
             </div>
-            {resultsFound ? <List isLoading={()=>{toggleIsLoading()}} list={list} /> : <EmptyView/>}
+            {products.length >= 1 ? <List isLoading={()=>{toggleIsLoading()}} list={products} action={()=>{}} /> : 
+            <div className="h-[20vh] flex flex-col gap-2 justify-center  items-center">
+            <Heading
+              center
+              title={'There are not items for this listing yet'}
+              subtitle={'Wait for it!!!'}
+            />
+            </div>
+            }
         </div>
     </Container>
     <Container>
@@ -408,7 +404,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
             </div>
           </div>
           <ProductRating />
-          <div id="reviews">
+          <div id="reviews" className="mb-20">
             <Reviews reviewList={reviews.reverse()} />
             <ReviewModal
               isOpen={isReviewModalOpen}

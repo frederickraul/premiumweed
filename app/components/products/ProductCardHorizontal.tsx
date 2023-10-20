@@ -9,7 +9,7 @@ import HeartButton from '../HeartButton';
 import Button from '../Button';
 import { Rating } from '@mui/material';
 import { AiOutlineClockCircle, AiOutlineFacebook, AiOutlineInstagram, AiOutlineQuestion, AiOutlineShareAlt, AiOutlineShop, AiOutlineShopping, AiOutlineStar, AiOutlineTwitter } from 'react-icons/ai';
-import { SafeListing, SafeUser } from '@/app/types';
+import { SafeListing, SafeProduct, SafeUser } from '@/app/types';
 import DoubleButton from '../DoubleButton';
 import ConfirmModal from '../modals/ConfirmModal';
 import { formatTime, isOpen } from '@/app/const/hours';
@@ -22,7 +22,7 @@ import { dataList, defaultImage } from '@/app/const';
 
 
 interface ProductCardProps {
-  data: any;
+  data: SafeProduct;
   onEditAction?: (id: string) => void;
   onAction?: (id: string) => void;
   onActionSecond?: (id: string) => void;
@@ -49,9 +49,9 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
 
 
   const router = useRouter();
-  const { getByValue } = useCountries();
-  const location = getByValue(data.locationValue);
+
   const title = data.title;
+  const totalPrice = Number(data.totalPrice);
 
   const [stars, setStars] = useState<number | null>(2);
   const [quantity, setQuantity] = useState(0);
@@ -199,7 +199,7 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
 
                 </div>
                 <div className='text-xs text-neutral-700 mt-4'>
-                <span className='font-bold text-lg'>${parseFloat(data.price).toFixed(2)} </span> / {data.deliveryFee}G
+                <span className='font-bold text-lg'>${(totalPrice).toFixed(2)} </span> / {data.portion}
                 </div>
                 <div className='flex mt-5 flex-col'>
                   <span className='font-bold text-sm'>Quantity</span>
@@ -229,7 +229,7 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                   border-b-neutral-300
                     border-b-[1px] pb-10'>
                   <span className='font-bold text-lg pb-5'>Product description</span>
-                  <div className='font-light text-neutral-700'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </div>
+                  <div className='font-light text-neutral-700'>{data.description}</div>
                 </div>
                 
               </div>

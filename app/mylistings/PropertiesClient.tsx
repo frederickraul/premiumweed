@@ -10,7 +10,6 @@ import { SafeListing, SafeUser } from "@/app/types";
 import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
-import confirmModal from '../components/modals/ConfirmModal';
 import useConfirmModal from "../hooks/useConfirmModal";
 
 interface PropertiesClientProps {

@@ -18,10 +18,12 @@ model User {
   hashedPassword  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  favoriteIds     String[] @db.ObjectId
+  favoriteListingsIds     String[] @db.ObjectId
+  favoriteProductsIds     String[] @db.ObjectId
 
   accounts Account[]
   listings Listing[]
+  products Product[]
   reservations Reservation[]
 }
 
@@ -78,10 +80,33 @@ model Listing {
   state           String?
   stateCode       String?
   title           String
+  facebook        String?
+  twitter         String?
+  instagram       String?
   userId          String   @db.ObjectId
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
+  products Product[]
+}
+
+model Product {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String @db.ObjectId
+  listingId   String @db.ObjectId  
+  coverSrc    String?
+  title       String?
+  description String?
+  category    String?
+  portion     String?
+  totalPrice  Int?
+  THC         Int?
+  CBD         Int?
+  stock       Int?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }
 
 model Reservation {

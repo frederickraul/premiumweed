@@ -25,17 +25,20 @@ import Modal from "@/app/components/modals/Modal";
 import ReviewModal from "@/app/components/modals/ReviewModal";
 import { reviewList } from "@/app/const/reviews";
 import FloatingButton from "@/app/components/FloatingButton";
+import Heading from "@/app/components/Heading";
 
 
 
 interface ProductClientProps {
   listing?: any;
   product: any;
+  relatedProducts:any;
   currentUser?: SafeUser | null;
 }
 
 const ProductClient: React.FC<ProductClientProps> = ({
   product,
+  relatedProducts,
   listing,
   currentUser
 }) => {
@@ -45,6 +48,10 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
   const [reviews, setReviews] = useState(reviewList);
   const router = useRouter();
+  
+  const toggleIsLoading = () => {
+    setIsLoading(true);
+  }
 
   useEffect(() => {
     if (product) {
@@ -139,8 +146,17 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
           </div>
           {/* List of products */}
-          {resultsFound ? <List small isLoading={() => { setIsLoading(true) }} list={list} items={5} /> : <EmptyView />}
-        </div>
+          {relatedProducts.length >= 1 ? 
+            <List small items={5} isLoading={()=>{toggleIsLoading()}} list={relatedProducts} action={()=>{}}/> : 
+            <div className="h-[20vh] flex flex-col gap-2 justify-center  items-center">
+            <Heading
+              center
+              title={'There are not items for this listing yet'}
+              subtitle={'Wait for it!!!'}
+            />
+            </div>
+            }        
+            </div>
       </Container>
 
       <Container>
@@ -172,7 +188,7 @@ const ProductClient: React.FC<ProductClientProps> = ({
             </div>
           </div>
           <ProductRating />
-          <div id="reviews">
+          <div id="reviews" className="mb-20">
             <Reviews reviewList={reviews.reverse()} />
             <ReviewModal
               isOpen={isReviewModalOpen}

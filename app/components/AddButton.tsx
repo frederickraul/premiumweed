@@ -7,27 +7,28 @@ import Image from 'next/image';
 import StyledRating from '@/app/components/StyledRating';
 import { colors } from '@/app/const/theme';
 import EditButton from '@/app/components/EditButton';
-import DeleteButton from '@/app/components/DeleteButton';
+import { IoIosAddCircleOutline, IoMdAddCircle, IoMdAddCircleOutline } from 'react-icons/io';
+import { MdOutlineAdd } from 'react-icons/md';
 
 
 
-interface ListItemProps {
+interface ButtonProps {
   item: any;
   small?: boolean;
   isLoading:() => void;
   edit?:boolean;
-  onEditAction?:any;
-  openConfirmModal?:(id:string)=>void;
+  title?:string;
+  action?:()=>void;
  
 }
 
-const ListItem: React.FC<ListItemProps> = ({
+const AddButton: React.FC<ButtonProps> = ({
   item,
   small,
   isLoading,
   edit,
-  onEditAction,
-  openConfirmModal
+  title,
+  action
 }) => {
   const router = useRouter();
   let currentPath = usePathname();
@@ -40,33 +41,27 @@ const ListItem: React.FC<ListItemProps> = ({
 return(
   
   <div className='listItem-wrap cursor-pointer col-span-1 group min-w-[120px]'
-  onClick={()=> {
-    !edit && isLoading();
-    !edit && router.push(`${currentPath}/menu/${item.id}`,item)
-  }}
+  onClick={action}
   >
-    <div className='w-full aspect-square relative'>
-    <Image src={item.coverSrc ? item.coverSrc : "/images/Product-Image-Coming-Soon2.jpg"} fill alt='' className='group-hover:scale-110 transition'/>
+    <div className='w-full aspect-square relative bg-neutral-50 mt-5 rounded-xl '>
+      <div className='w-full h-full  flex justify-center items-center rounded-xl border-4 border-green-400 group-hover:scale-110 transition'>
+      <MdOutlineAdd size={110} className='fill-green-400'/>
+      </div>
    <div className='relative mt-5 mr-2'>
-   {edit && <EditButton action={()=>{onEditAction(item)}}/>}
-   {edit && <DeleteButton action={()=>{openConfirmModal&&openConfirmModal(item?.id)}}/>}
    </div>
     </div>
       <h4 className={`
           mt-4 
           font-bold 
           relative
+          text-blue-500
+          text-center
           ${small ? 'text-sm' : 'text-lg'}
          
       `}>
-        {item.title}
+        {title}
         </h4>
-    {item.title && 
-    <div className='flex flex-row mt-1'>
-      <StyledRating size={small ? 13 : 16}/>
-      <span className='ml-1 text-sm lg:text-base'>5.0</span>
-    </div>
-    }
+
     <div className={`
         flex 
         flex-row 
@@ -78,10 +73,10 @@ return(
         text-neutral-500
         `}>
         <div className='text-base'>
-          THC {item.THC}%
+          {item.title &&'THC 75%'}
           </div>
         <div className={`${small ? 'ml-0 text-base' : 'ml-4 text-base'}`}>
-        CBD {item.CBD}%
+        {item.title && 'CBD 25%'}
           </div>
     </div>
     <div className={`
@@ -95,4 +90,4 @@ return(
 );
 }
 
-export default ListItem;
+export default AddButton;

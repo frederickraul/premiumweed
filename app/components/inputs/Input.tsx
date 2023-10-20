@@ -2,7 +2,9 @@
 'use client';
 
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { AiOutlinePercentage } from "react-icons/ai";
 import { BiDollar } from "react-icons/bi";
+import { MdPercent } from "react-icons/md";
 
 interface InputProps{
   id: string;
@@ -12,6 +14,7 @@ interface InputProps{
   small?: boolean;
   optional?: boolean;
   formatPrice?: boolean;
+  formatPercent?: boolean;
   required?: boolean;
   placeholder?: string;
   register: UseFormRegister<FieldValues>,
@@ -27,6 +30,7 @@ const Input: React.FC<InputProps> = ({
   disabled,
   small,
   formatPrice,
+  formatPercent,
   required,
   register,
   errors
@@ -34,8 +38,19 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="w-full relative">
-      {formatPrice  && (
+      {formatPrice && (
         <BiDollar
+          size={24}
+          className="
+            text-neutral-700
+            absolute
+            top-5
+            left-2
+          "
+        />
+      )}
+      {formatPercent && (
+        <AiOutlinePercentage
           size={24}
           className="
             text-neutral-700
@@ -62,11 +77,10 @@ const Input: React.FC<InputProps> = ({
           transition
           disabled:opacity-70
           disabled:cursor-not-allowed
-          ${formatPrice ? 'pl-9' : 'pl-4'}
+          ${(formatPrice || formatPercent) ? 'pl-9' : 'pl-4'}
           ${errors[id] ? 'border-red-500' : 'border-neutral-300'}
           ${errors[id] ? 'focus: border-red-500' : 'focus:border-black'}
           ${small ? 'text-xs' : 'text-xs sm:text-sm 2xl:text-base'}
-          ${small ? 'p-2' : 'p-2 2xl:p-4'}
           ${small ? 'p-3' : label ? 'pt-4 2xl:pt-6' : 'pt-3'}
           ${small ? 'font-light' : 'font-semibold'}
           ${type === "checkbox" ? 'w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded  dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600': ''}
@@ -86,7 +100,7 @@ const Input: React.FC<InputProps> = ({
           top-4 2xl:top-5
           z-0
           origin-[0]
-          ${formatPrice ? 'left-9' : 'left-4'}
+          ${(formatPrice || formatPercent) ? 'left-9' : 'left-4'}
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0
           peer-focus:scale-75

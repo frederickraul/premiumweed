@@ -3,45 +3,37 @@
 import axios from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
-import { Range } from "react-date-range";
 import { useRouter } from "next/navigation";
-import { differenceInDays, eachDayOfInterval } from 'date-fns';
 
-import useLoginModal from "@/app/hooks/useLoginModal";
-import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
+import { SafeListing, SafeProduct, SafeUser } from "@/app/types";
 
 import Container from "@/app/components/Container";
-import { categories } from "@/app/components/navbar/Categories";
-import Heading from "@/app/components/Heading";
-import ListingCard from "@/app/components/listings/ListingCard";
-import InputUnregistered from "@/app/components/inputs/InputUnregistered";
+
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import Button from "@/app/components/Button";
-import Input from "@/app/components/inputs/Input";
-import PreviewListingCard from "@/app/components/listings/PreviewListingCard";
-import CategoryInput from "@/app/components/inputs/CategoryInput";
-import CustomSelect from "@/app/components/inputs/Select";
-import InputPhone from "@/app/components/inputs/InputPhone";
+
 import dynamic from "next/dynamic";
 import useCountries from "@/app/hooks/useCountries";
-import ImageUpload from "@/app/components/inputs/ImageUpload";
-import Modal from "@/app/components/modals/Modal";
-import { AiFillPicture, AiOutlineClockCircle } from "react-icons/ai";
-import { MdMonochromePhotos } from "react-icons/md";
-import { formatTime, hours } from "@/app/const/hours";
-import CountrySelect from "@/app/components/inputs/CountrySelect";
 
-const initialDateRange = {
-  startDate: new Date(),
-  endDate: new Date(),
-  key: 'selection'
-};
+import { BiCheckShield, BiPlus } from "react-icons/bi";
+import ListingCardHorizontal from "@/app/components/listings/ListingCardHorizontal";
+import List from "@/app/listings/[listingId]/List";
+import EmptyView from "@/app/components/common/EmptyView";
+import { dataList, defaultImage, editMode } from "@/app/const";
+import EditButton from "@/app/components/EditButton";
+import ProductModal from "@/app/components/modals/ProductModal";
+import ListingModal from "@/app/components/modals/ListingModal";
+import ListingEditModal from "@/app/components/modals/ListingEditModal";
+import Alert from "@/app/components/Alert";
+import useConfirmModal from "@/app/hooks/useConfirmModal";
+import ConfirmModal from "@/app/components/modals/ConfirmModal";
+
+
 
 interface ListingClientProps {
-  reservations?: SafeReservation[];
   listing: SafeListing & {
     user: SafeUser;
   };
+  products:SafeProduct[];
   currentUser?: SafeUser | null;
 }
 
@@ -50,9 +42,11 @@ interface ListingClientProps {
 
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
+  products,
   currentUser
 }) => {
 
+  
   const {getByValue,getStateByValue, getCityByValue} = useCountries();
 
     
@@ -95,6 +89,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
       description: listing.description,
       horary: listing.horary,
       website: listing.website,
+      facebook: listing.facebook,
+      instagram: listing.instagram,
+      twitter: listing.twitter,
     }
   });
 
@@ -118,17 +115,23 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const zipcode = watch('zipcode');
   const phone = watch('phone');
   const formattedPhone = watch('formattedPhone');
+  const website = watch('website');
+  const twitter = watch('twitter');
+  const facebook = watch('facebook');
+  const instagram = watch('instagram');
 
  
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const confirmModal = useConfirmModal();
+
+  const [deleteProductId, setDeleteProductId] = useState('');
   const [selectedCountry, setSelectedCountry] = useState(location?.value);
   const [selectedState, setSelectedState] = useState(state?.value);
-  const [step, setStep] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNewChange, setIsNewChange] = useState(false);
 
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsNewChange(false);
     setIsLoading(true);
     
     axios.post(`/api/listings/${listing.id}`, data)
@@ -160,18 +163,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [city]);
 
-
-  const StateSelect = useMemo(() => dynamic(() => import ("@/app/components/inputs/StateSelect"),{
-    ssr:false
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [selectedCountry]);
-
-  const CitySelect = useMemo(() => dynamic(() => import ("@/app/components/inputs/CitySelect"),{
-    ssr:false
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [selectedState]);
-
-
+  
   const resetStateSelect = () => {
     if(selectedCountry === location?.value){
       // console.log("Wait a second");
@@ -226,14 +218,31 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }    
   }
   //For Regular Inputs
-  const setCustomValue = (id: string, value:any) => {    
+  const setCustomValue = (id: string, value:any) => {   
+    if(isListingModalOpen){
+      setIsNewChange(true); 
+    }
     setValue(id, value, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true,
     })
   }
-
+  
+    //For Regular Inputs
+    const setCustomPhone = (phone: string, formattedPhone:string) => {    
+      setValue('phone', phone, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+      setValue('formattedPhone', formattedPhone, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+    }
+    
     //Week Hours
     const setWeekHours = (itemSelected: any) => {
       horary.map((item:any)=>{
@@ -247,508 +256,249 @@ const ListingClient: React.FC<ListingClientProps> = ({
     }
   
   
-  const setModalOpen = () =>{setIsModalOpen(true)}
-  const setModalClose = () =>{setIsModalOpen(false)}
 
-// LOGO COVER OPERATION
-    let bodyContent = (
-      <>
-      
-      </>
-    );
 
-    if(step === "logo"){
-      bodyContent = (
-        <div className="flex flex-col gap-8">
-          <Heading
-            title="Add a logo of your listing"
-            subtitle="show guest what your logo looks like!"
-          />
-          <ImageUpload 
-            value={imageSrc}
-            onChange={(value) => setCustomValue('imageSrc', value)}
-          />
-        </div>
-      )
-    }
 
-    // IMAGES STEP
-    if(step === 'cover'){
-      bodyContent = (
-        <div className="flex flex-col gap-8">
-          <Heading
-            title="Add a cover of your listing"
-            subtitle="show guest what your cover looks like!"
-          />
-          <ImageUpload 
-            value={coverSrc}
-            onChange={(value) => setCustomValue('coverSrc', value)}
-          />
-        </div>
-      )
-    }
+  const [selectedProduct, setSelectedProduct] = useState('');
+  const [resultsFound, setResultsFound] = useState(true);
 
-      // INFO STEP
-  if(step === "operation"){
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-          <Heading
-            title="Share business hours"     
-            subtitle="When are you opening?"
-          />
-         
-         <div className="flex flex-col">
-         {
-           horary.map((item:any,i:number) =>(
-            <div key={item.day} className="flex flex-col mb-2">
-            <div className="flex flex-col sm:flex-row items-center justify-center mb-2">
-              <div className="sm:mr-4 pl-5 sm:pl-0 min-w-[100px] w-[100%] sm:w-auto font-bold text-left">
-                  {item.day}
-              </div>
-              <div className="flex flex-row">
-              <div className="w-[150px]">
-                <CustomSelect
-                    options={hours}
-                    value={item.open}
-                    disabled={item.fulltime || item.closed}
-                    onChange={(value) => {
-                      item.open = value;
-                      setValue('horary',[...horary]);
-                    }}
-                />
-               
-              </div>
-            <div className="font-bold m-2"> - </div>
-            <div className="w-[150px]">
-                <CustomSelect
-                    options={hours}
-                    value={item.close}
-                    disabled={item.fulltime || item.closed}
-                    onChange={(value) => {
-                      item.close = value;
-                      setValue('horary',[...horary]);
-                    }}
-                />
-            </div>
-              </div>
-            <div className="flex flex-row sm:flex-col">
-                <div className="flex items-center pl-2 ml-4">
-                  <InputUnregistered
-                        value={item.fulltime}
-                        label=""
-                        type="checkbox"
-                        disabled={isLoading}
-                        checked={item.fulltime}
-                        onChange={(e) => {
-                          item.fulltime = !item.fulltime;
-                          if(item.fulltime){
-                            item.closed = false;
-                            }
-                          setValue('horary',[...horary]);
-                        }}
-                    />
-                        <label className="w-full ml-2 text-sm font-medium text-gray-900 min-w-[100px]"> Open 24 hours</label>
-
-                  </div>
-                  <div className="flex items-center pl-2 ml-4">
-                  <InputUnregistered
-                        checked={item.closed}
-                        label=""
-                        type="checkbox"
-                        disabled={isLoading}
-                        onChange={(e) => {
-                          item.closed = !item.closed;
-                          if(item.closed){
-                          item.fulltime = false;
-                          }
-                          setValue('horary',[...horary]);
-                        }}
-                    />
-                  <label className="w-full ml-2 text-sm font-medium text-gray-900 min-w-[100px]"> Closed </label>
-
-                </div>
-            </div>
-          </div>
-            {item.day === "Monday" &&(
-              <div className="flex flex-row justify-center items-center mb-2 text-green-700 cursor-pointer"
-              onClick={()=>{setWeekHours(item);}
-            }
-            >
-              <AiOutlineClockCircle/>
-              <div>{  'Use these hours for all week days'}</div>
-            </div>
-            )}
-          <hr/>
-            </div>
-            ))
-          }
-          </div>
-         </div>
-    )
+  const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isListingModalOpen, setIsListingModalOpen] = useState(false);
+  
+  
+  const toggleIsLoading = () => {
+    setIsLoading(true);
   }
-// ./LOGO COVER OPERATION
+  
+  
+  
+  const setModalOpen = () =>{setSelectedProduct('');setIsModalOpen(true)}
+  const setModalClose = () =>{setIsModalOpen(false)}
+  const setListingModalOpen = () =>{setIsListingModalOpen(true)}
+  const setListingModalClose = () =>{setIsListingModalOpen(false)}
+
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+  const formatDate = (value:any) =>{
+    var dt = new Date(value);
+    const joined = (monthNames[dt.getMonth()]) + " " + dt.getFullYear();
+
+    return joined;
+
+  }
 
 
-  return ( 
+const handleSelectedProduct = (item:any) =>{
+  setModalOpen();
+  setSelectedProduct(item);
+}
+
+const HandleEditListing = (step:string) =>{
+  setStep(Number(step));
+  setListingModalOpen();
+
+}
+
+// PRODUCT MANEGER
+  const openConfirmModal = (id: string) =>{
+      confirmModal.onOpen();
+        setDeleteProductId(id);
+  }
+
+  const onProductDelete = useCallback(() => {
+    setIsLoading(true);
+    axios.delete(`/api/products/${deleteProductId}`)
+    .then(() => {
+      toast.success('Product deleted');
+      router.refresh();
+    })
+    .catch((error) => {
+      toast.error(error?.response?.data?.error)
+    })
+    .finally(() => {
+      setDeleteProductId('');
+      setIsLoading(false);
+    })
+  }, [router,deleteProductId]);
+
+
+
+
+return ( 
+  <div style={{ 
+    backgroundImage: `url("/images/editMode2.png")` 
+  }}>
+  <Container full>
     <Container isLoading={isLoading}>
-      <div>
+      <div 
+        className="
+          bg-white
+          max-w-screen-lg 
+          mx-auto
+          mt-0 sm:mt-5 md:mt-0
+        "
+      >
+        
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-row text-blue-500 font-bold items-center text-2xl">
+                My Listing <span className="text-neutral-400 ml-2"> - Edit Section</span>
+          </div>
+          {isNewChange && <Alert action={handleSubmit(onSubmit) }/>}
+          <div className="flex flex-col md:flex-row text-base sm:text-2xl">
+              <div className="text-neutral-500 relative pr-8 mr-5">{category}
+              <EditButton action={()=>{HandleEditListing('2')}}/>
+
+              </div>
+              <div className="flex flex-row"> 
+                <div className="flex flex-row text-blue-500 font-bold items-center ml-0 sm:ml-3">
+                  <BiCheckShield/>
+                  <span > Claimed</span>
+                </div>
+                <div className="capitalize ml-3">
+                  Joined {formatDate(listing.createdAt)}
+                </div>
+              </div>
+          </div>
+
+      
+          
+          <ListingCardHorizontal
+          key={listing.id}
+          actionId={listing.id}
+          //onEditAction={HandleEditListing}
+          //onAction={onDelete}
+          //onActionSecond={HandleEditListing}
+          onEditButton={HandleEditListing}
+          disabled={isLoading}
+          actionLabel="Edit"
+          actionLabelSecond="Delete listing"
+          currentUser={currentUser}
+          edit
+          data={{
+            title,
+            address,
+            visibleAddress,
+            imageSrc,
+            coverSrc,
+            location,
+            zipcode,
+            city:city?.label,
+            state:state?.label,
+            formattedPhone,
+            category,
+            horary,
+            website,
+            facebook,
+            twitter,
+            instagram
+          }}
+          />
+
+      
           <div 
-            className="flex flex-row mb-20"
+            className="
+              grid 
+              grid-cols-1 
+              md:grid-cols-7 
+              md:gap-10 
+              mt-6
+              mb-0
+            "
           >
-            <div className="w-[100%] md:w-[80%] 2xl:w-[70%]">
-              <div className="mt-0 sm:mt-5 md:mt-0 mb-10">
-              <Heading
-                    title={listing.title}
-                    subtitle="UPDATE"
-                  />
-              </div>
-                <div className="w-full">
-                <div className="flex flex-wrap -mx-3 mb-6">
-                  <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 mb-2">
-                      Business Name
-                    </label>
-                    <Input
-                        id="title"
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        required
-                      />
-                  </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 mb-2">
-                      Listing Category
-                    </label>
-                      <CustomSelect
-                        options={categories}
-                        value={category}
-                        onChange={(value) => {
-                          setValue('category',value);
-                        }}
-                    />
-                  </div>
-                </div>
-                <hr/>
-                <div className="flex font-bold mt-2 mb-1">
-                Where is your company located?
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6 mt-2">
-                  <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 text-xs mb-2">
-                      Country
-                    </label>
-                    <CountrySelect
-                      id='location'
-                      register={register}
-                      errors={errors}
-                      required
-                      value={location}
-                      onChange={(value)=>{
-                        setCustomValue('location',value); 
-                      }}
-                    />
-
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap -mx-3 mb-2">
-                  <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                    <label className="text-xs block tracking-wide text-gray-700 mb-2">
-                      Address
-                    </label>
-                    <Input
-                        id="address"
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        required
-                      />
-                  </div>
-                  <div className="w-full md:w-1/3 px-3 mb-2 md:mb-0">
-                    <label className="text-xs block tracking-wide text-gray-700 mb-2">
-                      Apt/Suite/Other <span className="text-gray-400">(Optional)</span>
-                    </label>
-                    <div className="relative">
-                    <Input
-                        id="apartment"
-                        placeholder="Ste 5"
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-row items-start ml-4 pt-0 md:pt-2">
-                   <div className="max-w-[50px] flex ">
-                   <InputUnregistered
-                          label=""
-                          type="checkbox"
-                          disabled={isLoading}
-                          checked={visibleAddress}
-                          onChange={() => {
-                            const value = !visibleAddress;
-                            setValue('visibleAddress',value);
-                          }}
-                    />
-                   </div>
-                  <label className="ml-2 text-xs font-medium text-gray-900 whitespace-wrap"> (Check the box to hide address from the public) Only City, State and Zip Code will be seen by public.</label>
-
-                  </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6 mt-2">
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 text-xs mb-2">
-                      City
-                    </label>
-                    <CitySelect
-                      //stateCode={selectedState}
-                      countryCode={selectedCountry}
-                      value={city}
-                      onChange={(value)=>{setCustomValue('city',value)}}
-                    /> 
-
-                  </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 text-xs  mb-2" >
-                      State
-                    </label>
-                    <div className="relative">
-                    <StateSelect
-                      id='state'
-                      register={register}
-                      errors={errors}
-                      required
-                      value={state}
-                      countryCode={location.value}
-                      onChange={(value)=>{setCustomValue('state',value)}}
-                    />
-
-                    </div>
-                  </div>
-                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label className="block tracking-wide text-gray-700 text-xs  mb-2">
-                      Zip
-                    </label>
-                    <Input
-                        id="zipcode"
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        required
-                      />
-                  </div>
-                </div>
-                <hr/>
-                <div className="flex flex-wrap -mx-3 mb-6 mt-2">
-                    <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2">
-                        Phone Number
-                      </label>
-                      {/* <Input
-                        id="phone"
-                        label=""
-                        type="number"
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                        required
-                      /> */}
-                      <InputPhone
-                        label=""
-                        country='us'
-                        value={phone}
-                        onChange={(phone,formattedPhone) => {
-                          setValue('phone',phone);
-                          setValue('formattedPhone',formattedPhone);
-                        }}
-                        
-                      />
-                    </div>
-                </div>
-                <hr/>
-                <div className="flex flex-wrap -mx-3 mb-6 mt-2 justify-between">
-                    <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2">
-                        Hours of Operation
-                      </label>
-                      <div className="">
-                        {
-                        horary.map((item:any,i:number) =>(
-                          <div key={item.day} className="flex flex-col whitespace-nowrap">
-                              <div className="flex flex-row items-center justify-between">
-                                <div className="sm:mr-4 pl-5 sm:pl-0 min-w-[100px] w-[100%] sm:w-auto text-xs">
-                                    {item.day}
-                                </div>
-                              {item.fulltime &&
-                                  <div className='font-bold text-green-700 flex flex-row items-center '>
-                                    <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>Open 24 Hours</span>
-                                  </div>
-                              }
-                              {item.closed &&
-                                  <div className='font-bold text-red-700 flex flex-row items-center '>
-                                    <AiOutlineClockCircle size={12}/> <span className='ml-1 text-sm'>Closed</span>
-                                  </div>
-                              }
-                              {!item.closed && !item.fulltime &&
-                                <div className="flex flex-row items-center whitespace-nowrap">
-                                    <div className="max-w-[220px] text-xs">
-                                    {formatTime(item.open)}
-                                    </div>
-                                    <div className="ml-2 mr-2"> - </div>
-                                    <div className="max-w-[220px] text-xs">
-                                      {formatTime(item.close)}
-                                    </div>
-                                </div>
-                              }  
-                            </div>
-                          </div>
-                          ))
-                        }
-                      </div>
-                    </div>
-                    <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0 md:pt-10 items-center flex flex-wrap justify-end">
-                       <div className="w-1/2 md:w-full">
-                        <Button
-                            styles='border-blue-500 text-blue-500'
-                            outline
-                            label="Edit"
-                            onClick={()=>{
-                              setStep('operation');
-                              setModalOpen();
-                            }}
-                            small
-                          />
-                       </div>
-                    </div>
-                </div>
-                <hr/>
-                <div className="flex flex-wrap -mx-3 mb-6 mt-2">
-                    <div className="w-full md:w-2/3 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2">
-                        Website Link <span className="text-xs text-neutral-400">(Optional)</span>
-                      </label>
-                      <Input
-                        id="website"
-                        disabled={isLoading}
-                        register={register}
-                        errors={errors}
-                      />
-                    </div>
-                </div>
-                <hr/>
-
-                <div className="flex flex-wrap -mx-3 mb-6 mt-2">
-                    <div className="w-1/2 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2 text">
-                       Logo
-                      </label>
-                      <Button
-                        icon={MdMonochromePhotos}
-                        label='Update Logo'
-                        color='bg-black'
-                        styles='border-white text-xs md:text-base'
-                        borderless
-                        roundless
-                        onClick={()=>{
-                          setStep('logo');
-                          setModalOpen();
-                        }}
-                        />                    
-                      </div>
-                    <div className="w-1/2 px-3 mb-6 md:mb-0">
-                      <label className="block tracking-wide text-gray-700 mb-2">
-                       Cover Photo
-                      </label>
-                        <Button
-                          icon={MdMonochromePhotos}
-                          label='Update Cover'
-                          color='bg-black'
-                          styles='border-white text-xs md:text-base'
-                          borderless
-                          roundless
-                          onClick={()=>{
-                            setStep('cover');
-                            setModalOpen();
-                          }}
-                          />      
-                    </div>
-                </div>
-                <hr/>
-
-                <div className="flex flex-wrap -mx-3 mb-6 mt-2 justify-center">
-                  <div className="w-1/2 px-3 mb-6 md:mb-0 mt-5">
-                    <Button
-                            styles='text-white'
-                            label="CANCEL"
-                            disabled={isLoading}
-                            onClick={()=>{router.push('/mylistings')}} 
-                            />
-                    </div>
-                  <div className="w-1/2 px-3 mb-6 md:mb-0 mt-5">
-                    <Button
-                            styles='text-white border-blue-500'
-                            color="bg-blue-500"
-                            borderless
-                            label="UPDATE"
-                            disabled={isLoading}
-                            onClick={handleSubmit(onSubmit) }
-                      />
-                    </div>
-                </div>
-                
-              </div>
-
-              <Modal
-                isOpen={isModalOpen}
-                onClose={setModalClose}
-                onSubmit={setModalClose}
-                actionLabel={"Continue"}
-                secondaryActionLabel={undefined}
-                secondaryAction={setModalClose}
-                title="Update"
-                body={bodyContent}
-                size={step === 'operation' ? 'lg' : 'md'}
-                disabled={isLoading}
-              />
-
-            </div>
-            {/* PREVIEW LISTING */}
-            <div className="hidden md:flex w-[20%] 2xl:w-[30%] ml-10 2xl:ml-20 overflow-y-auto">
-              <div className='text-start overflow-y-auto h-[90vh]  w-full'>
-                  <div className="font-bold text-neutral-500">
-                      Business Preview
-                  </div>
-                  <div className="font-bold text-lg mt-2">
-                      {listing.category}
-                  </div>
-                  <PreviewListingCard
-                    currentUser={currentUser}
-                    key={listing.id}
-                    data={{
-                        id: listing.id,
-                        imageSrc: imageSrc,
-                        title: title,
-                        apartment: apartment,
-                        address: address,
-                        country: location?.value,
-                        state: state?.label,
-                        city: city?.label,
-                        zipcode: zipcode,
-                        formattedPhone: formattedPhone,
-                        category:category,
-                        visibleAddress: visibleAddress,
-                      }}
-                  />
-            
-                </div>
-            </div>
-            {/* ./PREVIEW LISTING */}
-          </div> 
+          
+          
+          </div>
         </div>
+      </div>
     </Container>
-   );
+    <Container>
+      <div 
+      className='
+          lg:w-[960px]
+          w-full
+          m-auto
+          pt-5
+          mb-10
+          bg-white
+          '>
+            <div className='w-full my-5 flex flex-row items-center justify-between'>
+                <div className="relative">
+                    <div className='text-xs font-sans ml-5 mb-1 text-neutral-500'>{products.length} results found</div>
+                    <div className='text-lg font-bold m-0 ml-5'> All Products</div>
+                </div>
+
+            </div>
+            {resultsFound ? 
+            <div>
+
+              <List 
+                  isLoading={()=>{toggleIsLoading()}} 
+                  list={products} 
+                  edit 
+                  action={setModalOpen} 
+                  secondAction={handleSelectedProduct}
+                  openConfirmModal={openConfirmModal}
+                  />
+              
+              <ConfirmModal onSubmit={onProductDelete} body='You are about to delete your product!!'/>
+ 
+              </div>
+                  
+              : 
+                <EmptyView/>
+              }
+        </div>
+        <ProductModal 
+            product={selectedProduct} 
+            listingId={listing.id} 
+            isOpen={isModalOpen} 
+            onClose={setModalClose} 
+            onSave={()=>alert('Saving')}/>
+    </Container>
+
+    <ListingEditModal 
+      setCustomValue={setCustomValue}
+      setCustomPhone={setCustomPhone}
+      selectedStep={step}
+      isOpen={isListingModalOpen} 
+      onClose={setListingModalClose} 
+      selectedCountry={selectedCountry}
+      selectedState={selectedState}
+      resetCitySelect={resetCitySelect}
+      resetStateSelect={resetStateSelect}
+      register={register}
+      errors={errors}
+      listing={{
+        title,
+        address,
+        visibleAddress,
+        apartment,
+        zipcode,
+        category,
+        location,
+        state,
+        city,
+        pin,
+        horary,
+        coverSrc,
+        imageSrc,
+        phone,
+        formattedPhone,
+        website,
+        facebook,
+        twitter,
+        instagram
+      
+      }}
+      />
+  </Container>
+ 
+ </div>
+ );
 }
  
 export default ListingClient;

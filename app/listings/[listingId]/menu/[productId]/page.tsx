@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation'
 import React from 'react'
 import ProductClient from './ProductClient';
 import getListingById from '@/app/actions/getListingById';
+import getProductById from '@/app/actions/getProductById';
+import getProducts from '@/app/actions/getProducts';
 
 
 interface IParams{
@@ -15,19 +17,13 @@ interface IParams{
 const ProductPage = async ({params}:{params: IParams}) => {
   const {productId} = params;
   const listing = await getListingById(params);
-    const currentUser = await getCurrentUser();
+  const product = await getProductById(params);
+  const relatedProducts = await getProducts(params);
+  const currentUser = await getCurrentUser();
 
 
-  const getProductById = (id:number) => {
-    const updatedList = dataList.find(
-      (item) => item.id === id
-    );
-
-    return updatedList;
-  }
   //const params = useParams()
   //const listing = await getListingById(params);
-  const product = getProductById(Number(productId));
   //const currentUser = await getCurrentUser();
 
   if(!product){
@@ -40,6 +36,7 @@ const ProductPage = async ({params}:{params: IParams}) => {
       <ProductClient
         listing={listing}
         product={product}
+        relatedProducts={relatedProducts}
         currentUser={currentUser}
       />
     </div>

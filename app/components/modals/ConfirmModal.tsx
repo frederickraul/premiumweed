@@ -9,10 +9,12 @@ import useConfirmModal from '@/app/hooks/useConfirmModal';
 
 interface ModalProps {
   onSubmit:  () => void;
+  body?:string;
 }
 
 const ConfirmModal: React.FC<ModalProps> = ({
-  onSubmit
+  onSubmit,
+  body
 }) => {
   const confirmModal = useConfirmModal();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +29,7 @@ const ConfirmModal: React.FC<ModalProps> = ({
     <div className="flex flex-col gap-4">
         <Heading 
           title="Are your sure?" 
-          subtitle="You are about to delete your listing!!"/>    
+          subtitle={body? body : "You are about to delete your listing!!"}/>    
     </div>
   );
 

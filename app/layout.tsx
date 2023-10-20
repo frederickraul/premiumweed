@@ -6,7 +6,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google'
 import Navbar from "./components/navbar";
 
-import RentModal from "./components/modals/RentModal";
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from "./components/modals/RegisterModal";
 
@@ -16,6 +15,7 @@ import SearchModal from "./components/modals/SearchModal";
 import Footer from "./components/footer";
 import { Suspense } from "react";
 import Loading from "./Loading";
+import ListingModal from "./components/modals/ListingModal";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -42,7 +42,7 @@ export default async function RootLayout({
         <div className="relative min-h-[100vh]">
             <div className="pb-[30px] sm:pb-0">
               <ToasterProvider/>
-              <RentModal/>
+              <ListingModal/>
               <LoginModal/>
               <SearchModal/>
               <RegisterModal/>
