@@ -22,16 +22,16 @@ export async function POST(
     throw new Error('Invalid ID');
   }
 
-  let favoriteIds = [...(currentUser.favoriteIds || [])];
+  let favoriteListingsIds = [...(currentUser.favoriteListingsIds || [])];
 
-  favoriteIds.push(listingId);
+  favoriteListingsIds.push(listingId);
 
   const user = await prisma.user.update({
     where: {
       id: currentUser.id
     },
     data: {
-      favoriteIds
+      favoriteListingsIds
     }
   });
 
@@ -54,16 +54,16 @@ export async function DELETE(
     throw new Error('Invalid ID');
   }
 
-  let favoriteIds = [...(currentUser.favoriteIds || [])];
+  let favoriteListingsIds = [...(currentUser.favoriteListingsIds || [])];
 
-  favoriteIds = favoriteIds.filter((id) => id !== listingId);
+  favoriteListingsIds = favoriteListingsIds.filter((id) => id !== listingId);
 
   const user = await prisma.user.update({
     where: {
       id: currentUser.id
     },
     data: {
-      favoriteIds
+      favoriteListingsIds
     }
   });
 
