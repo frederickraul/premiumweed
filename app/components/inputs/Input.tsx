@@ -4,7 +4,6 @@
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { BiDollar } from "react-icons/bi";
-import { MdPercent } from "react-icons/md";
 
 interface InputProps{
   id: string;
@@ -40,23 +39,23 @@ const Input: React.FC<InputProps> = ({
     <div className="w-full relative">
       {formatPrice && (
         <BiDollar
-          size={24}
           className="
             text-neutral-700
             absolute
-            top-5
-            left-2
+            md:top-5
+            top-4
+            left-4
           "
         />
       )}
       {formatPercent && (
         <AiOutlinePercentage
-          size={24}
           className="
             text-neutral-700
             absolute
-            top-5
-            left-2
+            md:top-5
+            top-4
+            left-4
           "
         />
       )}

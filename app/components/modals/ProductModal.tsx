@@ -298,6 +298,7 @@ if(step === STEPS.PRICE){
             disabled={isLoading}
             register={register}
             errors={errors}
+            formatPrice
             required
           />
     </div>
