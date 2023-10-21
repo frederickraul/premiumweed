@@ -103,7 +103,7 @@ const PreviewListingCard: React.FC<ListingCardProps> = ({
               />
             <div className='absolute top-3 right-3'>
                 <HeartButton
-                  listingId={id}
+                  itemId={id}
                   currentUser={currentUser}
                   disable
                 />
