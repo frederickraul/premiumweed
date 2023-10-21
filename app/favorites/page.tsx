@@ -11,7 +11,7 @@ const ListingPage = async () => {
   const products = await getFavoriteProducts();
   const currentUser = await getCurrentUser();
 
-  if (listings.length === 0) {
+  if (listings.length === 0 && listings.length) {
     return (
         <EmptySpace
           title="No favorites found"

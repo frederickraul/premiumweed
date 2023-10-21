@@ -148,7 +148,13 @@ const ProductClient: React.FC<ProductClientProps> = ({
           </div>
           {/* List of products */}
           {relatedProducts.length >= 1 ? 
-            <List small items={5} isLoading={()=>{toggleIsLoading()}} list={relatedProducts} action={()=>{}}/> : 
+            <List
+              small 
+              items={5} 
+              isLoading={()=>{toggleIsLoading()}} 
+              list={relatedProducts} 
+              currentUser={currentUser}
+              action={()=>{}}/> : 
             <div className="h-[20vh] flex flex-col gap-2 justify-center  items-center">
             <Heading
               center
