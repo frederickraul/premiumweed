@@ -23,11 +23,9 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
   const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-      setIsLoading(true);
+      setIsLoading(false);
 
-      if(listings.length > 0){
-        setIsLoading(false);
-       }
+   
   
        
     }, [listings]);
