@@ -8,10 +8,11 @@ import FloatingButton from '@/app/components/FloatingButton';
 import { MdFilterList } from 'react-icons/md';
 import { addProduct } from '@/app/const';
 import AddButton from '@/app/components/AddButton';
-import { SafeProduct } from '@/app/types';
+import { SafeProduct, SafeUser } from '@/app/types';
 import ConfirmModal from '@/app/components/modals/ConfirmModal';
 
 interface ListProps {
+  currentUser?: SafeUser | null;
   list: SafeProduct[];
   action:() =>void;
   secondAction?:(item:any) =>void;
@@ -31,6 +32,7 @@ const List: React.FC<ListProps> = ({
   action,
   secondAction,
   openConfirmModal,
+  currentUser
 }) => (
   <>
       {/* ${items == 5 ? 'flex flex-row w-[500px] sm:w-full sm:grid sm:grid-cols-5 overflow-x-scroll' : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"} */}
@@ -54,6 +56,7 @@ const List: React.FC<ListProps> = ({
           edit={edit} 
           onEditAction={secondAction} 
           openConfirmModal={openConfirmModal}
+          currentUser={currentUser}
           />
       ))}
       

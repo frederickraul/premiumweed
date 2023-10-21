@@ -11,7 +11,6 @@ const Bar:React.FC<BarProps> = ({ data, delay, factor }) =>{
   const barRef = useRef(null);
 
   const heightToString = data.height.toString() + 'px';
-  console.log(heightToString);
 
   const keyframes = `
     @keyframes appear {

@@ -69,7 +69,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
     setReviews(reviews => [...reviews, data]);
     toggleReviewModal();
 
-    console.log(data);
   }
 
 
@@ -365,14 +364,20 @@ const ListingClient: React.FC<ListingClientProps> = ({
                       <FloatingButton color='bg-black' icon={MdFilterList} small onClick={toggleFilterPanel} label=''/>
                 </div>
             </div>
-            {products.length >= 1 ? <List isLoading={()=>{toggleIsLoading()}} list={products} action={()=>{}} /> : 
-            <div className="h-[20vh] flex flex-col gap-2 justify-center  items-center">
-            <Heading
-              center
-              title={'There are not items for this listing yet'}
-              subtitle={'Wait for it!!!'}
-            />
-            </div>
+            {products.length >= 1 ? 
+                <List 
+                currentUser={currentUser}
+                  isLoading={()=>{toggleIsLoading()}} 
+                  list={products} 
+                  action={()=>{}} /> 
+              : 
+                <div className="h-[20vh] flex flex-col gap-2 justify-center  items-center">
+                  <Heading
+                    center
+                    title={'There are not items for this listing yet'}
+                    subtitle={'Wait for it!!!'}
+                  />
+                </div>
             }
         </div>
     </Container>

@@ -6,26 +6,43 @@ import useFavorite from "@/app/hooks/useFavorite";
 import { SafeUser } from "@/app/types";
 
 import ClientOnly from "./ClientOnly";
+import useFavoriteProduct from "../hooks/useFavoriteProduct";
 
 interface HeartButtonProps {
-  listingId: string;
+  itemId: string;
+  type?:string;
   disable?: boolean;
   currentUser?: SafeUser | null
 }
 
 const HeartButton: React.FC<HeartButtonProps> = ({ 
-  listingId,
+  itemId,
   currentUser,
   disable,
+  type
 }) => {
   const { hasFavorited, toggleFavorite } = useFavorite({
-    listingId,
+    listingId:itemId,
+    currentUser
+  });
+
+  const { hasFavoritedProduct, toggleFavoriteProduct } = useFavoriteProduct({
+    productId:itemId,
     currentUser
   });
 
   return (
     <div 
-      onClick={toggleFavorite}
+      onClick={(e: React.MouseEvent<HTMLDivElement>)=>{
+        e.stopPropagation();
+        
+        if(type=="listing"){
+          toggleFavorite(e);
+        }
+        if(type=="product"){
+          toggleFavoriteProduct(e);
+        }
+      }}
       className="
         relative
         hover:opacity-80
@@ -42,12 +59,23 @@ const HeartButton: React.FC<HeartButtonProps> = ({
           -right-[2px]
         "
       />
-      <AiFillHeart
-        size={24}
-        className={
-          hasFavorited ? 'fill-rose-500' : 'fill-neutral-500/70'
+        {type =="listing" &&
+            <AiFillHeart
+            size={24}
+            className={
+              hasFavorited ? 'fill-rose-500' : 'fill-neutral-500/70'
+            }
+            />
         }
-      />
+
+        {type =="product" &&
+            <AiFillHeart
+            size={24}
+            className={
+              hasFavoritedProduct ? 'fill-rose-500' : 'fill-neutral-500/70'
+            }
+            />
+        }
     </div>
    );
 }

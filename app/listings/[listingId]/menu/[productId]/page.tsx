@@ -24,7 +24,6 @@ const ProductPage = async ({params}:{params: IParams}) => {
 
   //const params = useParams()
   //const listing = await getListingById(params);
-  //const currentUser = await getCurrentUser();
 
   if(!product){
     return (

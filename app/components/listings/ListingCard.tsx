@@ -118,7 +118,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
               />
             <div className='absolute top-3 right-3'>
                 <HeartButton
-                  listingId={data.id}
+                  itemId={data.id}
+                  type='listing'
                   currentUser={currentUser}
                 />
             </div>

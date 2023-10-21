@@ -1,20 +1,22 @@
 'use client';
 
-import { SafeListing, SafeUser } from "@/app/types";
+import { SafeListing, SafeProduct, SafeUser } from "@/app/types";
 
 import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
 import { useEffect, useState } from "react";
-import { log } from "console";
+import ListItem from "../listings/[listingId]/List/ListItem";
 
 interface FavoritesClientProps {
   listings: SafeListing[],
+  products: SafeProduct[],
   currentUser?: SafeUser | null,
 }
 
 const FavoritesClient: React.FC<FavoritesClientProps> = ({
   listings,
+  products,
   currentUser
 }) => {
 
@@ -36,10 +38,8 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
     <Container isLoading={isLoading}>
       <Heading
         title="Favorites"
-        subtitle="List of places you favorited!"
+        subtitle="List of listings and products you favorited!"
       />
-              
-
       <div 
         className="
         mt-10
@@ -58,6 +58,15 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
             currentUser={currentUser}
             key={listing.id}
             data={listing}
+          />
+        ))}
+
+      {products.map((product: any) => (
+          <ListItem 
+            currentUser={currentUser}
+            key={product.id} 
+            item={product} 
+            isLoading={()=>{}} 
           />
         ))}
       </div>

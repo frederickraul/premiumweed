@@ -8,6 +8,8 @@ import StyledRating from '@/app/components/StyledRating';
 import { colors } from '@/app/const/theme';
 import EditButton from '@/app/components/EditButton';
 import DeleteButton from '@/app/components/DeleteButton';
+import HeartButton from '@/app/components/HeartButton';
+import { SafeUser } from '@/app/types';
 
 
 
@@ -18,6 +20,8 @@ interface ListItemProps {
   edit?:boolean;
   onEditAction?:any;
   openConfirmModal?:(id:string)=>void;
+  currentUser?: SafeUser | null;
+
  
 }
 
@@ -27,7 +31,8 @@ const ListItem: React.FC<ListItemProps> = ({
   isLoading,
   edit,
   onEditAction,
-  openConfirmModal
+  openConfirmModal,
+  currentUser
 }) => {
   const router = useRouter();
   let currentPath = usePathname();
@@ -47,10 +52,20 @@ return(
   >
     <div className='w-full aspect-square relative'>
     <Image src={item.coverSrc ? item.coverSrc : "/images/Product-Image-Coming-Soon2.jpg"} fill alt='' className='group-hover:scale-110 transition'/>
-   <div className='relative mt-5 mr-2'>
-   {edit && <EditButton action={()=>{onEditAction(item)}}/>}
-   {edit && <DeleteButton action={()=>{openConfirmModal&&openConfirmModal(item?.id)}}/>}
-   </div>
+    {edit ?
+        <div className='relative mt-5 mr-2'>
+          <EditButton action={()=>{onEditAction(item)}}/>
+          <DeleteButton action={()=>{openConfirmModal&&openConfirmModal(item?.id)}}/>
+      </div>
+   :
+      <div className='absolute top-3 right-3'>
+          <HeartButton
+            itemId={item.id}
+            type='product'
+            currentUser={currentUser}
+          />
+      </div>
+    }
     </div>
       <h4 className={`
           mt-4 

@@ -123,6 +123,7 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
             <ProductCardHorizontal
               data={product}
+              currentUser={currentUser}
             />
 
           </div>

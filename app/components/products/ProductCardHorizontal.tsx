@@ -155,7 +155,8 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                 />
                 <div className='absolute top-3 right-3'>
                   <HeartButton
-                    listingId={data.id}
+                    itemId={data.id}
+                    type='product'
                     currentUser={currentUser}
                   />
                 </div>
