@@ -46,8 +46,8 @@ const Button: React.FC<ButtonProps> = ({
         transition
         w-full
         px-0
-        ${outline ? 'bg-white' : color ? color : 'bg-rose-500'}
-        ${outline ? 'border-black' : borderless ? borderless : 'border-rose-500'}
+        ${outline ? 'bg-white' : color ? color : 'bg-black'}
+        ${outline ? 'border-black' : borderless ? borderless : 'border-black'}
         ${outline ? 'text-black' : 'text-white'}
         ${small ? 'text-xs sm:text-sm' : 'text-sm sm:text-base'}
         ${small ? 'py-1' : 'py-2 sm:py-3'}

@@ -138,4 +138,15 @@ body,
   font-size: 0.75rem !important;
 
 }
+.bg-primary{
+	background-color: #00ff6c !important;
+}
 
+.text-primary{
+	color: #00ff6c !important;
+}
+
+.border-primary{
+	border: 1px solid #00ff6c !important;
+
+}
