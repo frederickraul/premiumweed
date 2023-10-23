@@ -329,9 +329,6 @@ const HandleEditListing = (step:string) =>{
 
 
 return ( 
-  <div style={{ 
-    backgroundImage: `url("/images/editMode2.png")` 
-  }}>
   <Container full>
     <Container isLoading={isLoading}>
       <div 
@@ -424,6 +421,7 @@ return (
           pt-5
           mb-10
           bg-white
+          pb-10
           '>
             <div className='w-full my-5 flex flex-row items-center justify-between'>
                 <div className="relative">
@@ -496,9 +494,7 @@ return (
       }}
       />
   </Container>
- 
- </div>
- );
+  );
 }
  
 export default ListingClient;

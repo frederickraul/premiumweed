@@ -49,6 +49,7 @@ const FavoritesClient: React.FC<FavoritesClientProps> = ({
         xl:grid-cols-5
         2xl:grid-cols-5
         gap-8 mb-10
+        pb-10
         "
         >
         {listings.map((listing: any) => (

@@ -40,21 +40,33 @@ const AddButton: React.FC<ButtonProps> = ({
 
 return(
   
-  <div className='listItem-wrap cursor-pointer col-span-1 group min-w-[120px]'
+  <div className='listItem-wrap cursor-pointer col-span-1 group min-w-[120px] flex flex-col items-center '
   onClick={action}
   >
-    <div className='w-full aspect-square relative bg-neutral-50 mt-5 rounded-xl '>
-      <div className='w-full h-full  flex justify-center items-center rounded-xl border-4 border-green-400 group-hover:scale-110 transition'>
-      <MdOutlineAdd size={110} className='fill-green-400'/>
+    <div className='w-3/4 aspect-square flex mt-5 rounded-x'>
+      <div className='
+          w-full 
+          h-full  
+          flex 
+          justify-center 
+          items-center 
+          rounded-xl 
+          border-4 
+          border-neutral-500 
+          hover:bg-neutral-500
+          group-hover:scale-110 
+          duration-500
+          transition'>
+      <MdOutlineAdd size={110} className='fill-neutral-600 hover:fill-white duration-500'/>
       </div>
-   <div className='relative mt-5 mr-2'>
+   <div className='relative mt-5'>
    </div>
     </div>
       <h4 className={`
           mt-4 
           font-bold 
           relative
-          text-blue-500
+          text-neutral-500
           text-center
           ${small ? 'text-sm' : 'text-lg'}
          

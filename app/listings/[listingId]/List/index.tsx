@@ -36,7 +36,7 @@ const List: React.FC<ListProps> = ({
 }) => (
   <>
       {/* ${items == 5 ? 'flex flex-row w-[500px] sm:w-full sm:grid sm:grid-cols-5 overflow-x-scroll' : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"} */}
-<div className='w-full overflow-x-auto sm:overflow-hidden'>
+<div className='px-5 w-full overflow-x-auto sm:overflow-hidden'>
 
   <div className={`
     pt-4

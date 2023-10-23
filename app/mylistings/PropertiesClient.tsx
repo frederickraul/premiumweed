@@ -66,7 +66,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
 
   return ( 
     <Container  isLoading={isLoading}>
-     <div className="mt-0 sm:mt-5 md:mt-0">
+     <div className="mt-0 sm:mt-5 md:mt-0 mb-5">
      <Heading
         title="Listings"
         subtitle="List of your listings"
@@ -83,6 +83,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
           2xl:grid-cols-5
           gap-8
           mb-10
+          pb-10
         "
       >
         {listings.map((listing: any) => (

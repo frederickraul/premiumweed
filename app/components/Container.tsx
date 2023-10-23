@@ -20,7 +20,7 @@ const Container:React.FC<ContainerProps> = ({
       className={`
         ${full ? 'w-full': 'max-w-[960px]'}
         mx-auto
-        xl:px-0
+        xl:px-10
         md:px-10
         sm:px-2
         px-4
