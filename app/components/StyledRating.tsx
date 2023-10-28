@@ -18,6 +18,7 @@ const StyledRating: React.FC<ReviewsProps> = ({
   color
 }) => {
 
+
 const StyledRating = styled(Rating)({
         '& .MuiRating-iconFilled': {
           color: color ? color : '#000',
@@ -38,7 +39,7 @@ const StyledRating = styled(Rating)({
                   defaultValue={value || 5}
                   getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
                   precision={0.5}
-                  icon={<AiFillStar fontSize="inherit" />}
+                  //icon={<AiFillStar fontSize="inherit" />}
                   emptyIcon={<AiOutlineStar fontSize="inherit" />}
                   />
     </div>

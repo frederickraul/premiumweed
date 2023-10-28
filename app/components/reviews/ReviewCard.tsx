@@ -5,6 +5,7 @@ import { Rating } from "@mui/material";
 import Image from "next/image";
 import StyledRating from "../StyledRating";
 import { start } from "repl";
+import { formatDate } from "@/app/const/hours";
 
 
 interface ReviewProps {
@@ -13,7 +14,7 @@ interface ReviewProps {
   const ReviewCard: React.FC<ReviewProps> = ({
     data,
   }) => {
-  const {id, title, body, user, stars, createdAt} = data;
+  const {id, title, body, user, rating, createdAt} = data;
   return (
 <div className="
         border-[1px]
@@ -36,14 +37,14 @@ interface ReviewProps {
                 />
                 <div className="ml-3 flex flex-col">
                     <span className="text-sm font-bold">{user}</span>
-                    <span className="text-xs font-light text-neutral-400"> {createdAt}</span>
+                    <span className="text-xs font-light text-neutral-400"> {formatDate(createdAt)}</span>
                 </div>
             </div>
 
             <div className="mt-6 flex flex-row items-center">
-            <StyledRating value={stars}/>
+            <StyledRating value={rating}/>
 
-                <span className="text-xs ml-2">{stars}</span>
+                <span className="text-xs ml-2">{rating}</span>
             </div>
 
             <div className="mt-4 flex flex-col">

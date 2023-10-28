@@ -19,6 +19,7 @@ interface IDropdownProps {
 	type?: string;
 	placeHolder?: string;
 	labelName: string;
+	onChange:(value:string|number)=>void;
 }
 
 function Dropdown({
@@ -31,6 +32,7 @@ function Dropdown({
 	required,
 	className,
 	tabIndex,
+	onChange,
 }: IDropdownProps) {
 	const [isFocused, setIsFocused] = React.useState(false);
 	const [selectedItem, setSelectedItem] = React.useState<number | string>();
@@ -50,6 +52,7 @@ function Dropdown({
 	}, [wrapperRef]);
 
 	const onValueChange = (selectedValue: string | number) => {
+		onChange(selectedValue);
 		setSelectedItem(selectedValue);
 		setIsFocused(false);
 	};

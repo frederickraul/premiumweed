@@ -12,27 +12,22 @@ import { SafeListing, SafeProduct, SafeReservation, SafeUser } from "@/app/types
 
 import Container from "@/app/components/Container";
 import { categories } from "@/app/components/navbar/Categories";
-import ListingHead from "@/app/components/listings/ListingHead";
-import ListingInfo from "@/app/components/listings/ListingInfo";
-import ListingReservation from "@/app/components/listings/ListingReservation";
-import Loading from "@/app/Loading";
+
 import useCountries from "@/app/hooks/useCountries";
 import ListingCardHorizontal from "@/app/components/listings/ListingCardHorizontal";
 import Heading from "@/app/components/Heading";
-import { AiFillClockCircle } from "react-icons/ai";
 import { BiCheckShield } from "react-icons/bi";
-import { Listing } from "@prisma/client";
 import FilterPanel from "./FilterPanel";
 import { dataList } from "@/app/const";
 import List from "./List";
-import EmptyView from "@/app/components/common/EmptyView";
 import FloatingButton from "@/app/components/FloatingButton";
 import { MdFilterList, MdOutlineReviews } from "react-icons/md";
-import ProductRating from "./menu/[productId]/ProductRating";
 import Reviews from "./menu/[productId]/Reviews";
-import { reviewList } from "@/app/const/reviews";
 import ReviewModal from "@/app/components/modals/ReviewModal";
+import Rating from "@/app/components/Rating";
+import { Product, RatingListing } from "@prisma/client";
 import EmptySpace from "@/app/components/EmptySpace";
+import { formatDate } from "@/app/const/hours";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -46,34 +41,96 @@ interface ListingClientProps {
   };
   products:SafeProduct[];
   currentUser?: SafeUser | null;
+  review?: any;
+  ratings?: any;
 }
 
 const ListingClient: React.FC<ListingClientProps> = ({
   listing,
   products,
-  currentUser
+  currentUser,
+  review,
+  ratings,
 }) => {
+
+
   const { getStatesOfCountry } = useCountries();
 
   const states = getStatesOfCountry(listing.locationValue);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [reviews, setReviews] = useState(reviewList);
+  const [reviews, setReviews] = useState([]);
 
+  const loginModal = useLoginModal();
+  const router = useRouter();
 
   const toggleReviewModal = () => {
     setIsReviewModalOpen(!isReviewModalOpen);
   }
 
-  const handleReviewSave = (data: any) => {
-    data['user'] = currentUser?.name;
-    setReviews(reviews => [...reviews, data]);
-    toggleReviewModal();
 
+  const handleReviewSave = useCallback((data:any) => {
+
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+   // setReviews(reviews => [...reviews, data]);
+    setIsLoading(true);
+    
+    axios.post('/api/rating/listing', {
+      title:data.title,
+      body:data.body,
+      rating:data.rating,
+      listingId: listing?.id,
+      userId: currentUser.id
+    })
+    .then(() => {
+      setIsReviewModalOpen(false);
+      toast.success('Thank you for you opinion!!!');
+      router.refresh();
+    })
+    .catch(() => {
+      toast.error('Something went wrong.');
+    })
+    .finally(() => {
+      setIsLoading(false);
+    })
+},
+[
+  listing?.id,
+  currentUser,
+]);
+
+
+
+const handleReviewUpdate = useCallback((data:any) => {
+
+  
+  if (!currentUser) {
+    return loginModal.onOpen();
   }
 
+ // setReviews(reviews => [...reviews, data]);
+  setIsLoading(true);
+  
+  axios.post(`/api/rating/listing/${data?.id}`, data)
+  .then(() => {
+    setIsReviewModalOpen(false);
+    toast.success('You opinion has been updated!!!');
+    router.refresh();
+  })
+  .catch(() => {
+    toast.error('Something went wrong.');
+  })
+  .finally(() => {
+    setIsLoading(false);
+  })
+},
+[
+listing?.id,
+currentUser,
+]);
 
-  const loginModal = useLoginModal();
-  const router = useRouter();
 
 
 
@@ -82,17 +139,9 @@ const ListingClient: React.FC<ListingClientProps> = ({
       items.label === listing.category);
   }, [listing.category]);
 
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-];
 
-  const formatDate = (value:any) =>{
-    var dt = new Date(value);
-    const joined = (monthNames[dt.getMonth()]) + " " + dt.getFullYear();
 
-    return joined;
 
-  }
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
@@ -191,7 +240,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
     !value ? null : setSelectedRating(value)};
 
   const handleChangeChecked = (id:any) => {
-    console.log(id);
     if(id == 'all'){
       setCuisines(cuisinesDefaultState);
       return;
@@ -408,13 +456,26 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
             </div>
           </div>
-          <ProductRating />
+          <Rating ratings={ratings}/>
           <div id="reviews" className="mb-20">
-            <Reviews reviewList={reviews.reverse()} />
+            {ratings.length >= 1 ?
+            <Reviews reviewList={ratings}/>
+            :
+            <EmptySpace
+                small
+                title="No reviews found"
+                subtitle="Try out later." 
+             />
+            }
+            
             <ReviewModal
+              review = {review}
               isOpen={isReviewModalOpen}
               onClose={toggleReviewModal}
               onSave={handleReviewSave}
+              onUpdate={handleReviewUpdate}
+              isLoading={isLoading}
+
               />
           </div>
         </div>

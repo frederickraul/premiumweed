@@ -1,28 +1,28 @@
 export const ratingData = [
     {
       id: 1,
-      height: 80,
+      height: 0,
       color: 'bg-emerald-400'
     },
     {
       id: 2,
-      height: 17,
+      height: 0,
       color: 'bg-lime-400'
     },
     {
       id: 3,
-      height: 8,
+      height: 0,
       color: 'bg-yellow-300'
     },
     {
       id: 4,
-      height: 4,
+      height: 0,
       color: 'bg-orange-300'
   
     },
     {
       id: 5,
-      height: 1,
+      height: 0,
       color: 'bg-orange-400'
   
     },

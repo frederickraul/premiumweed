@@ -144,3 +144,15 @@ export const isOpen =(timeString:string, ClosetimeString:string) => {
 
   return "Close Now";
 }
+
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+
+export const formatDate = (value:any) =>{
+  var dt = new Date(value);
+  const joined = (monthNames[dt.getMonth()]) + " " + dt.getDay() + " " + dt.getFullYear();
+
+  return joined;
+
+}

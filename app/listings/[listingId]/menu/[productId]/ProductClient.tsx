@@ -8,7 +8,7 @@ import Container from "@/app/components/Container";
 import ListingCardHorizontal from "@/app/components/listings/ListingCardHorizontal";
 
 import { BiArrowBack, BiCheckShield } from "react-icons/bi";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { MdArrowBackIos, MdArrowLeft, MdOutlineReviews } from "react-icons/md";
@@ -18,14 +18,17 @@ import List from "../../List";
 import { dataList } from "@/app/const";
 import EmptyView from "@/app/components/common/EmptyView";
 import Button from "@/app/components/Button";
-import Rating from "./ProductRating";
-import ProductRating from "./ProductRating";
+import Rating from "../../../../components/Rating";
 import Reviews from "./Reviews";
 import Modal from "@/app/components/modals/Modal";
 import ReviewModal from "@/app/components/modals/ReviewModal";
 import { reviewList } from "@/app/const/reviews";
 import FloatingButton from "@/app/components/FloatingButton";
 import Heading from "@/app/components/Heading";
+import EmptySpace from "@/app/components/EmptySpace";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 
 
@@ -34,20 +37,26 @@ interface ProductClientProps {
   product: any;
   relatedProducts:any;
   currentUser?: SafeUser | null;
+  review?: any;
+  ratings?: any;
+
 }
 
 const ProductClient: React.FC<ProductClientProps> = ({
   product,
   relatedProducts,
   listing,
-  currentUser
+  currentUser,
+  review,
+  ratings
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [resultsFound, setResultsFound] = useState(true);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
-  const [reviews, setReviews] = useState(reviewList);
+  const loginModal = useLoginModal();
   const router = useRouter();
+
   
   const toggleIsLoading = () => {
     setIsLoading(true);
@@ -87,13 +96,70 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
   const list = shuffleArray(dataList);
 
-  const handleReviewSave = (data: any) => {
-    data['user'] = currentUser?.name;
-    setReviews(reviews => [...reviews, data]);
-    toggleReviewModal();
 
-    console.log(data);
+  const handleReviewSave = useCallback((data:any) => {
+
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+   // setReviews(reviews => [...reviews, data]);
+    setIsLoading(true);
+    
+    axios.post('/api/rating/product', {
+      title:data.title,
+      body:data.body,
+      rating:data.rating,
+      productId: product?.id,
+      userId: currentUser.id
+    })
+    .then(() => {
+      setIsReviewModalOpen(false);
+      toast.success('Thank you for you opinion!!!');
+      router.refresh();
+    })
+    .catch(() => {
+      toast.error('Something went wrong.');
+    })
+    .finally(() => {
+      setIsLoading(false);
+    })
+},
+[
+  listing?.id,
+  currentUser,
+]);
+
+
+
+const handleReviewUpdate = useCallback((data:any) => {
+
+  
+  if (!currentUser) {
+    return loginModal.onOpen();
   }
+
+ // setReviews(reviews => [...reviews, data]);
+  setIsLoading(true);
+  
+  axios.post(`/api/rating/product/${data?.id}`, data)
+  .then(() => {
+    setIsReviewModalOpen(false);
+    toast.success('You opinion has been updated!!!');
+    router.refresh();
+  })
+  .catch(() => {
+    toast.error('Something went wrong.');
+  })
+  .finally(() => {
+    setIsLoading(false);
+  })
+},
+[
+listing?.id,
+currentUser,
+]);
+
 
 
   return (
@@ -194,13 +260,26 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
             </div>
           </div>
-          <ProductRating />
+          <Rating ratings={ratings} />
           <div id="reviews" className="mb-20">
-            <Reviews reviewList={reviews.reverse()} />
+          {ratings.length >= 1 ?
+            <Reviews reviewList={ratings} />
+            :
+            <EmptySpace
+                small
+                title="No reviews found"
+                subtitle="Try out later." 
+             />
+            }
+            
             <ReviewModal
+              review = {review}
               isOpen={isReviewModalOpen}
               onClose={toggleReviewModal}
               onSave={handleReviewSave}
+              onUpdate={handleReviewUpdate}
+              isLoading={isLoading}
+
               />
           </div>
         </div>

@@ -4,15 +4,20 @@ import ListingClient from "./ListingClient";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getReservations from "@/app/actions/getReservations";
 import getProducts from "@/app/actions/getProducts";
+import getRatingByListingId from "@/app/actions/getRatingByListingId";
+import getRatingsByListingId from "@/app/actions/getRatingsByListingId";
 
 interface IParams{
   listingId?: string;
 }
 const ListingPage = async ({params}:{params: IParams}) => {
   const listing = await getListingById(params);
+  const review = await getRatingByListingId(params);
+  const ratings = await getRatingsByListingId(params);
   const products = await getProducts(params);
   const reservations = await getReservations(params);
   const currentUser = await getCurrentUser();
+
 
   if(!listing){
     return (
@@ -22,8 +27,10 @@ const ListingPage = async ({params}:{params: IParams}) => {
   return (
     <ListingClient
       listing={listing}
-      currentUser={currentUser}
-      products={products}
+      currentUser={ currentUser}
+      products={ products }
+      review={ review }
+      ratings={ ratings }
 
     />
   )

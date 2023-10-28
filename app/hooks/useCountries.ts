@@ -1,6 +1,5 @@
 import { State, Country, City } from 'country-state-city';
 
-
 const formatedCountries = Country.getAllCountries().map((country) => ({
   value: country.isoCode,
   label: country.name,
@@ -24,8 +23,6 @@ const formatedCities = City.getCitiesOfState('US','CA').map((country) => ({
   latlng: [country.latitude,country.longitude],
   //region: country.region
 }));
-
-
 
 const useCountries = () => {
   const getAll = () => formatedCountries;

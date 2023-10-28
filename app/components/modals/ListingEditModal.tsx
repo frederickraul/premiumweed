@@ -305,7 +305,6 @@ if(step === STEPS.ADDRESS){
                           checked={visibleAddress}
                           onChange={() => {
                             const value = !visibleAddress;
-                            console.log(value);
                             setCustomValue('visibleAddress',value);
                           }}
                     />

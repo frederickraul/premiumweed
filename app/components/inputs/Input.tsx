@@ -95,8 +95,8 @@ const Input: React.FC<InputProps> = ({
           text-xs 2xl:text-base
           duration-150
           transform
-          -translate-y-3
-          top-4 2xl:top-5
+          -translate-y-1
+          top-4 2xl:top-3
           z-0
           origin-[0]
           ${(formatPrice || formatPercent) ? 'left-9' : 'left-4'}

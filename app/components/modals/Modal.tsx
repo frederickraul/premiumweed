@@ -1,8 +1,9 @@
 'use client';
 import { useCallback, useEffect, useState } from "react";
 
-import { IoMdClose } from 'react-icons/io';
+import { IoIosClose, IoMdClose } from 'react-icons/io';
 import Button from "../Button";
+import { AiOutlineClose } from "react-icons/ai";
 
 
 interface ModalProps {
@@ -143,10 +144,11 @@ const Modal: React.FC<ModalProps> = ({
                     hover:opacity-70
                     transition
                     absolute
-                    left-9
+                    left-3
+                    sm:left-9
                   "
                 >
-                  <IoMdClose size={18} />
+                  <IoIosClose size={40} />
                 </button>
                 <div className="text-base xl:text-lg font-semibold">
                     {title}

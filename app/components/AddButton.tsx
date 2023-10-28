@@ -53,11 +53,11 @@ return(
           rounded-xl 
           border-4 
           border-neutral-500 
-          hover:bg-neutral-500
           group-hover:scale-110 
+        hover:fill-white
           duration-500
           transition'>
-      <MdOutlineAdd size={110} className='fill-neutral-600 hover:fill-white duration-500'/>
+      <MdOutlineAdd size={110} className='duration-500 fill-neutral-600'/>
       </div>
    <div className='relative mt-5'>
    </div>

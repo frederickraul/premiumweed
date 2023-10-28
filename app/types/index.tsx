@@ -8,6 +8,10 @@ export type SafeProduct = Omit<Product, "createdAt"> & {
   createdAt: string;
 };
 
+export type SafeReview = Omit<Product, "createdAt"> & {
+  createdAt: string;
+};
+
 export type SafeReservation = Omit<
   Reservation, 
   "createdAt" | "startDate" | "endDate" | "listing"
