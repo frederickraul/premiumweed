@@ -18,7 +18,7 @@ interface ReviewsProps {
   
   const [currentReviewList, setcurrentReviewList] = useState(reviewList);
   const [starsFilter, setStarsFilter] = useState(0);
-  const [sortFilter, setSortFilter] = useState();
+  const [sortFilter, setSortFilter] = useState(4);
 
 
   useEffect(() => {
