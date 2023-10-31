@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 import { AiFillStar } from 'react-icons/ai';
 import { useParams, usePathname, useRouter } from 'next/navigation';
@@ -42,8 +42,44 @@ const ListItem: React.FC<ListItemProps> = ({
     currentPath = `/listings/${params.listingId}`;
   }
 
-return(
+  const {rating} = item;
+
+  const count = rating?.length || 0;
+
+  const [ratingAvg, setRatingAvg] = useState(0);
+
+  useEffect(() => {
+    const calculateAvg = () => {
+      // Sum the skillset ratings
+      const setRatingSum = rating.reduce((sum:any, ratingObj:any) => {
+        
+        return sum + Number(ratingObj.rating);
+      }, 0);
+
+      // Determine the averages
+      const RatingAvg = setRatingSum / rating?.length;
+      
+
+
   
+      // Set the string values in state to render
+      setRatingAvg(RatingAvg);
+
+    };
+
+    if (rating?.length) {
+      calculateAvg();
+    } else {
+      setRatingAvg(0);
+
+    }
+  }, [rating]);
+
+
+
+
+
+return(
   <div className='listItem-wrap cursor-pointer col-span-1 group min-w-[120px]'
   onClick={()=> {
     !edit && isLoading();
@@ -78,8 +114,8 @@ return(
         </h4>
     {item.title && 
     <div className='flex flex-row mt-1'>
-      <StyledRating size={small ? 13 : 16}/>
-      <span className='ml-1 text-sm lg:text-base'>5.0</span>
+      <StyledRating size={small ? 13 : 16} value={ratingAvg}/>
+      <span className='ml-1 text-sm lg:text-base'>{ratingAvg}</span>
     </div>
     }
     <div className={`

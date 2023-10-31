@@ -25,6 +25,7 @@ import EditButton from '../EditButton';
 
 interface ListingCardProps {
   data: any;
+  starValue?: number;
   reservation?: Reservation;
   onEditAction?: (id: string) => void;
   onEditButton?: (value: string) => void;
@@ -39,6 +40,7 @@ interface ListingCardProps {
 }
 const ListingCardHorizontal: React.FC<ListingCardProps> = ({
   data,
+  starValue,
   reservation,
   onEditAction,
   onEditButton,
@@ -53,13 +55,20 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
 }) => {
 
 
+  const {rating} = data;
+  useEffect(() => {
+  if(starValue){
+    setStars(starValue)
+  }
+  }, [starValue])
+  
 
   const router = useRouter();
   const { getByValue } = useCountries();
   const location = getByValue(data.locationValue);
   const title = data.title;
 
-  const [stars, setStars] = useState<number | null>(2);
+  const [stars, setStars] = useState<number | null>(0);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -306,7 +315,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
                     }}
                   />
                   <a href="#reviews" className='ml-2 text-neutral-500 text-base'>
-                    {stars} (34)
+                    {stars} ({rating.length})
                   </a>
 
                 </div>

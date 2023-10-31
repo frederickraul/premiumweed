@@ -22,7 +22,8 @@ import { dataList, defaultImage } from '@/app/const';
 
 
 interface ProductCardProps {
-  data: SafeProduct;
+  starValue?: number;
+  data: any;
   onEditAction?: (id: string) => void;
   onAction?: (id: string) => void;
   onActionSecond?: (id: string) => void;
@@ -34,6 +35,7 @@ interface ProductCardProps {
 
 }
 const ProductCardHorizontal: React.FC<ProductCardProps> = ({
+  starValue,
   data,
   onEditAction,
   onAction,
@@ -46,6 +48,14 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
 
 }) => {
 
+  const {rating} = data;
+
+  useEffect(() => {
+  if(starValue){
+    setStars(starValue)
+  }
+  }, [starValue])
+  
 
 
   const router = useRouter();
@@ -188,14 +198,14 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                     readOnly
                     size='small'
                     name="simple-controlled"
-                    value={stars}
+                    value={starValue}
                     precision={0.5}
                     onChange={(event, newValue) => {
                       setStars(newValue);
                     }}
                   />
                   <a className='ml-2 text-neutral-500 text-xs' href='#reviews'>
-                    {stars} (34)
+                    {starValue} ({rating.length})
                   </a>
 
                 </div>

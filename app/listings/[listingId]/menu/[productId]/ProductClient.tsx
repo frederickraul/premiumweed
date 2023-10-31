@@ -22,13 +22,14 @@ import Rating from "../../../../components/Rating";
 import Reviews from "./Reviews";
 import Modal from "@/app/components/modals/Modal";
 import ReviewModal from "@/app/components/modals/ReviewModal";
-import { reviewList } from "@/app/const/reviews";
 import FloatingButton from "@/app/components/FloatingButton";
 import Heading from "@/app/components/Heading";
 import EmptySpace from "@/app/components/EmptySpace";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import axios from "axios";
 import toast from "react-hot-toast";
+import ConfirmModal from "@/app/components/modals/ConfirmModal";
+import useConfirmModal from "@/app/hooks/useConfirmModal";
 
 
 
@@ -50,11 +51,24 @@ const ProductClient: React.FC<ProductClientProps> = ({
   review,
   ratings
 }) => {
+
+  useEffect(() => {
+    if(ratings.length > 0){
+      setReviewList(ratings);
+    }
+  }, [ratings]);
+  
+
   const [isLoading, setIsLoading] = useState(true);
   const [resultsFound, setResultsFound] = useState(true);
+  const [deleteReviewId, setDeleteReviewId] = useState('');
+  const [reviewList, setReviewList] = useState(ratings);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [ ratingAvg, setRatingAvg] = useState(0);
 
   const loginModal = useLoginModal();
+  const confirmModal = useConfirmModal();
+
   const router = useRouter();
 
   
@@ -96,6 +110,40 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
   const list = shuffleArray(dataList);
 
+
+  const handleReviewDeletePress = (id:string) =>{
+    confirmModal.onOpen();
+    setDeleteReviewId(id);
+  }
+
+  const handleReviewDelete = useCallback(() => {
+
+ 
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+   // setReviews(reviews => [...reviews, data]);
+    setIsLoading(true);
+    
+    axios.delete(`/api/rating/product/${deleteReviewId}`)
+    .then(() => {
+      setIsReviewModalOpen(false);
+      toast.success('Review deleted!!!');
+      router.refresh();
+    })
+    .catch(() => {
+      toast.error('Something went wrong.');
+    })
+    .finally(() => {
+      setIsLoading(false);
+    })
+},
+[
+deleteReviewId,
+currentUser,
+]);
+  
 
   const handleReviewSave = useCallback((data:any) => {
 
@@ -188,6 +236,7 @@ currentUser,
             </div>
 
             <ProductCardHorizontal
+            starValue={ratingAvg}
               data={product}
               currentUser={currentUser}
             />
@@ -260,10 +309,16 @@ currentUser,
 
             </div>
           </div>
-          <Rating ratings={ratings} />
+          <Rating ratings={ratings} getRatingAverage={(value)=>setRatingAvg(value)}/>
           <div id="reviews" className="mb-20">
           {ratings.length >= 1 ?
-            <Reviews reviewList={ratings} />
+            <Reviews 
+                reviewList={reviewList} 
+                onEdit={toggleReviewModal} 
+                onDelete={handleReviewDeletePress}
+                currentUser={currentUser}
+                />
+            
             :
             <EmptySpace
                 small
@@ -279,8 +334,12 @@ currentUser,
               onSave={handleReviewSave}
               onUpdate={handleReviewUpdate}
               isLoading={isLoading}
-
               />
+
+          <ConfirmModal
+                body="Are you sure you want to delete your review?" 
+                onSubmit={handleReviewDelete}/>
+            
           </div>
         </div>
       </Container>

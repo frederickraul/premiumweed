@@ -51,3 +51,30 @@ export async function POST(
     });
     return NextResponse.json(ratingListing);
 }
+
+
+export async function DELETE(
+  request: Request, 
+  { params }: { params: IParams }
+) {
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    return NextResponse.error();
+  }
+
+  const { ratingId } = params;
+
+  if (!ratingId || typeof ratingId !== 'string') {
+    throw new Error('Invalid ID');
+  }
+
+  const rating = await prisma.ratingListing.deleteMany({
+    where: {
+      id: ratingId,
+      userId: currentUser.id
+    }
+  });
+
+  return NextResponse.json(rating);
+}

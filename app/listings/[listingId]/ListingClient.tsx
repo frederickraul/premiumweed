@@ -28,6 +28,8 @@ import Rating from "@/app/components/Rating";
 import { Product, RatingListing } from "@prisma/client";
 import EmptySpace from "@/app/components/EmptySpace";
 import { formatDate } from "@/app/const/hours";
+import ConfirmModal from "@/app/components/modals/ConfirmModal";
+import useConfirmModal from "@/app/hooks/useConfirmModal";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -54,11 +56,21 @@ const ListingClient: React.FC<ListingClientProps> = ({
 }) => {
 
 
-  const { getStatesOfCountry } = useCountries();
+  useEffect(() => {
+      setReviewList(ratings);
+  
+  }, [ratings])
+  
 
+  const { getStatesOfCountry } = useCountries();
+  const [ratingAvg, setRatingAvg] = useState(0);
+
+
+  const confirmModal = useConfirmModal();
   const states = getStatesOfCountry(listing.locationValue);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [reviews, setReviews] = useState([]);
+  const [deleteReviewId, setDeleteReviewId] = useState('');
+  const [reviewList, setReviewList] = useState(ratings);
 
   const loginModal = useLoginModal();
   const router = useRouter();
@@ -67,6 +79,39 @@ const ListingClient: React.FC<ListingClientProps> = ({
     setIsReviewModalOpen(!isReviewModalOpen);
   }
 
+  const handleReviewDeletePress = (id:string) =>{
+    confirmModal.onOpen();
+    setDeleteReviewId(id);
+  }
+
+  const handleReviewDelete = useCallback(() => {
+
+ 
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+   // setReviews(reviews => [...reviews, data]);
+    setIsLoading(true);
+    
+    axios.delete(`/api/rating/listing/${deleteReviewId}`)
+    .then(() => {
+      setIsReviewModalOpen(false);
+      toast.success('Review deleted!!!');
+      router.refresh();
+    })
+    .catch(() => {
+      toast.error('Something went wrong.');
+    })
+    .finally(() => {
+      setIsLoading(false);
+    })
+},
+[
+deleteReviewId,
+currentUser,
+]);
+  
 
   const handleReviewSave = useCallback((data:any) => {
 
@@ -146,6 +191,7 @@ currentUser,
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
   const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
+  
 
   const toggleFilterPanel = () => {
     
@@ -316,7 +362,7 @@ currentUser,
 
   // ./FILTER
   
-  
+
   return ( 
     <>
     <Container isLoading={isLoading}>
@@ -346,6 +392,7 @@ currentUser,
       
           
           <ListingCardHorizontal
+          starValue={ratingAvg}
            key={listing.id}
            data={listing}
            actionId={listing.id}
@@ -456,10 +503,17 @@ currentUser,
 
             </div>
           </div>
-          <Rating ratings={ratings}/>
+          <Rating 
+            ratings={reviewList} getRatingAverage={(value)=>setRatingAvg(value)}/>
           <div id="reviews" className="mb-20">
             {ratings.length >= 1 ?
-            <Reviews reviewList={ratings}/>
+            <Reviews 
+                reviewList={reviewList} 
+                onEdit={toggleReviewModal} 
+                onDelete={handleReviewDeletePress}
+                currentUser={currentUser}
+                />
+            
             :
             <EmptySpace
                 small
@@ -475,8 +529,12 @@ currentUser,
               onSave={handleReviewSave}
               onUpdate={handleReviewUpdate}
               isLoading={isLoading}
-
               />
+
+            <ConfirmModal
+                body="Are you sure you want to delete your review?" 
+                onSubmit={handleReviewDelete}/>
+            
           </div>
         </div>
       </Container>
@@ -484,4 +542,4 @@ currentUser,
    );
 }
  
-export default ListingClient;
+export default ListingClient;   

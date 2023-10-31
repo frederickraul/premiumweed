@@ -35,7 +35,7 @@ function Dropdown({
 	onChange,
 }: IDropdownProps) {
 	const [isFocused, setIsFocused] = React.useState(false);
-	const [selectedItem, setSelectedItem] = React.useState<number | string>();
+	const [selectedItem, setSelectedItem] = React.useState<string | number>(labelName);
 	const wrapperRef = useRef<any>(null);
 
 	useEffect(() => {
@@ -51,9 +51,9 @@ function Dropdown({
 		};
 	}, [wrapperRef]);
 
-	const onValueChange = (selectedValue: string | number) => {
+	const onValueChange = (selectedValue: string | number, label: string | number) => {
 		onChange(selectedValue);
-		setSelectedItem(selectedValue);
+		setSelectedItem(label);
 		setIsFocused(false);
 	};
 	React.useEffect(() => {
@@ -62,7 +62,7 @@ function Dropdown({
 
 	const onClear = (e: any) => {
 		e.stopPropagation();
-		setSelectedItem(placeHolder);
+		//setSelectedItem(placeHolder);
 		setIsFocused(false);
 	};
 
@@ -70,7 +70,7 @@ function Dropdown({
 		<div ref={wrapperRef} className="border-[#979797] relative w-[100%]">
             <Button 
 				textLeft={textLeft}
-                label={labelName} 
+                label={String(selectedItem)} 
                 icon={isFocused ? IoIosArrowUp : IoIosArrowDown}
                 iconRight
                 outline
@@ -81,7 +81,7 @@ function Dropdown({
 					{options.map(({ label, labelValue }) => (
 						<li
                             key={label}
-							onClick={() => onValueChange(labelValue)}
+							onClick={() => onValueChange(labelValue, label)}
 							className="
                                 cursor-pointer
                                 whitespace-nowrap

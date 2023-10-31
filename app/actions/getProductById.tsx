@@ -18,7 +18,8 @@ try {
       id: productId as string
     },
     include:{
-      user: true
+      user: true,
+      rating:true,
     }
    });
 

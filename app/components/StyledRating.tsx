@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Rating } from '@mui/material';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
 
@@ -15,8 +15,10 @@ interface ReviewsProps {
 const StyledRating: React.FC<ReviewsProps> = ({
   size,
   value,
-  color
+  color,
+  
 }) => {
+
 
 
 const StyledRating = styled(Rating)({
@@ -36,7 +38,7 @@ const StyledRating = styled(Rating)({
     <div>
          <StyledRating
                   readOnly
-                  defaultValue={value || 5}
+                  defaultValue={value || 0}
                   getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
                   precision={0.5}
                   //icon={<AiFillStar fontSize="inherit" />}

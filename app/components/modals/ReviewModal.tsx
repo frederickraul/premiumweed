@@ -83,6 +83,7 @@ interface ReviewProps {
               <div className='flex flex-col items-center my-5'>
                     <span className='text-lg font-bold mb-3'>My rating</span>
                     <Rating 
+                        disabled={isLoading}
                         value={Number(data.rating )|| 0} 
                         onChange={(event, newValue) => {
                         onChange('rating',newValue);}} 
@@ -92,6 +93,7 @@ interface ReviewProps {
               </div>
               {errors.title && <div className='text-red-500 font-bold'>The title is too short</div>}
             <InputUnregistered
+              disabled={isLoading}
               label="Title"
               value={data.title}
               onChange={(value)=>{onChange('title',value.target.value);}}
@@ -100,6 +102,7 @@ interface ReviewProps {
 
             {errors.body && <div className='text-red-500 font-bold'>The body is too short</div>}
             <InputText
+                disabled={isLoading}
                 label='Body'
                 value={data.body}
                 onChange={(value)=>{onChange('body',value.target.value);}}

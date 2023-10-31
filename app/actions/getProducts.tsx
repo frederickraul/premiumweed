@@ -31,6 +31,9 @@ export default async function getProducts(
    
     const products = await prisma.product.findMany({
       where: query,
+      include:{
+        rating:true,
+      },
       orderBy: {
         createdAt: 'desc'
       }

@@ -5,18 +5,21 @@ import CircleRating from "@/app/components/CircleRating";
 import StyledRating from "@/app/components/StyledRating";
 import { ratingData as percents } from "@/app/const/rating";
 import { colors } from "@/app/const/theme";
+import { Value } from "@prisma/client/runtime/library";
 import { useEffect, useState } from "react";
 import { BiSolidUser } from "react-icons/bi";
 
 interface RatingProps{
   ratings?: any;
+  getRatingAverage?:(value: number)=>void;
 
 }
 
 const Rating: React.FC<RatingProps> = ({
-  ratings
+  ratings,
+  getRatingAverage
 }) => {
-
+  
   const count = ratings?.length || 0;
 
   const [ratingAvg, setRatingAvg] = useState(0);
@@ -65,16 +68,12 @@ const Rating: React.FC<RatingProps> = ({
 
       // Determine the averages
       const RatingAvg = setRatingSum / ratings?.length;
-      
-      const start1 = set5Stars;
-      const start2 = set5Stars;
-      const start3 = set5Stars;
-      const start4 = set5Stars;
-      const start5 = set5Stars;
+
 
   
       // Set the string values in state to render
       setRatingAvg(RatingAvg);
+      getRatingAverage && getRatingAverage(RatingAvg);
 
       let items = ratingData;
       items[4].height = (set1Stars * 100 / ratings.length);
@@ -85,11 +84,15 @@ const Rating: React.FC<RatingProps> = ({
 
       setRatingData(items);
     };
-
-    if (ratings?.length) {
+    
+    if (ratings?.length > 0) {
       calculateAvg();
+      console.log('Yes');
     } else {
+      console.log('no');
       setRatingAvg(0);
+      getRatingAverage && getRatingAverage(0);
+      setRatingData(percents);
     }
   }, [ratings]);
 

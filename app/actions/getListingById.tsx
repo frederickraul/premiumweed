@@ -18,7 +18,9 @@ try {
       id: listingId as string
     },
     include:{
-      user: true
+      user: true,
+      rating:true
+
     }
    });
 

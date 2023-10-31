@@ -5,16 +5,28 @@ import ReviewCard from "@/app/components/reviews/ReviewCard";
 import EmptyReviews from "../EmptyReviews";
 import EmptySpace from "@/app/components/EmptySpace";
 import { useEffect, useState } from "react";
+import { SafeUser } from "@/app/types";
 
 interface ReviewsProps {
     reviewList: any;
+    onEdit:(id:string)=>void;
+    onDelete:(id:string)=>void;
+    currentUser?: SafeUser | null;
+
   }
   
   const Reviews: React.FC<ReviewsProps> = ({
     reviewList,
+    onEdit,
+    onDelete,
+    currentUser
   }) => {
-
-
+    
+  useEffect(() => {
+   if(reviewList.length > 0){
+    setcurrentReviewList(reviewList);
+   }
+  }, [reviewList])
   
   const [currentReviewList, setcurrentReviewList] = useState(reviewList);
   const [starsFilter, setStarsFilter] = useState(0);
@@ -68,16 +80,12 @@ interface ReviewsProps {
        a.createdAt > b.createdAt ? -1 : 1,);
        setcurrentReviewList(list);    
       }
-
-
   }
-
-
 
   return (
     <div className="mt-16">
         <div className="flex flex-row items-center">
-           <div className="w-[120px]">
+           <div className="w-[180px]">
               <Dropdown
                 labelName="Sort" 
                 type="arrow-down"
@@ -113,7 +121,13 @@ interface ReviewsProps {
 
           {
             currentReviewList.map((review:any) =>(
-              <ReviewCard key={review.id} data={review}/>
+              <ReviewCard 
+                  key={review.id} 
+                  data={review} 
+                  onEdit={onEdit} 
+                  onDelete={onDelete}
+                  currentUser={currentUser}
+                  />
               ))
             }
           </div>
