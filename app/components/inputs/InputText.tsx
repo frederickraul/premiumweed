@@ -44,6 +44,7 @@ const InputText: React.FC<InputProps> = ({
         />
       )}
       <textarea
+      value={value}
       onChange={(value) => onChange(value)}
         rows={5}
         disabled={disabled}
@@ -67,7 +68,7 @@ const InputText: React.FC<InputProps> = ({
           ${small ? 'font-light' : 'font-semibold'}
           ${type === "checkbox" ? 'w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600': ''}
         `}
-      >{value}</textarea>
+      />
       <label 
         className={`
           absolute
