@@ -87,12 +87,12 @@ const Rating: React.FC<RatingProps> = ({
     
     if (ratings?.length > 0) {
       calculateAvg();
-      console.log('Yes');
+   
     } else {
-      console.log('no');
+
       setRatingAvg(0);
       getRatingAverage && getRatingAverage(0);
-      setRatingData(percents);
+      setRatingData([]);
     }
   }, [ratings]);
 

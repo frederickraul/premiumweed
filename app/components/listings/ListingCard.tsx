@@ -170,8 +170,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
               onClick={handleEditAction}
               onClickSecond={handleSecondAction}
             />
-              <ConfirmModal onSubmit={handleDelete}/>
-
             </>
             
           )}

@@ -96,14 +96,14 @@ const Input: React.FC<InputProps> = ({
           duration-150
           transform
           -translate-y-1
-          top-4 2xl:top-3
+          top-2 2xl:top-2
           z-0
           origin-[0]
           ${(formatPrice || formatPercent) ? 'left-9' : 'left-4'}
           peer-placeholder-shown:scale-100
           peer-placeholder-shown:translate-y-0
           peer-focus:scale-75
-          peer-focus:-translate-y-3
+          peer-focus:-translate-y-2
           ${errors[id] ? 'text-red-500' : 'text-zinc-400'}
         `}
       >

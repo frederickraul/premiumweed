@@ -85,7 +85,7 @@ interface ReviewsProps {
   return (
     <div className="mt-16">
         <div className="flex flex-row items-center">
-           <div className="w-[180px]">
+           <div className="w-[45%] sm:w-[180px]">
               <Dropdown
                 labelName="Sort" 
                 type="arrow-down"
@@ -99,7 +99,7 @@ interface ReviewsProps {
                 ]
                 }/>
            </div>
-           <div className="w-[170px] sm:w-[200px] ml-2 ">
+           <div className="w-[55%] sm:w-[200px] ml-2 ">
               <Dropdown
                 labelName="Filter by rating" 
                 type="arrow-down"

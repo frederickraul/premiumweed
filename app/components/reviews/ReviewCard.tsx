@@ -71,10 +71,10 @@ interface ReviewProps {
             {currentUser?.id === userId && 
                 <div className="pt-2 mt-2  border-t-[1px] border-neutral-200 ">
                     <div className="w-1/2 flex flex-row">
-                    <div className="w-1/4">
+                    <div className="w-1/2 md:w-1/4">
                     <Button small label="Edit" outline onClick={()=>onEdit(id)}/>
                     </div>
-                    <div className="w-1/4">
+                    <div className="w-1/2 md:w-1/4">
                     <Button small styles="border-red-500 text-red-500 ml-4" label="Delete" outline onClick={()=>onDelete(id)}/>
                     </div>
                         

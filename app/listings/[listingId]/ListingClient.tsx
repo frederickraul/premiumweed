@@ -532,7 +532,8 @@ currentUser,
               />
 
             <ConfirmModal
-                body="Are you sure you want to delete your review?" 
+                title="Are you sure you want to delete your review?"
+                body=" " 
                 onSubmit={handleReviewDelete}/>
             
           </div>

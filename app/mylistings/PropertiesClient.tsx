@@ -11,6 +11,7 @@ import Heading from "@/app/components/Heading";
 import Container from "@/app/components/Container";
 import ListingCard from "@/app/components/listings/ListingCard";
 import useConfirmModal from "../hooks/useConfirmModal";
+import ConfirmModal from "../components/modals/ConfirmModal";
 
 interface PropertiesClientProps {
   listings: SafeListing[],
@@ -100,6 +101,12 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
             currentUser={currentUser}
           />
         ))}
+
+              <ConfirmModal
+                onSubmit={onDelete}
+                title='Are you sure you want to delete your listing?'
+                body=' '
+              />
       </div>
      </div>
     </Container>

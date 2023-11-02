@@ -12,7 +12,6 @@ import { Rating } from '@mui/material';
 import { AiOutlineClockCircle, AiOutlineFacebook, AiOutlineInstagram, AiOutlineQuestion, AiOutlineShareAlt, AiOutlineStar, AiOutlineTwitter } from 'react-icons/ai';
 import { SafeListing, SafeUser } from '@/app/types';
 import DoubleButton from '../DoubleButton';
-import ConfirmModal from '../modals/ConfirmModal';
 import { formatTime, isOpen } from '@/app/const/hours';
 import OperationStatus from './ListingTime';
 import { TbShieldQuestion, TbWorld } from 'react-icons/tb';
@@ -257,7 +256,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
         <div className='flex flex-col sm:flex-row lg:w-3/4'>
           <div
             //onClick={() => router.push(`/listings/${data.id}`)}
-            className='aspect-square w-full sm:w-1/2 sm:mr-5 md:mr-0 md:w-1/3 relative overflow-hidden rounded-xl'>
+            className='aspect-square w-full sm:w-1/2 sm:mr-5 md:mr-0 md:w-[250px] md:h-[200px] relative overflow-hidden rounded-xl'>
             <Image
               sizes='100'
               priority={false}
@@ -315,7 +314,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
                     }}
                   />
                   <a href="#reviews" className='ml-2 text-neutral-500 text-base'>
-                    {stars} ({rating.length})
+                    {stars} ({rating?.length})
                   </a>
 
                 </div>
@@ -366,7 +365,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
 
           </div>
         </div>
-        <div className='
+        <div className={`
           hidden
           md:flex 
           flex-row 
@@ -375,9 +374,11 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
           lg:w-1/4 
           pl-5 
           pr-5 
+          ${edit ? 'md:pl-5' : 'md:pl-0'}
+          md:pr-0
           gap-3 
           mt-10 
-          lg:mt-0'>
+          lg:mt-0`}>
           <Button
             label='Ask'
             onClick={() => { }}
@@ -460,7 +461,6 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
             onClick={handleEditAction}
             onClickSecond={handleSecondAction}
           />
-          <ConfirmModal onSubmit={handleDelete} />
 
         </>
 
