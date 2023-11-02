@@ -106,12 +106,3 @@ function Dropdown({
 
 export default Dropdown;
 
-Dropdown.defaultProps = {
-	name: '',
-	type: '',
-	className: '',
-	placeHolder: '',
-	required: false,
-	tabIndex: 0,
-	labelName: '',
-};
