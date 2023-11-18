@@ -188,6 +188,23 @@ const ListingEditModal: React.FC<ListingModalProps> = ({
           setCustomValue('horary',[...horary]);
       })
     }
+
+
+    const urlPatternValidation = (URL:string) => {
+      //const regex = new RegExp('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?');    
+      const regex = new RegExp('(https?://)');    
+      return regex.test(URL);
+    };
+  
+    const changeUrl = (e:any) => {
+      let { value } = e.target;
+      const isValid = !value || urlPatternValidation(value);
+      if(isValid){
+      }else{
+        value='https://';
+      }
+      return value;
+    };
   
 
   const onBack = () => {
@@ -429,7 +446,8 @@ if(step === STEPS.ADDRESS){
               <InputUnregistered
                 value={website || ''}
                 onChange={(e) => {
-                  setCustomValue('website',e.target.value);
+                 const link = changeUrl(e);
+                  setCustomValue('website',link);
                 }}
                 label="Website Link"
                 optional
@@ -440,7 +458,8 @@ if(step === STEPS.ADDRESS){
               <InputUnregistered
                 value={facebook || ''}
                 onChange={(e) => {
-                  setCustomValue('facebook',e.target.value);
+                  const link = changeUrl(e);
+                  setCustomValue('facebook',link);
                 }}
                 label="Facebook Link"
                 optional
@@ -450,7 +469,8 @@ if(step === STEPS.ADDRESS){
               <InputUnregistered
                 value={twitter || ''}
                 onChange={(e) => {
-                  setCustomValue('twitter',e.target.value);
+                  const link = changeUrl(e);
+                  setCustomValue('twitter',link);
                 }}
                 label="Twitter Link"
                 optional
@@ -461,7 +481,8 @@ if(step === STEPS.ADDRESS){
               <InputUnregistered
                 value={instagram || ''}
                 onChange={(e) => {
-                  setCustomValue('instagram',e.target.value);
+                  const link = changeUrl(e);
+                  setCustomValue('instagram',link);
                 }}
                 label="Instagram Link"
                 optional

@@ -10,6 +10,7 @@ interface ButtonProps {
   styles?: string;
   small?: boolean;
   icon?: IconType;
+  iconSize?: number;
   iconRight?:boolean;
   textLeft?:boolean;
   color?: string,
@@ -24,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({
   outline,
   small,
   icon: Icon,
+  iconSize,
   iconRight,
   textLeft,
   roundless,
@@ -58,7 +60,7 @@ const Button: React.FC<ButtonProps> = ({
     >
       {Icon && (
         <Icon
-          size={small ? 18 : 24}
+          size={iconSize ? iconSize :small ? 18 : 24}
           className={`
             absolute
             ${iconRight ? 'right-4' : 'left-4'}

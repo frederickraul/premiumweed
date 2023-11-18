@@ -84,7 +84,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
       title: listing.title,
       description: listing.description,
       horary: listing.horary,
-      website: listing.website,
+      website: listing.website ,
       facebook: listing.facebook,
       instagram: listing.instagram,
       twitter: listing.twitter,
@@ -279,6 +279,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     setStep(Number(step));
     setListingModalOpen();
   }
+
 
   //OPEN CONFIRM DIALOG ON PRESS DELETE PRODUCT BUTTON
   const openConfirmModal = (id: string) => {

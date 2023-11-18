@@ -18,7 +18,7 @@ import ListingCardHorizontal from "@/app/components/listings/ListingCardHorizont
 import Heading from "@/app/components/Heading";
 import { BiCheckShield } from "react-icons/bi";
 import FilterPanel from "./FilterPanel";
-import { dataList } from "@/app/const";
+import { dataList, questions } from "@/app/const";
 import List from "./List";
 import FloatingButton from "@/app/components/FloatingButton";
 import { MdFilterList, MdOutlineReviews } from "react-icons/md";
@@ -30,6 +30,7 @@ import EmptySpace from "@/app/components/EmptySpace";
 import { formatDate } from "@/app/const/hours";
 import ConfirmModal from "@/app/components/modals/ConfirmModal";
 import useConfirmModal from "@/app/hooks/useConfirmModal";
+import QuestionsModal from "@/app/components/modals/QuestionsModal";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -69,6 +70,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const confirmModal = useConfirmModal();
   const states = getStatesOfCountry(listing.locationValue);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
   const [deleteReviewId, setDeleteReviewId] = useState('');
   const [reviewList, setReviewList] = useState(ratings);
 
@@ -77,6 +79,21 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   const toggleReviewModal = () => {
     setIsReviewModalOpen(!isReviewModalOpen);
+  }
+
+  const toggleQuestionModal = () => {
+    setIsQuestionModalOpen(!isQuestionModalOpen);
+  }
+
+  const handleQuestionSave = (data: any) => {
+    data['user'] = currentUser?.name;
+    data['id'] = Math.floor(Math.random()  * (9999999 - 11111111+1)) + 1111111; 
+    setquestionList(questionList => [...questionList, data]);
+
+    console.log(questionList);
+    //toggleReviewModal();
+
+    console.log(data);
   }
 
   const handleReviewDeletePress = (id:string) =>{
@@ -176,21 +193,17 @@ listing?.id,
 currentUser,
 ]);
 
-
-
-
   const category = useMemo(() => {
      return categories.find((items) => 
       items.label === listing.category);
   }, [listing.category]);
 
 
-
-
   const [isLoading, setIsLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(listing.price);
   const [dateRange, setDateRange] = useState<Range>(initialDateRange);
   const [isFilterPanelVisible, setIsFilterPanelVisible] = useState(false);
+  const [questionList, setquestionList] = useState(questions);
   
 
   const toggleFilterPanel = () => {
@@ -396,6 +409,7 @@ currentUser,
            key={listing.id}
            data={listing}
            actionId={listing.id}
+           openQuestions={toggleQuestionModal}
            //onEditAction={editButtonHandler}
            //onAction={onDelete}
            //onActionSecond={openConfirmModal}
@@ -529,6 +543,13 @@ currentUser,
               onSave={handleReviewSave}
               onUpdate={handleReviewUpdate}
               isLoading={isLoading}
+              />
+              <QuestionsModal
+              questions={questionList.reverse()}
+              isOpen={isQuestionModalOpen}
+              onSave={handleQuestionSave}
+              onClose={toggleQuestionModal}
+
               />
 
             <ConfirmModal

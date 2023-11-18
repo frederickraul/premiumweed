@@ -36,6 +36,7 @@ interface ListingCardProps {
   actionId?: string;
   currentUser?: SafeUser | null;
   edit?: boolean;
+  openQuestions?:()=>void;
 }
 const ListingCardHorizontal: React.FC<ListingCardProps> = ({
   data,
@@ -50,9 +51,9 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
   actionLabelSecond,
   actionId,
   currentUser,
-  edit
+  edit,
+  openQuestions
 }) => {
-
 
   const {rating} = data;
   useEffect(() => {
@@ -138,13 +139,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
     [onEditAction, actionId, disabled],
   );
 
-  const price = useMemo(() => {
-    if (reservation) {
-      return reservation.totalPrice;
-    }
 
-    return data.price;
-  }, [reservation, data.price]);
 
   const DropDownInfo = () => {
     return (
@@ -321,7 +316,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
               </div>
               {/* WEBSITE */}
               <div className='w-full md:w-1/2 pl-5 mt-5 lg:mt-0 flex flex-col gap-2'>
-                {data.website !== '' &&
+                {((data.website !== '' && data.website !== null ) || edit) &&
                   <div className='text-neutral-600 flex flex-row justify-between '>
                     <a href={data.website} title={data.website} target='_blank'  className='flex'>
                       <TbWorld size={20} /> <span className='text-base font-bold ml-4'>Visit Website</span>
@@ -332,7 +327,9 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
 
                   </div>
                 }
+
                 {/* FACEBOOK */}
+                {((data.facebook !== '' && data.facebook !== null ) || edit) &&
                 <div className='text-neutral-600 flex flex-row justify-between '>
                   <a href={data.facebook} title={data.facebook} target='_blank'  className='flex'>
                     <BiLogoFacebookCircle size={20} /><span className='text-blue-500 ml-4'>Visit Facebook</span>
@@ -341,7 +338,10 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
                     {edit && <EditButton action={() => { onEditButton && onEditButton('5') }} />}
                   </div>
                 </div>
+                }
+
                 {/* TWITTER */}
+                {((data.twitter !== '' && data.twitter !== null ) || edit) &&
                 <div className='text-neutral-600 flex flex-row justify-between '>
                   <a href={data.twitter} title={data.twitter} target='_blank'  className='flex'>
                     <AiOutlineTwitter size={20} /> <span className='text-blue-500 ml-4'> Visit Twitter</span>
@@ -350,7 +350,10 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
                     {edit && <EditButton action={() => { onEditButton && onEditButton('5') }} />}
                   </div>
                 </div>
+                }
+
                 {/* INSTAGRAM */}
+                {((data.instagram !== '' && data.instagram !== null ) || edit) &&
                 <div className='text-neutral-600 flex flex-row justify-between '>
                   <a href={data.instagram} title={data.instagram} target='_blank'  className='flex'>
                     <AiOutlineInstagram size={20} /><span className='text-blue-500 ml-4'>Visit Instagram</span>
@@ -359,6 +362,8 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
                     {edit && <EditButton action={() => { onEditButton && onEditButton('5') }} />}
                   </div>
                 </div>
+                }
+
               </div>
             </div>
             <DropDownInfo />
@@ -381,7 +386,9 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
           lg:mt-0`}>
           <Button
             label='Ask'
-            onClick={() => { }}
+            onClick={()=>{
+              openQuestions && openQuestions();
+            }}
             color='bg-black'
             icon={TbShieldQuestion}
             borderless

@@ -211,3 +211,67 @@ export const dataList = [
     coverSrc: '/images/dishes/dimsums.jpg',
   },
 ];
+
+
+export const questions = [
+  {
+    id: 1,
+    question: 'Is it possible for additional?',
+    answer:'Sure can. where are u come form'
+  },
+  {
+    id: 2,
+    question: 'Does this product come with any',
+    answer:'It comes with global'
+  },
+  {
+    id: 3,
+    question: 'lautjh qiweoq qowieiq qiwei ',
+    answer:'kwjkelwk kwejklj lkwlejr wwef wew werwe'
+  },
+  {
+    id: 4,
+    question: 'How would your best friend describe you?',
+    answer:'In your opinion, what is your biggest contribution to your previous organisation and why?'
+  },
+  {
+    id: 5,
+    question: 'Tell us about one misconception that people have about you.',
+    answer:'Tell us about a time when you made a mistake. How did you resolve it?'
+  },
+  {
+    id: 6,
+    question: 'What gives you the most energy at work?',
+    answer:'If you are required to learn a new skill, how do you approach the learning process?'
+  },
+  {
+    id: 7,
+    question: 'What is your five-year goal?',
+    answer:'How would you pitch an idea to a senior employee?'
+  },
+  {
+    id: 8,
+    question: 'Tell us about yourself.',
+    answer:'How do you handle criticism from your peers or a superior?'
+  },
+  {
+    id: 9,
+    question: 'What are your strengths?',
+    answer:'Tell us about a time when you had to face conflict at work. How did you handle it?'
+  },
+  {
+    id: 10,
+    question: 'What do you do in your spare time?',
+    answer:'If you could go back and change one thing in your career, what would it be?'
+  },
+  {
+    id: 11,
+    question: 'What is your weakness that can be a strength?',
+    answer:'How do you handle pressure at work?'
+  },
+  {
+    id: 12,
+    question: 'How did you prepare for this interview?',
+    answer:'How do you set professional goals and analyse your performance?'
+  },
+]
