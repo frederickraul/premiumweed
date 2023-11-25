@@ -38,6 +38,8 @@ const CustomersQAClient: React.FC<CustomersQAClientProps> = ({
     }    
       
   }, [questions]);
+
+  console.log(questions);
   
   const [isLoading, setIsLoading] = useState(true);
   const [currentQuestions, setCurrentQuestions] = useState([]);

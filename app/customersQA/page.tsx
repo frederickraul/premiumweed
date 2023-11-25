@@ -13,8 +13,7 @@ const ListingPage = async () => {
   const currentUser = await getCurrentUser();
   const questionList = await getQuestionsByOwnerId();
 
-
-  if (listings.length === 0 && products.length === 0) {
+  if (questionList?.length === 0) {
     return (
         <EmptySpace
           title="No questions found"
