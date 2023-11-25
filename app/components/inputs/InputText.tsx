@@ -11,10 +11,12 @@ interface InputProps{
   label: string;
   type?: string;
   disabled?: boolean;
+  readonly?: boolean;
   small?: boolean;
   optional?: boolean;
   formatPrice?: boolean;
   required?: boolean;
+  rowsNumber?: number;
 }
 
 const InputText: React.FC<InputProps> = ({
@@ -25,9 +27,11 @@ const InputText: React.FC<InputProps> = ({
   optional,
   type,
   disabled,
+  readonly,
   small,
   formatPrice,
   required,
+  rowsNumber,
 
 }) => {
   return (
@@ -44,17 +48,20 @@ const InputText: React.FC<InputProps> = ({
         />
       )}
       <textarea
-      value={value}
-      onChange={(value) => onChange(value)}
-        rows={5}
+        
+        value={value}
+        onChange={(value) => onChange(value)}
+        rows={rowsNumber ? rowsNumber : 5}
         disabled={disabled}
+        readOnly={readonly}
         placeholder=" "
         className={`
+          resize-none
           peer
           w-full
           pt-6
           font-light
-          bg-white
+          ${readonly ? 'bg-neutral-300' : 'bg-white'}
           border-2
           rounded-md
           outline-nonde

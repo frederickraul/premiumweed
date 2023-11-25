@@ -23,16 +23,16 @@ model User {
   ratingListingsIds   String[] @db.ObjectId
   ratingProductsIds   String[] @db.ObjectId
 
-  accounts Account[]
-  listings Listing[]
-  products Product[]
-  ratingProducts RatingProduct[]
-  ratingListings RatingListing[]
-  reservations Reservation[]
-
-
+  accounts        Account[]
+  listings        Listing[]
+  products        Product[]
+  ratingProducts  RatingProduct[]
+  ratingListings  RatingListing[]
   askListings     AskListing[] @relation("customer")
-  respondListings AskListing[] @relation("owner")
+  //respondListings AskListing[] @relation("owner")
+
+  askProducts     AskProduct[]
+  reservations    Reservation[]
 }
 
 model Account {
@@ -118,6 +118,7 @@ model Product {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   rating RatingProduct[]
+  ask AskProduct[]
 
 }
 
@@ -159,7 +160,19 @@ model AskListing {
 
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], name: "customer")
-  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade, name: "owner")
+  //owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade, name: "owner")
+}
+
+model AskProduct {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
+  productId String @db.ObjectId  
+  question  String
+  answer    String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Reservation {

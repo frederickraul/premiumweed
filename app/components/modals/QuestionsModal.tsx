@@ -12,6 +12,7 @@ interface QuestionsModalProps {
     onUpdate?:(data:any)=>void;
     onClose:() => void;
     isLoading?:boolean;
+    isOwner?:any;
   }
 
   const QuestionsModal: React.FC<QuestionsModalProps> = ({
@@ -21,15 +22,19 @@ interface QuestionsModalProps {
     onUpdate,
     onClose,
     isLoading,
+    isOwner
   }) => {
 
     useEffect(() => {
-        setfilteredQuestions(questions);
+        if(questions){
+            setfilteredQuestions(questions);
+        }
     }, [questions]);
     
 
-    const [filteredQuestions, setfilteredQuestions] = useState(questions);
+    const [filteredQuestions, setfilteredQuestions] = useState([]);
     const [filterValue, setfilterValue] = useState('');
+    const [error, setError] = useState(false);
     
 
     const filter = (value:string) =>{
@@ -38,21 +43,27 @@ interface QuestionsModalProps {
         }
         if(value.length >= 3){
             const currentQuestions = questions;
-        
-            const filtered = currentQuestions.filter((question: any) => (question.question.toLowerCase()).includes(value.toLowerCase()));
+            if(currentQuestions === null){
+                return
+            }
+            const filtered = currentQuestions.filter((item: any) => (item.question.toLowerCase()).includes(value.toLowerCase()));
             setfilteredQuestions(filtered);
         }
     }
 
     const clear = () => {
         setfilterValue('');
+        if(!questions == null)
         setfilteredQuestions(questions);
     }
 
     const handleSaveQuestion = () =>{
+        if(filterValue.length <= 3){
+            setError(true);
+            return;
+        }
         const data = {
             question:filterValue,
-            answer:'',
         }
         
         onSave(data);
@@ -62,13 +73,21 @@ interface QuestionsModalProps {
 
     const bodyContent = (
         <div className='flex flex-col'>
-            <div className='fixed bg-white left-0 right-0 top-[75px] h-[100px]'>
+            <div className={`
+                    ${isOwner ? 'hidden' :'top-[75px] h-[100px]'}
+                    fixed 
+                    bg-white 
+                    left-0 
+                    right-0 
+                    
+                    `}>
                 <div className='relative p-5'>
                     <div className='flex flex-row fixed w-[100%]'>
                         <div className='w-[78%] relative'> 
                         <InputUnregistered
                             label=''
                             onChange={(e)=>{
+                                if(error){setError(false)}
                                 setfilterValue(e.target.value);
                                 filter(e.target.value);
                             }}
@@ -97,17 +116,49 @@ interface QuestionsModalProps {
                             onClick={()=>{}}/>
                         </div>
                     </div>
-            </div>
+                    {error &&
+                    <div className='mt-20 ml-2 relative text-red-500'>
+                        The question is too short!!!
+                    </div>
+                    }
+                </div>
             </div>
   
-            <div className=' flex flex-col mt-[100px] min-h-[500px]'>
+            <div className={`flex flex-col min-h-[500px] ${isOwner ? 'mt-[0px]' :  'mt-[100px]'}`}>
+                {questions?.length < 1 &&
+                <div className='text-neutral-500'>
+                Nobody has asked questions yet.
+                {isOwner ? '':' Do the first one!'}
+                
+                </div>
+                }
                 {filteredQuestions.map((question: any) =>(
-                    <div key={question.id} className='w-ful flex flex-col mb-3'>
-                        <span className='font-bold'>
-                            Q: {question.question}
-                        </span>
+                    
+                    <div key={question.id} className='w-full flex flex-col mb-3'>
+                         <div className="flex items-start">
+                            <div>
+                            <span className="inline-flex justify-center items-center w-6 h-6 rounded bg-green-500 text-white font-medium text-sm">
+                                Q
+                            </span>
+                            </div>
+
+                            <p className="ml-4 md:ml-6 text-bold">
+                            {question.question}
+                            </p>
+                        </div>
                         {question.answer !== '' &&
-                        <span>A: {question.answer}</span>
+                        <div className="flex items-start mt-3">
+                            <div>
+                            <span className="inline-flex justify-center items-center w-6 h-6 rounded bg-gray-200 text-gray-800 font-medium text-sm">
+                                A
+                            </span>
+                            </div>
+
+                            <p className="ml-4 md:ml-6 text-bold text-gray-800">
+                            {question.answer}
+                            </p>
+                        </div>
+  
                         }
                     </div>
                     ))
@@ -125,8 +176,9 @@ interface QuestionsModalProps {
             body={bodyContent}
             onClose={onClose}
             onSubmit={handleSaveQuestion}
-            actionLabel="Post your question"
+            actionLabel={isOwner ? '' : 'Post your question'}
             disabled={isLoading}
+        
     
         />
       )

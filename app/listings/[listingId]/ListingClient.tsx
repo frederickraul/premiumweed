@@ -18,7 +18,7 @@ import ListingCardHorizontal from "@/app/components/listings/ListingCardHorizont
 import Heading from "@/app/components/Heading";
 import { BiCheckShield } from "react-icons/bi";
 import FilterPanel from "./FilterPanel";
-import { dataList, questions } from "@/app/const";
+import { dataList } from "@/app/const";
 import List from "./List";
 import FloatingButton from "@/app/components/FloatingButton";
 import { MdFilterList, MdOutlineReviews } from "react-icons/md";
@@ -31,6 +31,7 @@ import { formatDate } from "@/app/const/hours";
 import ConfirmModal from "@/app/components/modals/ConfirmModal";
 import useConfirmModal from "@/app/hooks/useConfirmModal";
 import QuestionsModal from "@/app/components/modals/QuestionsModal";
+import useOwner from "@/app/hooks/useOwner";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -45,6 +46,7 @@ interface ListingClientProps {
   products:SafeProduct[];
   currentUser?: SafeUser | null;
   review?: any;
+  questions?: any;
   ratings?: any;
 }
 
@@ -53,14 +55,21 @@ const ListingClient: React.FC<ListingClientProps> = ({
   products,
   currentUser,
   review,
+  questions,
   ratings,
 }) => {
-
 
   useEffect(() => {
       setReviewList(ratings);
   
-  }, [ratings])
+  }, [ratings]);
+
+  useEffect(() => {
+      setquestionList(questions);
+  
+  }, [questions]);
+
+
   
 
   const { getStatesOfCountry } = useCountries();
@@ -77,6 +86,12 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const loginModal = useLoginModal();
   const router = useRouter();
 
+  const { hasOwner } = useOwner({
+    listingId:listing.id,
+    currentUser
+  });
+
+
   const toggleReviewModal = () => {
     setIsReviewModalOpen(!isReviewModalOpen);
   }
@@ -85,16 +100,37 @@ const ListingClient: React.FC<ListingClientProps> = ({
     setIsQuestionModalOpen(!isQuestionModalOpen);
   }
 
-  const handleQuestionSave = (data: any) => {
-    data['user'] = currentUser?.name;
-    data['id'] = Math.floor(Math.random()  * (9999999 - 11111111+1)) + 1111111; 
-    setquestionList(questionList => [...questionList, data]);
+  const handleQuestionSave =  useCallback((data:any) => {
+    
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
 
-    console.log(questionList);
-    //toggleReviewModal();
-
-    console.log(data);
-  }
+    setIsLoading(true);
+    
+   
+    axios.post('/api/ask/listing', {
+      question:data.question,
+      listingId: listing?.id,
+      ownerId:listing?.userId,
+      userId: currentUser.id
+    })
+    .then(() => {
+      //setIsQuestionModalOpen(false);
+      toast.success('Thank you for ask!!!');
+      router.refresh();
+    })
+    .catch(() => {
+      toast.error('Something went wrong.');
+    })
+    .finally(() => {
+      setIsLoading(false);
+    })
+},
+[
+  listing?.id,
+  currentUser,
+]);
 
   const handleReviewDeletePress = (id:string) =>{
     confirmModal.onOpen();
@@ -248,20 +284,7 @@ currentUser,
     loginModal
   ]);
 
-  useEffect(() => {
-    if (dateRange.startDate && dateRange.endDate) {
-      const dayCount = differenceInDays(
-        dateRange.endDate, 
-        dateRange.startDate
-      );
-      
-      if (dayCount && listing.price) {
-        setTotalPrice(dayCount * listing.price);
-      } else {
-        setTotalPrice(listing.price);
-      }
-    }
-  }, [dateRange, listing.price]);
+
 
 
   // FILTER
@@ -544,12 +567,14 @@ currentUser,
               onUpdate={handleReviewUpdate}
               isLoading={isLoading}
               />
+
               <QuestionsModal
-              questions={questionList.reverse()}
+              questions={questionList}
               isOpen={isQuestionModalOpen}
               onSave={handleQuestionSave}
               onClose={toggleQuestionModal}
-
+              isOwner={hasOwner}
+              isLoading={isLoading}
               />
 
             <ConfirmModal

@@ -6,6 +6,7 @@ import getReservations from "@/app/actions/getReservations";
 import getProducts from "@/app/actions/getProducts";
 import getRatingByListingId from "@/app/actions/getRatingByListingId";
 import getRatingsByListingId from "@/app/actions/getRatingsByListingId";
+import getQuestionsByListingId from "@/app/actions/getQuestionsByListingId";
 
 interface IParams{
   listingId?: string;
@@ -17,8 +18,9 @@ const ListingPage = async ({params}:{params: IParams}) => {
   const products = await getProducts(params);
   const reservations = await getReservations(params);
   const currentUser = await getCurrentUser();
+  const questionList = await getQuestionsByListingId(params);
 
-
+  console.log(questionList);
   if(!listing){
     return (
       <EmptySpace/>
@@ -30,6 +32,7 @@ const ListingPage = async ({params}:{params: IParams}) => {
       currentUser={ currentUser}
       products={ products }
       review={ review }
+      questions={questionList}
       ratings={ ratings }
 
     />
