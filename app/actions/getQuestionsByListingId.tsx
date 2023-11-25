@@ -12,11 +12,7 @@ export default async function getQuestionsByListingId(
   params: IParams
 ) {
   try {
-    const currentUser = await getCurrentUser();
 
-    if (!currentUser) {
-      return [];
-    }
 
   const {listingId} = params;
 

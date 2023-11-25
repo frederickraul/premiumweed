@@ -26,9 +26,8 @@ interface QuestionsModalProps {
   }) => {
 
     useEffect(() => {
-        if(questions){
             setfilteredQuestions(questions);
-        }
+        
     }, [questions]);
     
 
@@ -53,11 +52,12 @@ interface QuestionsModalProps {
 
     const clear = () => {
         setfilterValue('');
-        if(!questions == null)
+        if(questions != null)
         setfilteredQuestions(questions);
     }
 
     const handleSaveQuestion = () =>{
+   
         if(filterValue.length <= 3){
             setError(true);
             return;

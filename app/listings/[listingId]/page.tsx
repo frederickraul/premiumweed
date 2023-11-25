@@ -20,7 +20,6 @@ const ListingPage = async ({params}:{params: IParams}) => {
   const currentUser = await getCurrentUser();
   const questionList = await getQuestionsByListingId(params);
 
-  console.log(questionList);
   if(!listing){
     return (
       <EmptySpace/>

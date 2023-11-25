@@ -103,6 +103,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
   const handleQuestionSave =  useCallback((data:any) => {
     
     if (!currentUser) {
+     setIsQuestionModalOpen(false);
       return loginModal.onOpen();
     }
 
@@ -169,6 +170,7 @@ currentUser,
   const handleReviewSave = useCallback((data:any) => {
 
     if (!currentUser) {
+      setIsReviewModalOpen(false);
       return loginModal.onOpen();
     }
 
@@ -205,6 +207,7 @@ const handleReviewUpdate = useCallback((data:any) => {
 
   
   if (!currentUser) {
+    toggleReviewModal();
     return loginModal.onOpen();
   }
 
