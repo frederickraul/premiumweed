@@ -3,31 +3,31 @@
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 import useFavorite from "@/app/hooks/useFavorite";
-import { SafeUser } from "@/app/types";
+import { SafeListing, SafeProduct, SafeUser } from "@/app/types";
 
 import ClientOnly from "./ClientOnly";
 import useFavoriteProduct from "../hooks/useFavoriteProduct";
 
 interface HeartButtonProps {
-  itemId: string;
+  item: any;
   type?:string;
   disable?: boolean;
   currentUser?: SafeUser | null
 }
 
 const HeartButton: React.FC<HeartButtonProps> = ({ 
-  itemId,
+  item,
   currentUser,
   disable,
   type
 }) => {
   const { hasFavorited, toggleFavorite } = useFavorite({
-    listingId:itemId,
+    listing:item,
     currentUser
   });
 
   const { hasFavoritedProduct, toggleFavoriteProduct } = useFavoriteProduct({
-    productId:itemId,
+    product:item,
     currentUser
   });
 

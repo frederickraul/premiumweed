@@ -24,7 +24,7 @@ interface ReviewProps {
     onDelete,
     currentUser
   }) => {
-  const {id, title, body, user,userId, rating, createdAt} = data;
+  const {id, image, title, body, user,userId, rating, createdAt} = data;
   return (
     
 <div className="
@@ -45,11 +45,11 @@ interface ReviewProps {
                 width={50}
                 height={50}
                 alt='Listing'
-                src={defaultImage}
-                className='rounded-3xl bg-cover'
+                src={user?.image || defaultImage}
+                className='rounded-3xl bg-cover aspect-square'
                 />
                 <div className="ml-3 flex flex-col">
-                    <span className="text-sm font-bold">{user}</span>
+                    <span className="text-sm font-bold">{user?.name}</span>
                     <span className="text-xs font-light text-neutral-400"> {formatDate(createdAt)}</span>
                 </div>
                
@@ -57,7 +57,7 @@ interface ReviewProps {
 
             <div className="mt-6 flex flex-row items-center">
             <StyledRating value={rating}/>
-
+            
                 <span className="text-xs ml-2">{rating}</span>
             </div>
 

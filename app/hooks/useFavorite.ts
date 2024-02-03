@@ -1,27 +1,38 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 
-import { SafeUser } from "@/app/types";
+import { SafeListing, SafeUser } from "@/app/types";
 
 import useLoginModal from "./useLoginModal";
+import getListingById from "../actions/getListingById";
 
 interface IUseFavorite {
-  listingId: string;
+  listing: SafeListing;
   currentUser?: SafeUser | null
 }
 
-const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
-  const router = useRouter();
+interface IParams {
+  listingId?:string;
+ }
 
+const useFavorite = ({ listing, currentUser }: IUseFavorite) => {
+
+  const router = useRouter();
+  const params:IParams = {listingId: listing?.id};
   const loginModal = useLoginModal();
+  
 
   const hasFavorited = useMemo(() => {
     const list = currentUser?.favoriteListingsIds || [];
 
-    return list.includes(listingId);
-  }, [currentUser, listingId]);
+    return list.includes(listing?.id);
+  }, [currentUser, listing?.id]);
+
+  // const [recipientId, setRecipientId] = useState(listing?.userId);
+  
+
 
   const toggleFavorite = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -32,11 +43,21 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
 
     try {
       let request;
+      let notification;
 
       if (hasFavorited) {
-        request = () => axios.delete(`/api/favorites/listings/${listingId}`);
+        
+        request = () => axios.delete(`/api/favorites/listings/${listing?.id}`);
       } else {
-        request = () => axios.post(`/api/favorites/listings/${listingId}`);
+        request = () => axios.post(`/api/favorites/listings/${listing?.id}`);
+        axios.post(`/api/notifications`, {
+            type:'favoriteListing',
+            recipientId:listing?.userId,
+            senderId:currentUser.id,
+            senderName: currentUser.name,
+            listing: listing
+          })
+       
       }
 
       await request();
@@ -49,7 +70,7 @@ const useFavorite = ({ listingId, currentUser }: IUseFavorite) => {
   [
     currentUser, 
     hasFavorited, 
-    listingId, 
+    listing, 
     loginModal,
     router
   ]);

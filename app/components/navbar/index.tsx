@@ -8,15 +8,17 @@ import { UserMenu } from './UserMenu';
 import Categories from './Categories';
 import { SafeUser } from '@/app/types';
 import { IoIosPin } from 'react-icons/io';
-import NotificationButton from '../NotificationButton';
+import NotificationButton from '../notification/NotificationButton';
 import { useRouter } from 'next/navigation';
+import Notificacion from '../notification';
 
 interface NavbarProps {
     currentUser?: SafeUser | null
+    notifications?: any;
 }
-const Navbar: React.FC<NavbarProps> = ({currentUser}) => {
-
+const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
   const route = useRouter();
+
   return (
     <div className='fixed w-full bg-white z-10 '>
     <div className=' w-full bg-white shadow-sm '>
@@ -47,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser}) => {
                     <div className='flex flex-row items-center'>
                         <UserMenu currentUser={currentUser}/>
                         <div className='ml-2'>
-                            <NotificationButton currentUser={currentUser} onClick={()=>{route.push('/customersQA')}}/>
+                            <Notificacion currentUser={currentUser} notifications={notifications}/>
                         </div>
                     </div>
              

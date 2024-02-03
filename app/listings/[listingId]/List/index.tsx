@@ -22,6 +22,7 @@ interface ListProps {
   small?:boolean;
   isLoading:() => void;
   edit?:boolean;
+  isOwner?: boolean;
 }
 const List: React.FC<ListProps> = ({
   list,
@@ -32,7 +33,8 @@ const List: React.FC<ListProps> = ({
   action,
   secondAction,
   openConfirmModal,
-  currentUser
+  currentUser,
+  isOwner
 }) => (
   <>
       {/* ${items == 5 ? 'flex flex-row w-[500px] sm:w-full sm:grid sm:grid-cols-5 overflow-x-scroll' : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"} */}
@@ -57,6 +59,7 @@ const List: React.FC<ListProps> = ({
           onEditAction={secondAction} 
           openConfirmModal={openConfirmModal}
           currentUser={currentUser}
+          isOwner={isOwner}
           />
       ))}
       

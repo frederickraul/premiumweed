@@ -18,7 +18,7 @@ const Container:React.FC<ContainerProps> = ({
       )}
     <div 
       className={`
-        ${full ? 'w-full': 'max-w-[960px]'}
+        ${full ? 'w-full': 'max-w-[960px] 2xl:max-w-[1184px]'}
         mx-auto
         xl:px-10
         md:px-10

@@ -15,6 +15,7 @@ import DoubleButton from '../DoubleButton';
 import ConfirmModal from '../modals/ConfirmModal';
 import { formatTime, isOpen } from '@/app/const/hours';
 import OperationStatus from './ListingTime';
+import useOwner from '@/app/hooks/useOwner';
 
 interface ListingCardProps{
   data: Listing;
@@ -48,6 +49,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const { getByValue} = useCountries();
   const location = getByValue(data.locationValue);
   const title = data.title;
+
+  const { hasOwner } = useOwner({
+    listingId:data.id,
+    currentUser
+  });
 
   const [stars, setStars] = useState<number | null>(2);
 
@@ -116,9 +122,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
               src={data.imageSrc ? data.imageSrc : "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg"}
               className='object-cover h-full w-full group-hover:scale-110 transition'
               />
-            <div className='absolute top-3 right-3'>
+                <div className={hasOwner ? 'hidden' : 'absolute top-3 right-3'}>
                 <HeartButton
-                  itemId={data.id}
+                  item={data}
                   type='listing'
                   currentUser={currentUser}
                 />

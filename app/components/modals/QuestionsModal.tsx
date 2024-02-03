@@ -134,7 +134,7 @@ interface QuestionsModalProps {
                 }
                 {filteredQuestions.map((question: any) =>(
                     
-                    <div key={question.id} className='w-full flex flex-col mb-3'>
+                    <div key={question.id} className='w-full flex flex-col mb-4'>
                          <div className="flex items-start">
                             <div>
                             <span className="inline-flex justify-center items-center w-6 h-6 rounded bg-green-500 text-white font-medium text-sm">
@@ -147,7 +147,7 @@ interface QuestionsModalProps {
                             </p>
                         </div>
                         {question.answer !== '' &&
-                        <div className="flex items-start mt-3">
+                        <div className="flex items-start mt-2 mb-2">
                             <div>
                             <span className="inline-flex justify-center items-center w-6 h-6 rounded bg-gray-200 text-gray-800 font-medium text-sm">
                                 A

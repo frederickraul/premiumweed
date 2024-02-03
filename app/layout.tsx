@@ -16,6 +16,7 @@ import Footer from "./components/footer";
 import { Suspense } from "react";
 import Loading from "./Loading";
 import ListingModal from "./components/modals/ListingModal";
+import getNotificationsByRecipientId from "./actions/getNotificationsByRecipientId";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -35,6 +36,7 @@ export default async function RootLayout({
 }) {
 
   const currentUser = await getCurrentUser();
+  const notifications = await getNotificationsByRecipientId();
 
   return (
     <html lang="en">
@@ -47,7 +49,7 @@ export default async function RootLayout({
               <SearchModal/>
               <RegisterModal/>
            
-              <Navbar currentUser={currentUser}/>
+              <Navbar currentUser={currentUser} notifications={notifications}/>
             </div>
             <Suspense fallback={<Loading/>}>
             <div className="pb-20 pt-28">

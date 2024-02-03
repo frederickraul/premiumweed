@@ -32,7 +32,6 @@ export default async function getRatingsByListingId(
 
     const SafeRating = ratings.map((rating) => ({
       ...rating,
-      user: rating.user.name,
       createdAt: rating.createdAt.toISOString(),
     }));
 

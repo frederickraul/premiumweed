@@ -8,6 +8,11 @@ import getCurrentUser from "@/app/actions/getCurrentUser";
 import ClientOnly from "./components/ClientOnly";
 import EmptySpace from "./components/EmptySpace";
 
+import TimeAgo from 'javascript-time-ago'
+
+import en from 'javascript-time-ago/locale/en.json'
+TimeAgo.addDefaultLocale(en);
+
 interface HomeProps {
   searchParams: IListingsParams
 };
@@ -15,6 +20,7 @@ interface HomeProps {
 const Home = async ({ searchParams }: HomeProps) => {
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
+
 
   if (listings.length === 0) {
     return (

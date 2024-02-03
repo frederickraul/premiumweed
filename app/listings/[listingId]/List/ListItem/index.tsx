@@ -21,7 +21,7 @@ interface ListItemProps {
   onEditAction?:any;
   openConfirmModal?:(id:string)=>void;
   currentUser?: SafeUser | null;
-
+  isOwner?: boolean;
  
 }
 
@@ -32,7 +32,8 @@ const ListItem: React.FC<ListItemProps> = ({
   edit,
   onEditAction,
   openConfirmModal,
-  currentUser
+  currentUser,
+  isOwner,
 }) => {
   const router = useRouter();
   let currentPath = usePathname();
@@ -94,9 +95,9 @@ return(
           <DeleteButton action={()=>{openConfirmModal&&openConfirmModal(item?.id)}}/>
       </div>
    :
-      <div className='absolute top-3 right-3'>
+      <div className={isOwner? 'hidden': 'absolute top-3 right-3'}>
           <HeartButton
-            itemId={item.id}
+            item={item}
             type='product'
             currentUser={currentUser}
           />

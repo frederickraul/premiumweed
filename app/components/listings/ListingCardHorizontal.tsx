@@ -37,6 +37,7 @@ interface ListingCardProps {
   currentUser?: SafeUser | null;
   edit?: boolean;
   openQuestions?:()=>void;
+  isOwner?:any;
 }
 const ListingCardHorizontal: React.FC<ListingCardProps> = ({
   data,
@@ -52,7 +53,8 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
   actionId,
   currentUser,
   edit,
-  openQuestions
+  openQuestions,
+  isOwner
 }) => {
 
   const {rating} = data;
@@ -266,9 +268,9 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
                   <EditButton action={() => { onEditButton && onEditButton('7') }} />
                 </div>
                 :
-                <div className='absolute top-3 right-3'>
+                <div className={isOwner ? 'hidden' : 'absolute top-3 right-3'}>
                   <HeartButton
-                    itemId={data.id}
+                    item={data}
                     type='listing'
                     currentUser={currentUser}
                   />

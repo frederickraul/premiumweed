@@ -21,7 +21,6 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import CustomSelect from "../inputs/Select";
 import { hours } from "@/app/const/hours";
 import InputPhone from "../inputs/InputPhone";
-import { log } from "console";
 import useCountries from "@/app/hooks/useCountries";
 import { week } from "@/app/const/week";
 import { Value } from "@prisma/client/runtime/library";

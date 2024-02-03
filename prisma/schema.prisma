@@ -30,9 +30,11 @@ model User {
   ratingListings RatingListing[]
   reservations Reservation[]
 
-
   askListings     AskListing[] @relation("customer")
   respondListings AskListing[] @relation("owner")
+
+  senderNotifications     Notification[] @relation("sender")
+  recipientNotifications  Notification[] @relation("recipient")
 }
 
 model Account {
@@ -121,6 +123,26 @@ model Product {
 
 }
 
+model Notification {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  recipientId   String @db.ObjectId //receptor
+  senderId      String @db.ObjectId //receptor
+  itemId        String? 
+  itemName      String?
+  item2Id       String? // Required when the listingId and productId is required
+  UTC           String
+  type          String 
+  content       String  
+  count         Int
+  timestamp     Int
+  status        Int
+  createdAt     DateTime @default(now())
+
+  sender User @relation(fields: [senderId], references: [id], name: "sender")
+  recipient User @relation(fields: [recipientId], references: [id], name: "recipient")
+
+}
+
 model RatingListing {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   userId    String @db.ObjectId
@@ -158,16 +180,19 @@ model AskListing {
   createdAt DateTime @default(now())
 
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  
   user User @relation(fields: [userId], references: [id], name: "customer")
   owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade, name: "owner")
 }
 
+
+
 model Reservation {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @db.ObjectId
   listingId String @db.ObjectId  
   startDate DateTime
-  endDate DateTime
+  endDate   DateTime
   totalPrice Int
   createdAt DateTime @default(now())
 

@@ -30,6 +30,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import ConfirmModal from "@/app/components/modals/ConfirmModal";
 import useConfirmModal from "@/app/hooks/useConfirmModal";
+import useOwner from "@/app/hooks/useOwner";
 
 
 
@@ -57,6 +58,12 @@ const ProductClient: React.FC<ProductClientProps> = ({
       setReviewList(ratings);
     }
   }, [ratings]);
+
+  const { hasOwner } = useOwner({
+    productId:product.id,
+    currentUser,
+    type:'product'
+  });
   
 
   const [isLoading, setIsLoading] = useState(true);
@@ -236,9 +243,10 @@ currentUser,
             </div>
 
             <ProductCardHorizontal
-            starValue={ratingAvg}
+              starValue={ratingAvg}
               data={product}
               currentUser={currentUser}
+              isOwner={hasOwner}
             />
 
           </div>
@@ -269,7 +277,9 @@ currentUser,
               isLoading={()=>{toggleIsLoading()}} 
               list={relatedProducts} 
               currentUser={currentUser}
-              action={()=>{}}/> : 
+              action={()=>{}}
+              isOwner={hasOwner}
+              /> : 
             <div className="h-[20vh] flex flex-col gap-2 justify-center  items-center">
             <Heading
               center

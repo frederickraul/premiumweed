@@ -30,5 +30,18 @@ export async function POST(
         status: 0,
       }
     });
+
+    // const notification = await prisma.notification.findMany({
+    //   where:{
+    //       recipientId:userId,
+    //       type:'question'
+    //   },
+      
+    // });
+
+    // return notification;
+
+
+  
     return NextResponse.json(askListing);
 }

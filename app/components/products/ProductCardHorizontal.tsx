@@ -32,6 +32,7 @@ interface ProductCardProps {
   actionLabelSecond?: string;
   actionId?: string;
   currentUser?: SafeUser | null;
+  isOwner?: boolean;
 
 }
 const ProductCardHorizontal: React.FC<ProductCardProps> = ({
@@ -44,7 +45,8 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
   actionLabel,
   actionLabelSecond,
   actionId,
-  currentUser
+  currentUser,
+  isOwner
 
 }) => {
 
@@ -163,9 +165,9 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                   src={data.coverSrc ? data.coverSrc : defaultImage}
                   className='object-cover h-full w-full group-hover:scale-110 transition '
                 />
-                <div className='absolute top-3 right-3'>
+                <div className={isOwner? "hidden" : 'absolute top-3 right-3'}>
                   <HeartButton
-                    itemId={data.id}
+                    item={data}
                     type='product'
                     currentUser={currentUser}
                   />

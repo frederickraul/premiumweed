@@ -116,9 +116,17 @@ const ListingClient: React.FC<ListingClientProps> = ({
       ownerId:listing?.userId,
       userId: currentUser.id
     })
-    .then(() => {
+    .then((response) => {
+      const savedData = response.data;
       //setIsQuestionModalOpen(false);
       toast.success('Thank you for ask!!!');
+      axios.post(`/api/notifications`, {
+        type:'question',
+        recipientId:listing?.userId,
+        senderId:currentUser.id,
+        listing: savedData,
+      })
+
       router.refresh();
     })
     .catch(() => {
@@ -443,6 +451,7 @@ currentUser,
            actionLabel="Edit"
            actionLabelSecond="Delete listing"
            currentUser={currentUser}
+           isOwner={hasOwner}
           />
   
       
@@ -504,7 +513,9 @@ currentUser,
                 currentUser={currentUser}
                   isLoading={()=>{toggleIsLoading()}} 
                   list={products} 
-                  action={()=>{}} /> 
+                  action={()=>{}} 
+                  isOwner={hasOwner}
+                  /> 
               : 
                 <div className="h-[20vh] flex flex-col gap-2 justify-center  items-center">
                   <Heading
@@ -529,7 +540,7 @@ currentUser,
           '>
           <div className='w-full flex flex-row items-center justify-between'>
             <div className='text-lg font-bold '> Reviews</div>
-            <div className="w-[70px] md:w-[60px] lg:w-[50px]">
+            <div className={hasOwner ? "hidden" : "w-[70px] md:w-[60px] lg:w-[50px]"}>
               <FloatingButton
                 label='Write a review'
                 onClick={toggleReviewModal}

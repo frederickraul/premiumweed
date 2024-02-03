@@ -16,7 +16,7 @@ import useRentModal from '@/app/hooks/useRentModal';
 import { useRouter } from 'next/navigation';
 import GetTheApp from './GetTheApp';
 import { SafeUser } from '@/app/types';
-import { MdFormatListBulleted, MdKeyboardArrowDown } from 'react-icons/md';
+import { MdFormatListBulleted, MdKeyboardArrowDown, MdKeyboardArrowRight } from 'react-icons/md';
 import { BiLogIn, BiLogOut, BiSolidCart, BiSolidLogIn } from 'react-icons/bi';
 
 
@@ -26,7 +26,6 @@ interface UserMenuProps {
 
 export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
     
-
     const [isOpen, setIsOpen] = useState(false);
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
@@ -36,6 +35,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
     const defaultValue = {
         current: null,
     } 
+    
     const dropdown = useRef<HTMLInputElement>(null);
 
         useEffect(() => {
@@ -108,7 +108,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     transition
                 "
             >
-                <div className='text-sm font-bold'>More</div>
+                <div className='text-sm font-bold'>{currentUser?.name}</div>
                 <MdKeyboardArrowDown /> 
                 <div className='hidden md:block'>
                      <Avatar src={currentUser?.image} />
@@ -121,22 +121,32 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                 className='
                     absolute
                     rounded-xl
-                    shadow-md
+                    shadow-2xl
                     md:w-4/4 
                     bg-white
                     overflow-hidden
                     right-0
-                    top-12
+                    top-16
                     text-sm
+                    w-[200px]
                 '
             >
                 <div className='flex flex-col cursor-pointer whitespace-nowrap'>
                     {currentUser ? (
                         <>
-                        {/* <MenuItem
-                            onClick={()=>route.push('/reservations')}
-                            label="My trips"
-                        />  */}
+                        <div className='flex flex-row px-5 py-2'>
+                            <div className='block'>
+                                <Avatar src={currentUser?.image} />
+                            </div> 
+                            <div className='ml-2'>
+                                <div className='text-sm font-bold'>{currentUser?.name}</div>
+                                <div className='flex flex-row items-center'>
+                                    <span className='text-xs'>My profile</span>
+                                    <MdKeyboardArrowRight /> 
+                                </div>
+                            </div>
+                        </div>
+                        <hr/>
                         <MenuItem
                             onClick={()=>{
                                 toggleOpen();route.push('/favorites')}}

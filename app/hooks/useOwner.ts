@@ -8,22 +8,31 @@ import { SafeUser } from "@/app/types";
 import useLoginModal from "./useLoginModal";
 
 interface IUseOwner {
-  listingId: string;
-  currentUser?: any | null
+  listingId?: string;
+  productId?: string;
+  currentUser?: any | null;
+  type?:string;
 }
 
-const useOwner = ({ listingId, currentUser }: IUseOwner) => {
+const useOwner = ({ listingId, currentUser,productId,type }: IUseOwner) => {
   const router = useRouter();
 
   const loginModal = useLoginModal();
 
   const hasOwner = useMemo(() => {
-    const list = currentUser?.listings || [];
+    let list= [];
+    let itemId = listingId;
+    
+    list = currentUser?.listings || [];
+    if(type == "product"){
+        itemId = productId;
+        list = currentUser?.products || [];
+    }
 
     return list.find((element:any) => {
-      return element.id === listingId;
+      return element.id === itemId;
     })
-  }, [currentUser, listingId]);
+  }, [currentUser, listingId, productId]);
 
   const toggleFavorite = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();

@@ -8,24 +8,17 @@ import { SafeUser } from "@/app/types";
 import useLoginModal from "./useLoginModal";
 
 interface IUseNotification {
-    currentUser?: any | null
+    notificationId?: any | null,
+    currentUser?: SafeUser | null
+
 }
 
-const useNotification = ({  currentUser }: IUseNotification) => {
+const useNotification = ({  notificationId, currentUser }: IUseNotification) => {
   const router = useRouter();
 
   const loginModal = useLoginModal();
 
-  const hasNotifications = useMemo(() => {
-    const list = currentUser?.respondListings || [];
-
-    return list.filter((element:any) => {
-      return element.status === 0;
-    })
-  }, [currentUser]);
-
-  const toggleFavorite = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const setRead = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
 
     if (!currentUser) {
       return loginModal.onOpen();
@@ -33,30 +26,22 @@ const useNotification = ({  currentUser }: IUseNotification) => {
 
     try {
       let request;
-
-      if (hasNotifications) {
-       // request = () => axios.delete(`/api/favorites/listings/${listingId}`);
-      } else {
-        //request = () => axios.post(`/api/favorites/listings/${listingId}`);
-      }
-
-      //await request();
+       request = () =>  axios.post(`/api/notifications/${notificationId}`);
+      
+      await request();
       router.refresh();
-      toast.success('Success');
+      //toast.success('Success');
     } catch (error) {
       toast.error('Something went wrong.');
     }
   }, 
   [
-    currentUser, 
-    hasNotifications, 
     loginModal,
     router
   ]);
 
   return {
-    hasNotifications,
-    toggleFavorite,
+    setRead,
   }
 }
 
