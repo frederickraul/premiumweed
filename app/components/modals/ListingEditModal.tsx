@@ -605,12 +605,12 @@ if(step === STEPS.ADDRESS){
       bodyContent = (
         <div className="flex flex-col gap-8">
           <Heading
-            title="Add a cover of your listing"
-            subtitle="show guest what your cover looks like!"
+            title="Add a logo of your listing"
+            subtitle="show guest what your logo looks like!"
           />
           <ImageUpload 
-            value={coverSrc}
-            onChange={(value) => setCustomValue('coverSrc', value)}
+            value={imageSrc}
+            onChange={(value) => setCustomValue('imageSrc', value)}
           />
         </div>
       )
