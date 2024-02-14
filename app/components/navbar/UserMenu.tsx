@@ -18,6 +18,7 @@ import GetTheApp from './GetTheApp';
 import { SafeUser } from '@/app/types';
 import { MdFormatListBulleted, MdKeyboardArrowDown, MdKeyboardArrowRight } from 'react-icons/md';
 import { BiLogIn, BiLogOut, BiSolidCart, BiSolidLogIn } from 'react-icons/bi';
+import { TbShieldQuestion } from 'react-icons/tb';
 
 
 interface UserMenuProps {
@@ -147,6 +148,14 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                             </div>
                         </div>
                         <hr/>
+                        <MenuItem
+                            onClick={()=>{
+                                toggleOpen();route.push('/customersQA')}}
+                                icon={TbShieldQuestion}
+                                style='text-neutral-500'
+                            link='/customersQA'
+                            label="CustomersQA"
+                        /> 
                         <MenuItem
                             onClick={()=>{
                                 toggleOpen();route.push('/favorites')}}
