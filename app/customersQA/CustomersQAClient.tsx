@@ -50,8 +50,8 @@ const handleSendAnswer = useCallback((data:any) => {
   setIsLoading(true);
   axios.post(`/api/ask/listing/${data?.id}`, data)
   .then(() => {
+    axios.post(`/api/notifications/${data?.id}`);
     toast.success('You answer has been sended!!!');
-    axios.post(`/api/notifications/${data?.id}`, data);
     router.refresh();
   })
   .catch(() => {

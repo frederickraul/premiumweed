@@ -18,7 +18,7 @@ const useNotification = ({  notificationId, currentUser }: IUseNotification) => 
 
   const loginModal = useLoginModal();
 
-  const setRead = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
+  const setAnswer = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
 
     if (!currentUser) {
       return loginModal.onOpen();
@@ -40,8 +40,32 @@ const useNotification = ({  notificationId, currentUser }: IUseNotification) => 
     router
   ]);
 
+  const setRead = useCallback(async (notificationId:string) => {
+
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    try {
+      let request;
+      console.log(notificationId);
+       request = () =>  axios.post(`/api/notifications/setread/${notificationId}`);
+      
+      await request();
+      router.refresh();
+      //toast.success('Success');
+    } catch (error) {
+      toast.error('Something went wrong.');
+    }
+  }, 
+  [
+    loginModal,
+    router
+  ]);
+
   return {
     setRead,
+    setAnswer
   }
 }
 

@@ -53,8 +53,10 @@
     "react-windowed-select": "^5.1.0",
     "sass": "^1.69.5",
     "styled-components": "^5.3.11",
+    "swr": "^2.2.4",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6",
+    "use-sound": "^4.0.1",
     "world-countries": "^4.0.0",
     "zustand": "^4.3.9"
   },

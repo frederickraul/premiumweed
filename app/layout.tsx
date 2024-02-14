@@ -13,7 +13,7 @@ import ToasterProvider from "./providers/ToasterProvider";
 import getCurrentUser from "./actions/getCurrentUser";
 import SearchModal from "./components/modals/SearchModal";
 import Footer from "./components/footer";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Loading from "./Loading";
 import ListingModal from "./components/modals/ListingModal";
 import getNotificationsByRecipientId from "./actions/getNotificationsByRecipientId";

@@ -1,12 +1,13 @@
 'use client';
-const soundUrl = `https://ia800203.us.archive.org/14/items/slack_sfx/been_tree.mp3`;
-
 
 import { useEffect, useState } from 'react';
 import '../../notification.scss';
 import useNotification from '../../hooks/useNotifications';
 import { SafeUser } from '../../types';
 import BellIcon from './BellIcon';
+
+
+// const soundUrl = `https://ia800203.us.archive.org/14/items/slack_sfx/been_tree.mp3`;
 
 interface NotificationButtonProps {
   onClick: () => void;
@@ -24,9 +25,8 @@ const NotificationButton: React.FC<NotificationButtonProps> = ({
   currentUser
 }) => {
 
-
-  
     const [isAnimating, setIsAnimating] = useState(false);
+
 
     const handleOn = () => setInterval(()=> setIsAnimating(!isAnimating), 5000);
     

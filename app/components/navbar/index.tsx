@@ -8,16 +8,16 @@ import { UserMenu } from './UserMenu';
 import Categories from './Categories';
 import { SafeUser } from '@/app/types';
 import { IoIosPin } from 'react-icons/io';
-import NotificationButton from '../notification/NotificationButton';
 import { useRouter } from 'next/navigation';
 import Notificacion from '../notification';
+import { useEffect } from 'react';
 
 interface NavbarProps {
     currentUser?: SafeUser | null
     notifications?: any;
 }
 const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
-  const route = useRouter();
+  
 
   return (
     <div className='fixed w-full bg-white z-10 '>
