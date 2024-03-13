@@ -10,12 +10,12 @@ import getChatById from "@/app/actions/getChatById";
 interface IParams{
   chatId?: string;
 }
+
 const MessagePage = async ({params}:{params: IParams}) => {
 
   const notifications = await getAllNotifications();
   const currentUser = await getCurrentUser();
   const chat = await getChatById(params);
-  //const questionList = await getQuestionsByUserId();
   
   if (!currentUser) {
     return <EmptySpace
@@ -30,6 +30,7 @@ const MessagePage = async ({params}:{params: IParams}) => {
       subtitle=""
   />
   }
+
   return (
      <>
       <MessageClient

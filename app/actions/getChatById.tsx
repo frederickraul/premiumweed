@@ -15,7 +15,7 @@ try {
   const currentUser = await getCurrentUser();
 
     if (!currentUser) {
-      return [];
+      return null;
     }
 
    const chat = await prisma.chat.findUnique({
