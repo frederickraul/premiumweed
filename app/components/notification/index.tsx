@@ -10,7 +10,7 @@ import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en.json'
 
-TimeAgo.addDefaultLocale(en)
+TimeAgo.addLocale(en)
 import ReactTimeAgo from 'react-time-ago'
 import Message from './Message';
 import axios from 'axios';
@@ -34,79 +34,13 @@ const Notificacion: React.FC<NotificationProps> = ({
     const [isListOpen, setIsListOpen] = useState(false);
     const [count, setcount] = useState(notifications?.length);
     const [currentNotifications, setCurrentNotifications] = useState(notifications);
-    const [lastNotification, setLastNotification] = useState(notifications[0]?.id);
-    const [mute, setMute] = useState(false);
 
-    const playSound = () => {
-      //const audio = new Audio('/sounds/attention-bell.wav');
-      const audio = new Audio('/sounds/correct-2-46134.mp3');
-      audio.addEventListener('canplaythrough', (event) => {
-        // the audio is now playable; play it if permissions allow
-        audio.play();
-      });
-    };
 
-    
     useEffect(() => {
-     setcount(notifications?.length);
-     setCurrentNotifications(notifications);
+      setcount(notifications?.length);
+      setCurrentNotifications(notifications);
     }, [notifications]);
 
-    useEffect(() => {
-
-      setLastNotification(currentNotifications[0]?.id);
-
-      if(lastNotification !== currentNotifications[0]?.id){
-           if(!mute){
-              console.log('Play');
-              playSound();
-            } 
-
-          router.refresh();   
-
-      }
-    }, [currentNotifications, lastNotification]);
-    
-
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-           checkNotificationUpdate();
-        }, 5000);
-        return () => clearInterval(interval);
-      }, []);
-
-   
-    
-
-    const checkNotificationUpdate =  useCallback(() => {
-      if (!currentUser) {
-        return;
-      }
-
-      const currentLastNotificacion = lastNotification || 0;
-
-      //Check if there is changes on the notifications
-      axios.get('/api/notifications/recipient/'+currentLastNotificacion)
-      .then((response) => {
-          const data = response?.data;  
-          //console.log("Response: " + data?.lastNotificationId);
-          setLastNotification(data?.lastNotificationId); 
-          return;
-        })
-        .catch(() => {
-          //toast.error('Something went wrong.');
-        })
-        .finally(() => {
-          
-          //setIsLoading(false);
-        })
-    },
-    [
-      //listing?.id,
-      currentUser,
-    ]);
-    
     const dropdown = useRef<HTMLInputElement>(null);
 
         useEffect(() => {
@@ -117,7 +51,6 @@ const Notificacion: React.FC<NotificationProps> = ({
         }, [dropdown]);
 
         const handleOutSideClick = (event: any) => {
-            setMute(false);
             if (!dropdown.current?.contains(event.target)) {
                 setIsListOpen(false);
             }

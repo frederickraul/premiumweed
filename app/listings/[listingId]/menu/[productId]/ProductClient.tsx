@@ -37,6 +37,7 @@ import useOwner from "@/app/hooks/useOwner";
 interface ProductClientProps {
   listing?: any;
   product: any;
+  chat?:any;
   relatedProducts:any;
   currentUser?: SafeUser | null;
   review?: any;
@@ -46,6 +47,7 @@ interface ProductClientProps {
 
 const ProductClient: React.FC<ProductClientProps> = ({
   product,
+  chat,
   relatedProducts,
   listing,
   currentUser,
@@ -245,6 +247,7 @@ currentUser,
             <ProductCardHorizontal
               starValue={ratingAvg}
               data={product}
+              chatId={chat.id}
               currentUser={currentUser}
               isOwner={hasOwner}
             />

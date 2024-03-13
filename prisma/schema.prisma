@@ -26,6 +26,7 @@ model User {
   accounts Account[]
   listings Listing[]
   products Product[]
+
   ratingProducts RatingProduct[]
   ratingListings RatingListing[]
   reservations Reservation[]
@@ -33,8 +34,15 @@ model User {
   askListings     AskListing[] @relation("customer")
   respondListings AskListing[] @relation("owner")
 
+  chatUser        Chat[] @relation("user")
+  chatRecipient   Chat[] @relation("recipient")
+
+  messageUser    Message[] @relation("user")
+  messageSender  Message[] @relation("sender")
+
   senderNotifications     Notification[] @relation("sender")
   recipientNotifications  Notification[] @relation("recipient")
+  // recipientMessage        Message[] @relation("recipient")
 }
 
 model Account {
@@ -120,6 +128,8 @@ model Product {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   rating RatingProduct[]
+  chats Chat[]
+  // messages Message[]
 
 }
 
@@ -140,7 +150,32 @@ model Notification {
 
   sender User @relation(fields: [senderId], references: [id], name: "sender")
   recipient User @relation(fields: [recipientId], references: [id], name: "recipient")
+}
 
+model Chat{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  productId     String @db.ObjectId 
+  userId        String @db.ObjectId // User that initialize the chat
+  recipientId   String @db.ObjectId 
+  createdAt     DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], name: "user")
+  recipient User @relation(fields: [recipientId], references: [id], onDelete: Cascade, name: "recipient")
+  messages Message[]
+}
+
+model Message {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String @db.ObjectId //User that receives the message //Message can delete their owns Messages now
+  senderId      String @db.ObjectId //User that send the message
+  chatId        String @db.ObjectId 
+  content       String
+  createdAt     DateTime @default(now())
+
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], name: "user")
+  sender User @relation(fields: [senderId], references: [id], onDelete: Cascade, name: "sender")
 }
 
 model RatingListing {

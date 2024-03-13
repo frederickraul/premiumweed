@@ -66,11 +66,8 @@ export async function GET(
       },
       orderBy: [
         {
-          status: 'asc',
+          createdAt: 'desc'
         },
-        {
-          timestamp: 'desc'
-        }
       ],
       take: 1,
       include:{

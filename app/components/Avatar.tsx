@@ -4,15 +4,16 @@ import Image from "next/image";
 
 interface AvatarProps {
   src: string | null | undefined;
+  size?: number;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ src }) => {
+const Avatar: React.FC<AvatarProps> = ({ src,size }) => {
   return ( 
     <Image 
       className="rounded-full aspect-square" 
       priority={false}
-      height="30" 
-      width="30" 
+      height={size ? size : 30 } 
+      width={size ? size : 30 } 
       alt="Avatar" 
       src={src || '/images/placeholder.jpg'}
     />

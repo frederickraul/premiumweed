@@ -14,6 +14,8 @@ export async function POST(
       senderName,
       listing,
       product,
+      item,
+      message,
     } = data;
 
     Object.keys(data).forEach((value: any) => {
@@ -22,6 +24,7 @@ export async function POST(
         }
       });
     
+    const currentTime = Date.now();
     let content = "";
     let itemId ="";
     let itemName = "";
@@ -42,9 +45,36 @@ export async function POST(
         itemName = product?.title;
         item2Id = product?.listingId;
         break;
+        case "message":
+        content=message;
+        itemId = item.id;
+        const notification = await prisma.notification.findFirst({
+          where:{
+            recipientId:recipientId,
+            senderId: senderId,
+            itemId: itemId,
+          }
+        });
+
+        if(notification){
+          const updatedNotification = await prisma.notification.update({
+            where:{
+              id: notification.id
+            },
+            data:{
+              content:content,
+              status:0,
+              timestamp: currentTime,
+            }
+          });
+          return NextResponse.json(updatedNotification);
+        } 
+
+        
+        break;
     }
 
-    const currentTime = Date.now();
+
     const notification = await prisma.notification.create({
       data:{
         type,

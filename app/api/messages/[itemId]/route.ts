@@ -67,28 +67,3 @@ export async function POST(
 
 }
 
-
-export async function DELETE(
-  request:Request,
-  { params }: { params: IParams }
-  ) {
-
-    const { itemId } = params;
-    console.log(`id: ${itemId}`)
-
-    const currentUser = await getCurrentUser();
-    if(!currentUser){
-      return NextResponse.error();
-    }
-
-    const notification = await prisma.notification.delete({
-      where: {
-        id: itemId,
-        recipientId: currentUser.id
-      }
-    });
-
-    return NextResponse.json(notification);
-
-}
-

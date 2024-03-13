@@ -5,7 +5,7 @@ import prisma from '@/app/libs/prismadb';
 interface IParams {
  productId?:string;
 }
-export default async function getListingById(
+export default async function getProductById(
   params: IParams
 ) {
 try {
@@ -20,6 +20,7 @@ try {
     include:{
       user: true,
       rating:true,
+      listing: true,
     }
    });
 
@@ -34,8 +35,6 @@ try {
       ...product.user,
       createdAt: product.user.createdAt.toISOString(),
       updatedAt: product.user.updatedAt.toISOString(),
-
-
     }
   };
    

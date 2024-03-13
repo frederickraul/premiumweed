@@ -16,49 +16,57 @@ import { useRouter } from "next/navigation";
 import Message from "../components/notification/Message";
 import MessageDetails from "./MessageDetails";
 
-interface NotificatonsProps {
-  notifications: any,
+interface MessagesProps {
+  chats: any,
   currentUser?: any,
 }
 
-const Notifications: React.FC<NotificatonsProps> = ({
-  notifications,
+const Messages: React.FC<MessagesProps> = ({
+  chats,
   currentUser,
 }) => {
 
   useEffect(() => {
-    if(notifications){
-      setcurrentNotifications(notifications);
+    if(chats){
+      let orderedChats = chats;
+      orderedChats.sort((a:any,b:any) => b.timestamp - a.timestamp);
+      setcurrentNotifications(orderedChats);
     }    
-  }, [notifications]);
+  }, [chats]);
+
+  // console.log(chats);
   
   const [isLoading, setIsLoading] = useState(true);
   const [currentNotifications, setcurrentNotifications] = useState([]);
   const router = useRouter();
     useEffect(() => {
       setIsLoading(false);
-    }, [notifications]);
+    }, [chats]);
 
+ 
 
   return (
     <Container isLoading={isLoading}>
       <Heading
-        title="Notification history"
-        subtitle="List of all yours notifications!"
+        title="Messages"
+        subtitle="List of all yours messages!"
       />
       {currentNotifications.length < 1 ?
-        <EmptySpace title="There´s not notifications yet." subtitle="" />
+        <EmptySpace title="There´s not messages yet." subtitle="" />
       :
 
       <div className="w-full mx-auto p-5 mb-20 bg-white rounded-lg shadow mt-5">
-       {currentNotifications?.map((notification:any) => (
+       {currentNotifications?.map((chat:any) => (
+                chat.messages[0] && ( //Only display the chat if messages exist
                         <MessageDetails 
-                          key={notification.id} 
-                          notification={notification} 
+                          key={chat.id} 
+                          chat={chat} 
                           currentUser={currentUser} 
                           onClick={()=>{}}/>
 
-                    ))}
+                      ))
+                )
+          }
         
       </div>
   }
@@ -66,4 +74,4 @@ const Notifications: React.FC<NotificatonsProps> = ({
    );
 }
  
-export default Notifications;
+export default Messages;

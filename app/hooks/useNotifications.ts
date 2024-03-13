@@ -48,7 +48,6 @@ const useNotification = ({  notificationId, currentUser }: IUseNotification) => 
 
     try {
       let request;
-      console.log(notificationId);
        request = () =>  axios.post(`/api/notifications/setread/${notificationId}`);
       
       await request();
@@ -63,9 +62,32 @@ const useNotification = ({  notificationId, currentUser }: IUseNotification) => 
     router
   ]);
 
+  const deleteNotification = useCallback(async (e: React.MouseEvent<HTMLDivElement>) => {
+
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    try {
+      let request;
+       request = () =>  axios.delete(`/api/notifications/${notificationId}`);
+      
+      await request();
+      router.refresh();
+      toast.success('Success');
+    } catch (error) {
+      toast.error('Something went wrong.');
+    }
+  }, 
+  [
+    loginModal,
+    router
+  ]);
+
   return {
     setRead,
-    setAnswer
+    setAnswer,
+    deleteNotification
   }
 }
 

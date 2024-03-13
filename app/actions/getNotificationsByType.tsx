@@ -3,7 +3,7 @@ import prisma from '@/app/libs/prismadb';
 
 import getCurrentUser from "./getCurrentUser";
 
-export default async function getNotificationsByRecipientId() {
+export default async function getNotificationsByType(type:string) {
   try {
     const currentUser = await getCurrentUser();
 
@@ -15,11 +15,12 @@ export default async function getNotificationsByRecipientId() {
 
    const notifications = await prisma.notification.findMany({
     where:{
-      AND:[
+      type: type,
+      OR:[
         {
           recipientId: currentUser.id,
         },{
-          status: 0,
+          senderId: currentUser.id,
         }
       ]
     },
@@ -33,6 +34,7 @@ export default async function getNotificationsByRecipientId() {
     ],
     include:{
       sender:true,
+      
     }
   
     

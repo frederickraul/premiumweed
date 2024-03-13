@@ -109,7 +109,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     transition
                 "
             >
-                <div className='text-sm font-bold'>{currentUser?.name}</div>
+                <div className='truncate text-sm font-bold'>{currentUser?.name}</div>
                 <MdKeyboardArrowDown /> 
                 <div className='hidden md:block'>
                      <Avatar src={currentUser?.image} />

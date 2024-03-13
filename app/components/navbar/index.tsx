@@ -10,7 +10,9 @@ import { SafeUser } from '@/app/types';
 import { IoIosPin } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import Notificacion from '../notification';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import Messages from '../messages';
+import axios from 'axios';
 
 interface NavbarProps {
     currentUser?: SafeUser | null
@@ -18,6 +20,116 @@ interface NavbarProps {
 }
 const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
   
+    const router = useRouter();
+   
+  const [lastNotification, setLastNotification] = useState(notifications[0]?.id);
+  const [mute, setMute] = useState(false);
+  const [currentNotifications, setCurrentNotifications] = useState<any[]>([])
+  const [currentMessages, setCurrentMessages] = useState<any[]>([])
+
+
+
+  useEffect(() => {
+    const messages = notifications.filter((message:any) => message.type.includes("message"));
+    const filteresNotifications = notifications.filter((message:any) => message.type != "message");
+    setCurrentNotifications(filteresNotifications);
+    setCurrentMessages(messages);
+    //setFilteredUsers(filtered);
+    //console.log(notifications);
+  }, [notifications]);
+
+  const playSound = () => {
+    //const audio = new Audio('/sounds/attention-bell.wav');
+    const audio = new Audio('/sounds/correct-2-46134.mp3');
+    audio.addEventListener('canplaythrough', (event) => {
+      // the audio is now playable; play it if permissions allow
+      audio.play();
+    });
+  };
+
+  
+  useEffect(() => {
+    // console.log("last: " + lastNotification);
+    // console.log("noti: " + currentN);
+    // console.log("message: " + currentMessages[0]?.id);
+    if (lastNotification != currentMessages[0]?.id && lastNotification !== currentMessages[0]?.id ) {
+      if (!mute) {
+        //console.log('Play');
+        playSound();
+      }
+
+      router.refresh();
+    }else{
+      //console.log('Evething is the same');
+    }
+  }, [lastNotification]);
+  
+
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      checkNotificationUpdate();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  
+  const checkNotificationUpdate = useCallback(() => {
+    if (!currentUser) {
+      return;
+    }
+    //Check if there is changes on the notifications
+    axios.get('/api/notifications/recipient/' + lastNotification)
+      .then((response) => {
+        const data = response?.data;
+        // console.log("Response: " + data?.lastNotificationId);
+        // console.log("LastSaved: " + lastNotification);
+        setLastNotification(data?.lastNotificationId);
+        return;
+      })
+      .catch(() => {
+        //toast.error('Something went wrong.');
+      })
+      .finally(() => {
+
+        //setIsLoading(false);
+      })
+  },
+    [
+      //listing?.id,
+      currentUser,
+    ]);
+
+
+    const handleDeleteNotification = useCallback(() => {
+      if (!currentUser) {
+        return;
+      }
+      //Check if there is changes on the notifications
+      axios.get('/api/notifications/recipient/' + lastNotification)
+        .then((response) => {
+          const data = response?.data;
+          // console.log("Response: " + data?.lastNotificationId);
+          // console.log("LastSaved: " + lastNotification);
+          setLastNotification(data?.lastNotificationId);
+          return;
+        })
+        .catch(() => {
+          //toast.error('Something went wrong.');
+        })
+        .finally(() => {
+  
+          //setIsLoading(false);
+        })
+    },
+      [
+        //listing?.id,
+        currentUser,
+      ]);
+  
+
+
 
   return (
     <div className='fixed w-full bg-white z-10 '>
@@ -48,8 +160,9 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
                     </div>
                     <div className='flex flex-row items-center'>
                         <UserMenu currentUser={currentUser}/>
-                        <div className='ml-2'>
-                            <Notificacion currentUser={currentUser} notifications={notifications}/>
+                        <div className='flex ml-2'>
+                            <Messages currentUser={currentUser} notifications={currentMessages}/>
+                            <Notificacion currentUser={currentUser} notifications={currentNotifications}/>
                         </div>
                     </div>
              

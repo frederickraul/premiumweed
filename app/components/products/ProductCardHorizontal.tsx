@@ -24,6 +24,7 @@ import { dataList, defaultImage } from '@/app/const';
 interface ProductCardProps {
   starValue?: number;
   data: any;
+  chatId?: string;
   onEditAction?: (id: string) => void;
   onAction?: (id: string) => void;
   onActionSecond?: (id: string) => void;
@@ -38,6 +39,7 @@ interface ProductCardProps {
 const ProductCardHorizontal: React.FC<ProductCardProps> = ({
   starValue,
   data,
+  chatId,
   onEditAction,
   onAction,
   onActionSecond,
@@ -49,6 +51,7 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
   isOwner
 
 }) => {
+
 
   const {rating} = data;
 
@@ -234,6 +237,17 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                     styles='border-black'
                     label='Add to cart'
                     onClick={()=>{alert('Soon')}}
+                  />
+                  <div className='mt-2'></div>
+                  <Button
+                    icon={TbShieldQuestion}
+                    color='bg-black'
+                    outline
+                    styles='border-black'
+                    label='Ask'
+                    onClick={()=>{
+                      router.push(`/messages/${chatId}`)
+                    }}
                   />
                 </div>
                 <div className='

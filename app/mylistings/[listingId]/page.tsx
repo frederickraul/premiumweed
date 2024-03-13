@@ -20,6 +20,13 @@ const ListingPage = async ({params}:{params: IParams}) => {
       subtitle="Please login"
     />
   }
+
+  if (listing?.userId !== currentUser.id) {
+    return <EmptySpace
+      title="Unauthorized"
+      subtitle=""
+    />
+  }
   
   if(!listing){
     return (

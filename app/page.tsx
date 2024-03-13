@@ -11,7 +11,7 @@ import EmptySpace from "./components/EmptySpace";
 import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en.json'
-TimeAgo.addDefaultLocale(en);
+TimeAgo.addLocale(en);
 
 interface HomeProps {
   searchParams: IListingsParams

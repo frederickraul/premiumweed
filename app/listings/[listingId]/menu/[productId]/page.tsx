@@ -9,6 +9,7 @@ import getProductById from '@/app/actions/getProductById';
 import getProducts from '@/app/actions/getProducts';
 import getRatingByProductId from '@/app/actions/getRatingByProductId';
 import getRatingsByProductId from '@/app/actions/getRatingsByProductId';
+import getChatId from '@/app/actions/getChatId';
 
 
 interface IParams{
@@ -24,8 +25,11 @@ const ProductPage = async ({params}:{params: IParams}) => {
   const currentUser = await getCurrentUser();
   const review = await getRatingByProductId(params);
   const ratings = await getRatingsByProductId(params);
+  const chat = await getChatId({product});
   
 
+  console.log("ChatId: ");
+  console.log(chat);
 
   //const params = useParams()
   //const listing = await getListingById(params);
@@ -38,13 +42,14 @@ const ProductPage = async ({params}:{params: IParams}) => {
   return (
     <div>
       <ProductClient
-        listing={listing}
-        product={product}
-        relatedProducts={relatedProducts}
-        currentUser={currentUser}
-        review={ review }
-        ratings={ ratings }
-      />
+          listing={listing}
+          product={product}
+          chat={chat}
+          relatedProducts={relatedProducts}
+          currentUser={currentUser}
+          review={ review }
+          ratings={ ratings }
+        />
     </div>
   )
  

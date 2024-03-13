@@ -14,8 +14,8 @@ const ListingPage = async () => {
   if (questionList?.length === 0) {
     return (
         <EmptySpace
-          title="No questions found"
-          subtitle="Looks like you have no questions to answer right now."
+          title="No notifications found"
+          subtitle="Looks like you have no notifications right now."
         />
     );
   }
