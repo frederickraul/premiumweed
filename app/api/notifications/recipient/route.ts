@@ -4,19 +4,13 @@ import prisma from '@/app/libs/prismadb';
 import { NextResponse } from 'next/server'
 import getCurrentUser from '@/app/actions/getCurrentUser';
 
-interface IParams {
-  lastNotificationId?: string;
-}
 
-export async function POST(
-  request:Request,
-  { params }: { params: IParams }
-  ) {
+
+export async function GET() {
     const currentUser = await getCurrentUser();
     if(!currentUser){
       return NextResponse.error();
     }
-    const { lastNotificationId } = params;
     
     const notifications = await prisma.notification.findMany({
       where:{
@@ -33,13 +27,30 @@ export async function POST(
           status: 'asc',
         },
         {
-          createdAt: 'desc'
+          timestamp: 'desc'
         }
       ],
+      take: 1,
       include:{
         sender:true,
       }
   });
-    
-    return NextResponse.json(notifications);
+
+  const lastNotification = notifications[0];
+
+  if(!lastNotification){
+    const data = {
+      id:0,
+      timestamp: 0
+    }
+    return NextResponse.json(JSON.stringify(data));
+   }
+
+
+   //console.log(lastNotification);
+   
+   return NextResponse.json(lastNotification);
+
 }
+
+

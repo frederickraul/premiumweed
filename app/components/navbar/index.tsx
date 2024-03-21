@@ -22,20 +22,27 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
   
     const router = useRouter();
    
-  const [lastNotification, setLastNotification] = useState(notifications[0]?.id);
+  const [lastNotification, setLastNotification] = useState(notifications[0]);
   const [mute, setMute] = useState(false);
-  const [currentNotifications, setCurrentNotifications] = useState<any[]>([])
-  const [currentMessages, setCurrentMessages] = useState<any[]>([])
+  const [allNotifications, setAllNotifications] = useState<any[]>([]);
+  //Filtered Notifications != Type message
+  const [currentNotifications, setCurrentNotifications] = useState<any[]>([]);
+  // Filteres Notifications Type message
+  const [currentMessages, setCurrentMessages] = useState<any[]>([]);
 
 
 
   useEffect(() => {
     const messages = notifications.filter((message:any) => message.type.includes("message"));
     const filteresNotifications = notifications.filter((message:any) => message.type != "message");
+    
+    setAllNotifications(notifications);
     setCurrentNotifications(filteresNotifications);
     setCurrentMessages(messages);
+    
     //setFilteredUsers(filtered);
     //console.log(notifications);
+
   }, [notifications]);
 
   const playSound = () => {
@@ -49,18 +56,24 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
 
   
   useEffect(() => {
-    // console.log("last: " + lastNotification);
-    // console.log("noti: " + currentN);
-    // console.log("message: " + currentMessages[0]?.id);
-    if (lastNotification != currentMessages[0]?.id && lastNotification !== currentMessages[0]?.id ) {
+    const LI = lastNotification?.id;
+    const LT = lastNotification?.timestamp;
+    const NI = allNotifications[0]?.id || 0;
+    const NT = allNotifications[0]?.timestamp || 0;
+    
+    console.log("LastNoti: " + LI + " - timestamp: " + LT);
+    console.log("currentN: " + NI + " - timestamp: " + NT);
+    
+    if ((LI != NI) || (LT !== NT) ) {
+      console.log('Different');
       if (!mute) {
-        //console.log('Play');
+        console.log('Play');
         playSound();
       }
 
       router.refresh();
     }else{
-      //console.log('Evething is the same');
+      console.log('Same');
     }
   }, [lastNotification]);
   
@@ -80,12 +93,12 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
       return;
     }
     //Check if there is changes on the notifications
-    axios.get('/api/notifications/recipient/' + lastNotification)
+    axios.get('/api/notifications/recipient')
       .then((response) => {
         const data = response?.data;
-        // console.log("Response: " + data?.lastNotificationId);
+        //console.log("Response: " + data);
         // console.log("LastSaved: " + lastNotification);
-        setLastNotification(data?.lastNotificationId);
+        setLastNotification(data);
         return;
       })
       .catch(() => {

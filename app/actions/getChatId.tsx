@@ -8,6 +8,7 @@ import { SafeProduct } from '../types';
 interface IParams {
  product: any;
 }
+
 export default async function getChatId(
   params: IParams
 ) {
