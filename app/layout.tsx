@@ -36,8 +36,8 @@ export default async function RootLayout({
 }) {
 
   const currentUser = await getCurrentUser();
-  const notifications = await getNotificationsByRecipientId();
-
+  //const notifications = await getNotificationsByRecipientId();
+const notifications:String[] = [];
   return (
     <html lang="en">
       <body className={font.className}>
