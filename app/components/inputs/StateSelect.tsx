@@ -19,7 +19,6 @@ interface StateSelectProps{
   required?: boolean,
   countryCode: string;
   value?: StateSelectValue;
-  label?:string;
   isClearable?:boolean;
   onChange: (value: StateSelectValue) => void;
 
@@ -33,16 +32,12 @@ const StateSelect:React.FC<StateSelectProps> = ({
   isClearable,
   countryCode,
   value,
-  label,
   onChange
 }) => {
  
   const {getStatesOfCountry} = useCountries();
   return ( 
     <div>
-      <div className="font-light text-neutral-500 mt-0 mb-1">
-        {value && label}
-      </div>
       <Select
         id={id}
         {...register(id,{required})}
