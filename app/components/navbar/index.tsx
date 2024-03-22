@@ -93,7 +93,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
       return;
     }
     //Check if there is changes on the notifications
-    axios.get('/api/notifications/recipient')
+    axios.get(`/api/notifications/recipient/${lastNotification?.id}`)
       .then((response) => {
         const data = response?.data;
         //console.log("Response: " + data);
