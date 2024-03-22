@@ -26,8 +26,8 @@ try {
 
    const chat = await prisma.chat.findFirst({
     where:{
-      productId: product.id,
-      userId: currentUser.id
+      productId: product?.id,
+      userId: currentUser?.id
     }
    });
 
@@ -36,9 +36,9 @@ try {
      
     const chat = await prisma.chat.create({
         data:{
-          productId: product.id,
-          userId: currentUser.id,
-          recipientId:product.userId
+          productId: product?.id,
+          userId: currentUser?.id,
+          recipientId:product?.userId
         }
        });
 
