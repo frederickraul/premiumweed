@@ -44,9 +44,8 @@ interface IParams {
       }
   });
 
-  const lastNotification = notifications[0];
 
-  if(!lastNotification){
+  if(!notifications){
     const data = {
       id:0,
       timestamp: 0
@@ -57,7 +56,7 @@ interface IParams {
 
    //console.log(lastNotification);
    
-   return NextResponse.json(lastNotification);
+   return NextResponse.json(notifications);
 
 }
 
