@@ -367,7 +367,6 @@ if(step === STEPS.ADDRESS){
 
               <CountrySelect
                 id='location'
-                label="Country"
                 required
                 value={location}
                 register={register}
@@ -380,14 +379,12 @@ if(step === STEPS.ADDRESS){
 
               <CitySelect
                 //stateCode={selectedState}
-                label="City"
                 countryCode={selectedCountry || ''}
                 value={city}
                 onChange={(value)=>{setCustomValue('city',value)}}
               />
               <StateSelect
                 id='state'
-                label="State"
                 required
                 register={register}
                 errors={errors}
