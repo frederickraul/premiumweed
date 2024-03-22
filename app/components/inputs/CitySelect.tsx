@@ -2,7 +2,6 @@
 
 import useCountries from "@/app/hooks/useCountries";
 import Select,{ createFilter} from "react-select";
-import { FixedSizeList as List } from "react-window";
 import WindowedSelect from "react-windowed-select";
 
 
@@ -16,6 +15,7 @@ export type CitySelectValue ={
 }
 
 interface CitySelectProps{
+    label?: string;
     stateCode?: string;
     countryCode: string;
     value?: CitySelectValue;
@@ -24,6 +24,7 @@ interface CitySelectProps{
 }
 
 const CitySelect:React.FC<CitySelectProps> = ({
+  label,
   countryCode,
   stateCode,
   value,
@@ -39,15 +40,19 @@ const CitySelect:React.FC<CitySelectProps> = ({
   const cities = stateCode? getCitiesOfState(countryCode, stateCode): getCitiesOfCountry(countryCode) || [];
 
   return ( 
+    <div className="w-full relative">
+      <div className="font-light text-neutral-500 mt-0 mb-1">
+        {value && label}
+      </div>
     <WindowedSelect 
       windowThreshold={20}
-        placeholder="City"
-        isClearable={isClearable}
-        options={cities}
-        value={value}
-        onChange={(value) => onChange(value as CitySelectValue)}
-        formatOptionLabel={(option: any) => (
-          <div className="flex flex-row items-center gap-3">
+      placeholder="City"
+      isClearable={isClearable}
+      options={cities}
+      value={value}
+      onChange={(value) => onChange(value as CitySelectValue)}
+      formatOptionLabel={(option: any) => (
+        <div className="flex flex-row items-center gap-3">
             <div>{option.stateCode}</div>
             <div>
               {option.label}
@@ -69,9 +74,9 @@ const CitySelect:React.FC<CitySelectProps> = ({
             primary25: '#e4ffe6'
           }
         })}
-      />
-
-    
+        />
+      
+    </div>
   )
 }
 

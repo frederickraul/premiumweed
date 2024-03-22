@@ -18,6 +18,7 @@ interface CountrySelectProps{
     errors: FieldErrors,
     required?: boolean,
     value?: CountrySelectValue;
+    label?:string,
     isClearable?:boolean;
     onChange: (value: CountrySelectValue) => void;
 }
@@ -28,12 +29,17 @@ const CountrySelect:React.FC<CountrySelectProps> = ({
   errors,
   required,
   value,
+  label,
   isClearable,
   onChange
 }) => {
   const {getAll,getByValue, getStatesOfCountry} = useCountries();
   return ( 
     <div>
+      <div className="font-light text-neutral-500 mt-0 mb-1">
+        {value && label}
+      </div>
+      
       <Select
         id={id}
         instanceId={id}

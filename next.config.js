@@ -6,11 +6,11 @@ module.exports = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
-//   experimental: {
-//     modern: true,
-//     modularize: true,
-//     css: true
-//   },
+  experimental: {
+    modern: true,
+    modularize: true,
+    css: true
+  },
 //   webpack(config) {
 //     config.module.rules.push({
 //         test: /\.js$/,
