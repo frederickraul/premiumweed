@@ -7,6 +7,7 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
   experimental: {
+    appDir: false,
     modern: true,
     modularize: true,
     css: true
