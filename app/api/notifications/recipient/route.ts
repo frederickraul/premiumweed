@@ -51,7 +51,7 @@ interface IParams {
       id:0,
       timestamp: 0
     }
-    return NextResponse.json(JSON.stringify(data));
+    return NextResponse.json(data);
    }
 
 
