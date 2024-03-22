@@ -1,17 +1,23 @@
-// import { authOptions } from '@/pages/api/auth/[...nextauth]';
-// import { getServerSession} from 'next-auth/next';
-// import prisma from '@/app/libs/prismadb';
-// import getCurrentUser from './getCurrentUser';
-// import { Product } from '@prisma/client';
-// import { SafeProduct } from '../types';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { getServerSession} from 'next-auth/next';
+import prisma from '@/app/libs/prismadb';
+import getCurrentUser from './getCurrentUser';
+import { Product } from '@prisma/client';
+import { SafeProduct } from '../types';
 
-// interface IParams {
-//  product: any;
-// }
+interface IParams {
+ product: any;
+}
 
-// export default async function getChatId(
-//   params: IParams
-// ) {
+export default async function getChatId(
+  params: IParams
+) {
+
+    return null;
+
+}
+
+
 // try {
 
 

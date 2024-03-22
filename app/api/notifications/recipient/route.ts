@@ -1,12 +1,19 @@
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
-// import prisma from '@/app/libs/prismadb';
-// import { NextResponse } from 'next/server'
-// import getCurrentUser from '@/app/actions/getCurrentUser';
+import prisma from '@/app/libs/prismadb';
+import { NextResponse } from 'next/server'
+import getCurrentUser from '@/app/actions/getCurrentUser';
 
 
 
-// export async function GET() {
+export async function GET() {
+
+     return NextResponse.json(null);
+
+}
+
+
+
 //     const currentUser = await getCurrentUser();
 //     if(!currentUser){
 //       return NextResponse.error();
