@@ -17,6 +17,8 @@ import { Suspense, useEffect } from "react";
 import Loading from "./Loading";
 import ListingModal from "./components/modals/ListingModal";
 import getNotificationsByRecipientId from "./actions/getNotificationsByRecipientId";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -37,6 +39,7 @@ export default async function RootLayout({
 
   const currentUser = await getCurrentUser();
   const notifications = await getNotificationsByRecipientId();
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">
@@ -49,7 +52,7 @@ export default async function RootLayout({
               <SearchModal/>
               <RegisterModal/>
            
-              <Navbar currentUser={currentUser} notifications={notifications}/>
+              <Navbar currentUser={currentUser} notifications={notifications} session={session}/>
             </div>
             <Suspense fallback={<Loading/>}>
             <div className="pb-20 pt-28">

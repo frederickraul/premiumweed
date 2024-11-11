@@ -256,11 +256,12 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
             className='aspect-square w-full sm:w-1/2 sm:mr-5 md:mr-0 md:w-[250px] md:h-[200px] relative overflow-hidden rounded-xl'>
             <Image
               sizes='100'
-              priority={false}
+              loading="eager" 
               fill
               alt='Listing'
               src={data.imageSrc ? data.imageSrc : "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg"}
               className='object-cover h-full w-full group-hover:scale-110 transition'
+              priority
             />
             {
               edit ?
@@ -432,7 +433,9 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
           justify-center'>
           <FloatingButton
             label='Ask'
-            onClick={() => { }}
+            onClick={()=>{
+              openQuestions && openQuestions();
+            }}
             color='bg-black'
             icon={TbShieldQuestion}
             borderless

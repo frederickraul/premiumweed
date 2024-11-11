@@ -41,6 +41,7 @@ const useNotification = ({  notificationId, currentUser }: IUseNotification) => 
   ]);
 
   const setRead = useCallback(async (notificationId:string) => {
+    console.log(notificationId);
 
     if (!currentUser) {
       return loginModal.onOpen();

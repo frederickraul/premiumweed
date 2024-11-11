@@ -11,6 +11,7 @@ import Button from '../components/Button';
 import { BiTime } from 'react-icons/bi';
 import ConfirmModal from '../components/modals/ConfirmModal';
 import useConfirmModal from '../hooks/useConfirmModal';
+import { Tooltip } from '@mui/material';
 
 interface MessageProps {
   notification?: any;
@@ -88,17 +89,20 @@ const MessageDetails: React.FC<MessageProps> = ({
          
         <div className='flex'>
           <div className='flex items-center justify-center mr-2 z-20'>
-          
+          <Tooltip title={`${(notification.status) == 0 ? 'Check the notification before, so you can delete it.' : ''}`} content='Check the notification before, so you can delete it.' enterTouchDelay={0}>
+          <div className="ml-2 cursor-pointer">
             <IoIosClose size={35} className={notification.status == 1 ? 'text-red-500' : 'text-neutral-300'} 
               onClick={(e)=>{
                 if(notification.status == 0){
+                 alert('1');
                   return;
                 }
                 e.preventDefault();
                 
                 confirmDeleteNotification();
                 }} />
-          
+                </div>
+           </Tooltip>
           <ConfirmModal 
              title='Are you sure you want to delete the notification?'
              body='This action can not be undone! '
@@ -111,9 +115,10 @@ const MessageDetails: React.FC<MessageProps> = ({
           </div>
           <div className='flex justify-between w-auto' onClick={()=>{
             if(notification.status == 0){
-              if(notification.type !=="question"){
-                noti.setRead(notification.id);
-              }
+              // if(notification.type !=="question"){
+              //   noti.setRead(notification.id);
+              // }
+              noti.setRead(notification.id);
               route.push(notiLink)
             }
           }}>

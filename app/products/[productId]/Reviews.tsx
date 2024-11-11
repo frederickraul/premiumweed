@@ -2,7 +2,7 @@
 
 import Dropdown from "@/app/components/Dropdown";
 import ReviewCard from "@/app/components/reviews/ReviewCard";
-import EmptyReviews from "../EmptyReviews";
+import EmptyReviews from "../../listings/[listingId]/menu/EmptyReviews";
 import EmptySpace from "@/app/components/EmptySpace";
 import { useEffect, useState } from "react";
 import { SafeUser } from "@/app/types";

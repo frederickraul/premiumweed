@@ -2,6 +2,9 @@ import bcrypt from 'bcrypt';
 
 import prisma from '@/app/libs/prismadb';
 import { NextResponse } from 'next/server'
+import { v4 as uuidv4 } from 'uuid';
+
+
 
 export async function POST(
   request:Request
@@ -57,6 +60,10 @@ export async function POST(
         });
 
         if(notification){
+          let count = 1;
+          
+          count = (notification.count)+1;
+          
           const updatedNotification = await prisma.notification.update({
             where:{
               id: notification.id
@@ -64,9 +71,39 @@ export async function POST(
             data:{
               content:content,
               status:0,
+              count:count,
               timestamp: currentTime,
             }
           });
+
+          const notificationToken = uuidv4();
+          console.log(recipientId);
+          console.log(notificationToken);
+          const status = await prisma.notificationStatus.findFirst({
+            where:{
+              userId:recipientId
+            }
+          });
+          
+          if(!status){
+            const newNotificationStatus = await prisma.notificationStatus.create({
+              data:{
+                userId: recipientId,
+                token: notificationToken,
+              }
+            });
+          }else{
+            const NotificationStatus = await prisma.notificationStatus.update({
+              where:{
+                id:status.id
+              },
+              data:{
+                token: notificationToken,
+              }
+            });
+          }
+
+
           return NextResponse.json(updatedNotification);
         } 
 
@@ -90,6 +127,33 @@ export async function POST(
         timestamp: currentTime,
       }
     });
+
+    const notificationToken = uuidv4();
+    
+    const status = await prisma.notificationStatus.findFirst({
+      where:{
+        userId:recipientId
+      }
+    });
+    
+    if(!status){
+      const newNotificationStatus = await prisma.notificationStatus.create({
+        data:{
+          userId: recipientId,
+          token: notificationToken,
+        }
+      });
+    }else{
+      const NotificationStatus = await prisma.notificationStatus.update({
+        where:{
+          id:status.id
+        },
+        data:{
+          token: notificationToken,
+        }
+      });
+    }
+
 
 
 

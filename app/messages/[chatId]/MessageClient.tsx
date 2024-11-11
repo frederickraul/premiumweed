@@ -192,7 +192,6 @@ const MessageClient: React.FC<MessageClientProps> = ({
                     placeholder="Message" onChange={(e) => { 
                       setMessage(e.target.value);
                       isError && setIsError(false);
-                      console.log(message);
                       }}/>
                     
                 <div className="h-[15px] w-[100px] flex items-center mr-5">

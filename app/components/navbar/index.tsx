@@ -16,13 +16,14 @@ import axios from 'axios';
 
 interface NavbarProps {
     currentUser?: SafeUser | null
+    session?:any;
     notifications?: any;
 }
-const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
-  
-    const router = useRouter();
-   
-  const [lastNotification, setLastNotification] = useState(notifications[0]);
+const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) => {
+
+  const router = useRouter();
+  let counter = 1;
+  const [lastNotificationToken, setLastNotificationToken] = useState("");
   const [mute, setMute] = useState(false);
   const [allNotifications, setAllNotifications] = useState<any[]>([]);
   //Filtered Notifications != Type message
@@ -31,18 +32,31 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
   const [currentMessages, setCurrentMessages] = useState<any[]>([]);
 
 
-
   useEffect(() => {
+    console.log(notifications);
+    if(!currentUser){
+      return;
+    }
+
+    if(notifications.length < 1){
+      setCurrentNotifications([]);
+      setCurrentMessages([]);
+      return;
+    }
+
     const messages = notifications.filter((message:any) => message.type.includes("message"));
     const filteresNotifications = notifications.filter((message:any) => message.type != "message");
     
     setAllNotifications(notifications);
     setCurrentNotifications(filteresNotifications);
     setCurrentMessages(messages);
-    
+    // if(notifications.length > 0){
+    //   console.log('Play');
+    //   playSound();
+    // }
     //setFilteredUsers(filtered);
     //console.log(notifications);
-
+    
   }, [notifications]);
 
   const playSound = () => {
@@ -50,55 +64,80 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
     const audio = new Audio('/sounds/correct-2-46134.mp3');
     audio.addEventListener('canplaythrough', (event) => {
       // the audio is now playable; play it if permissions allow
+     
       audio.play();
     });
   };
 
   
   useEffect(() => {
-    const LI = lastNotification?.id;
-    const LT = lastNotification?.timestamp;
-    const NI = allNotifications[0]?.id || 0;
-    const NT = allNotifications[0]?.timestamp || 0;
-    
-    console.log("LastNoti: " + LI + " - timestamp: " + LT);
-    console.log("currentN: " + NI + " - timestamp: " + NT);
-    
-    if ((LI != NI) || (LT !== NT) ) {
-      console.log('Different');
-      if (!mute) {
-        console.log('Play');
-        playSound();
-      }
-
-      router.refresh();
-    }else{
-      console.log('Same');
+    if (!currentUser) {
+      return;
     }
-  }, [lastNotification]);
+      if (!mute) {
+        if(currentNotifications.length > 0 || currentMessages.length>0){
+           console.log('Play');
+          playSound();
+        }
+      }
+      console.log('Refreshing...');
+      reloadPage();
+     
+    
+  }, [lastNotificationToken]);
   
 
+  const reloadPage = () =>{
+    router.refresh();
+  }
 
+ const updateNotificationToken = async() =>{
+  const response = await fetch('/api/notifications/update-token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({userId:session?.user.id,token:session?.user.token}),
+  });
+ }
 
   useEffect(() => {
+    //console.clear();
+    if (!currentUser) {
+      return;
+    }
+
     const interval = setInterval(() => {
+      console.log('Wait: '+ 5*counter + ' sec.');
+      counter++;
       checkNotificationUpdate();
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [currentUser]);
 
   
   const checkNotificationUpdate = useCallback(() => {
     if (!currentUser) {
       return;
     }
+
     //Check if there is changes on the notifications
-    axios.get(`/api/notifications/recipient/${lastNotification?.id}`)
+    axios.get(`/api/notifications/recipient`)
       .then((response) => {
         const data = response?.data;
-        //console.log("Response: " + data);
-        // console.log("LastSaved: " + lastNotification);
-        setLastNotification(data);
+        const token = data?.token;       
+        if (sessionStorage.getItem('notificationsToken')) {
+          const value = (sessionStorage.getItem('notificationsToken'));
+          if(value != token){
+            sessionStorage.setItem('notificationsToken', token);
+            setLastNotificationToken(token);
+
+          }
+          return
+        }
+        //If not Exist NotificationToken
+        sessionStorage.setItem('notificationsToken', token);
+        setLastNotificationToken(token);
         return;
       })
       .catch(() => {
@@ -120,12 +159,12 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
         return;
       }
       //Check if there is changes on the notifications
-      axios.get('/api/notifications/recipient/' + lastNotification)
+      axios.get('/api/notifications/recipient/' + lastNotificationToken)
         .then((response) => {
           const data = response?.data;
           // console.log("Response: " + data?.lastNotificationId);
           // console.log("LastSaved: " + lastNotification);
-          setLastNotification(data?.lastNotificationId);
+          setLastNotificationToken("");
           return;
         })
         .catch(() => {
@@ -141,9 +180,6 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
         currentUser,
       ]);
   
-
-
-
   return (
     <div className='fixed w-full bg-white z-10 '>
     <div className=' w-full bg-white shadow-sm '>
@@ -174,8 +210,8 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications}) => {
                     <div className='flex flex-row items-center'>
                         <UserMenu currentUser={currentUser}/>
                         <div className='flex ml-2'>
-                            <Messages currentUser={currentUser} notifications={currentMessages}/>
-                            <Notificacion currentUser={currentUser} notifications={currentNotifications}/>
+                            <Messages currentUser={currentUser} notifications={currentMessages} reloadPage={reloadPage}/>
+                            <Notificacion currentUser={currentUser} notifications={currentNotifications} />
                         </div>
                     </div>
              

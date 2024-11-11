@@ -14,11 +14,11 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { MdArrowBackIos, MdArrowLeft, MdOutlineReviews } from "react-icons/md";
 import { TbArrowLeft } from "react-icons/tb";
 import ProductCardHorizontal from "@/app/components/products/ProductCardHorizontal";
-import List from "../../List";
+import List from "../../listings/[listingId]/List";
 import { dataList } from "@/app/const";
 import EmptyView from "@/app/components/common/EmptyView";
 import Button from "@/app/components/Button";
-import Rating from "../../../../components/Rating";
+import Rating from "../../components/Rating";
 import Reviews from "./Reviews";
 import Modal from "@/app/components/modals/Modal";
 import ReviewModal from "@/app/components/modals/ReviewModal";
@@ -35,7 +35,6 @@ import useOwner from "@/app/hooks/useOwner";
 
 
 interface ProductClientProps {
-  listing?: any;
   product: any;
   chat?:any;
   relatedProducts:any;
@@ -49,7 +48,6 @@ const ProductClient: React.FC<ProductClientProps> = ({
   product,
   chat,
   relatedProducts,
-  listing,
   currentUser,
   review,
   ratings
@@ -66,6 +64,8 @@ const ProductClient: React.FC<ProductClientProps> = ({
     currentUser,
     type:'product'
   });
+
+
   
 
   const [isLoading, setIsLoading] = useState(true);
@@ -74,6 +74,7 @@ const ProductClient: React.FC<ProductClientProps> = ({
   const [reviewList, setReviewList] = useState(ratings);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [ ratingAvg, setRatingAvg] = useState(0);
+  const [listing, setlisting] = useState<any>([]);
 
   const loginModal = useLoginModal();
   const confirmModal = useConfirmModal();
@@ -87,6 +88,8 @@ const ProductClient: React.FC<ProductClientProps> = ({
 
   useEffect(() => {
     if (product) {
+      const listing =  product?.listing || [];
+      setlisting(listing);
       setIsLoading(false);
     }
 
@@ -237,9 +240,9 @@ currentUser,
               <div className="text-neutral-500">{product.name}</div>
               <div className="flex flex-row cursor-pointer items-center text-sm" onClick={() => {
                 setIsLoading(true);
-                router.push(`/listings/${listing.id}`)
+                router.push(`/listings/${listing?.id}`)
               }}>
-                <MdArrowBackIos /><span className="ml-1">{listing.title}</span>
+                <MdArrowBackIos /><span className="ml-1">{listing?.title}</span>
 
               </div>
             </div>

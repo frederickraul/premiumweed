@@ -22,11 +22,13 @@ import MessageButton from './MessageButton';
 interface MessagesProps {
   currentUser?: any | null;
   notifications?: any;
+  reloadPage?:any;
 }
 
 const Messages: React.FC<MessagesProps> = ({
   currentUser,
-  notifications
+  notifications,
+  reloadPage
 }) => {
 
   const router = useRouter();

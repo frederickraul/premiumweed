@@ -19,7 +19,7 @@ interface IParams{
 
 const ProductPage = async ({params}:{params: IParams}) => {
   const {productId} = params;
-  const listing = await getListingById(params);
+  //const listing = await getListingById(params);
   const product = await getProductById(params);
   const relatedProducts = await getProducts(params);
   const currentUser = await getCurrentUser();
@@ -42,7 +42,7 @@ const ProductPage = async ({params}:{params: IParams}) => {
   return (
     <div>
       <ProductClient
-          listing={listing}
+          //listing={listing}
           product={product}
           chat={chat}
           relatedProducts={relatedProducts}

@@ -19,7 +19,6 @@ try {
     include:{
       user: true,
       rating:true
-
     }
    });
 

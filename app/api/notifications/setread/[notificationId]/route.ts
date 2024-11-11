@@ -26,7 +26,8 @@ export async function POST(
             id:notificationId
           },
           data:{
-            status:1
+            status:1,
+            count:0,
           }
         });
 

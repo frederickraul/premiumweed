@@ -46,6 +46,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({
           fill
           className="object-cover w-full"
           alt="Image"
+          priority
         />
         <div
           className="

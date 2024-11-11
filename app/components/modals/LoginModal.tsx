@@ -102,12 +102,12 @@ const LoginModal = () => {
           icon={FcGoogle }
           onClick={()=>{}}
         />
-        <Button
+        {/* <Button
           outline
           label="Continue with Github"
           icon={AiFillGithub }
           onClick={()=>{}}
-        />
+        /> */}
         <div className="
           text-neutral-500
           text-center

@@ -22,7 +22,7 @@ import { dataList } from "@/app/const";
 import List from "./List";
 import FloatingButton from "@/app/components/FloatingButton";
 import { MdFilterList, MdOutlineReviews } from "react-icons/md";
-import Reviews from "./menu/[productId]/Reviews";
+import Reviews from "../../products/[productId]/Reviews";
 import ReviewModal from "@/app/components/modals/ReviewModal";
 import Rating from "@/app/components/Rating";
 import { Product, RatingListing } from "@prisma/client";
@@ -510,7 +510,7 @@ currentUser,
             </div>
             {products.length >= 1 ? 
                 <List 
-                currentUser={currentUser}
+                  currentUser={currentUser}
                   isLoading={()=>{toggleIsLoading()}} 
                   list={products} 
                   action={()=>{}} 

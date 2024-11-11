@@ -2,12 +2,15 @@
 
 import useNotification from '@/app/hooks/useNotifications';
 import { SafeUser } from '@/app/types';
+import { Badge } from '@mui/material';
+
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import ReactTimeAgo from 'react-time-ago';
 
 interface MessageProps {
   notification?: any;
+  reloadPage?:any;
   currentUser?: SafeUser;
   onClick:()=>void;
 }
@@ -21,6 +24,24 @@ const Message: React.FC<MessageProps> = ({
 
   const route = useRouter();
   const noti = useNotification({notificationId, currentUser});
+
+  const setRead = async() =>{
+          // if(notification.type !=="question"){
+          //   noti.setRead(notification.id);
+          // }
+          onClick();
+          await noti.setRead(notification.id);
+          await route.push(notiLink);
+          await timeout(2000); //for 1 sec delay
+          
+          
+          
+   
+  }
+
+  function timeout(delay: number) {
+    return new Promise( res => setTimeout(res, delay) );
+}
 
   let notiLink = "#";
   let ItemLink = (<a className="font-bold text-blue-500" href={`/listings`}></a>);
@@ -66,13 +87,7 @@ const Message: React.FC<MessageProps> = ({
   return (
     <div 
         key={notification.id} 
-        onClick={()=>{
-          if(notification.type !=="question"){
-             noti.setRead(notification.id);
-          }
-          onClick();
-          route.push(notiLink)
-        }}
+        onClick={setRead}
         className="
           flex 
           items-center 
@@ -82,6 +97,7 @@ const Message: React.FC<MessageProps> = ({
           hover:bg-gray-100 
           -mx-2 
           cursor-pointer">
+             
       <img 
         className="
           h-8 
@@ -100,6 +116,12 @@ const Message: React.FC<MessageProps> = ({
           <ReactTimeAgo date={new Date(notification?.createdAt)} locale="en-US" timeStyle="twitter" />
         </span>
       </p>
+      <div className='absolute right-5'>
+      {notification?.count > 1 &&
+      <Badge badgeContent={notification?.count} color="primary">
+      </Badge>
+      }
+      </div>
     </div>
   )
 }

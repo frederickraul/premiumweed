@@ -20,11 +20,13 @@ const ListingPage = async ({params}:{params: IParams}) => {
   const currentUser = await getCurrentUser();
   const questionList = await getQuestionsByListingId(params);
 
+
   if(!listing){
     return (
       <EmptySpace/>
     )
   }
+  
   return (
     <ListingClient
       listing={listing}

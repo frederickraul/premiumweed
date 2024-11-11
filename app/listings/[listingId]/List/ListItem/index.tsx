@@ -84,7 +84,7 @@ return(
   <div className='listItem-wrap cursor-pointer col-span-1 group min-w-[120px]'
   onClick={()=> {
     !edit && isLoading();
-    !edit && router.push(`${currentPath}/menu/${item.id}`,item)
+    !edit && router.push(`/products/${item.id}`,item)
   }}
   >
     <div className='w-full aspect-square relative'>

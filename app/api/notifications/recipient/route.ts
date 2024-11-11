@@ -52,47 +52,25 @@ export async function GET(
     return NextResponse.error();
   }
   
-  const { lastNotificationId } = params;
-
-
-  const notifications = await prisma.notification.findMany({
+  const notificationStatus = await prisma.notificationStatus.findFirst({
     where:{
-      AND:[
-        {
-          recipientId: currentUser.id,
-        },{
-          status: 0,
-        }
-      ]
-    },
-    orderBy: [
-      {
-        status: 'asc',
-      },
-      {
-        timestamp: 'desc'
-      }
-    ],
-    take: 1,
-    include:{
-      sender:true,
+      userId: currentUser.id,
     }
-});
+  });
 
-const lastNotification = notifications[0];
-
-if(!lastNotification){
-  const data = {
-    id:0,
-    timestamp: 0
+  if(!notificationStatus){
+    const newNotificationStatus = await prisma.notificationStatus.create({
+      data:{
+        userId: currentUser.id,
+        token: "",
+      }
+    });
+    return NextResponse.json(newNotificationStatus);
   }
-  return NextResponse.json(JSON.stringify(data));
- }
-
+  return NextResponse.json(notificationStatus);
 
  //console.log(lastNotification);
  
- return NextResponse.json(lastNotification);
 
 }
 

@@ -44,10 +44,7 @@ const Notificacion: React.FC<NotificationProps> = ({
     const dropdown = useRef<HTMLInputElement>(null);
 
         useEffect(() => {
- 
             window.addEventListener("mousedown", handleOutSideClick);
-            
-           
         }, [dropdown]);
 
         const handleOutSideClick = (event: any) => {

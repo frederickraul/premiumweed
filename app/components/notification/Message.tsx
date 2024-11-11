@@ -2,6 +2,7 @@
 
 import useNotification from '@/app/hooks/useNotifications';
 import { SafeUser } from '@/app/types';
+import { Badge } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import ReactTimeAgo from 'react-time-ago';
@@ -58,11 +59,13 @@ const Message: React.FC<MessageProps> = ({
     <div 
         key={notification.id} 
         onClick={()=>{
-          if(notification.type !=="question"){
-             noti.setRead(notification.id);
-          }
+          // if(notification.type !=="question"){
+          //    noti.setRead(notification.id);
+          //   }
+            noti.setRead(notification.id);
           onClick();
-          route.push(notiLink)
+          route.push(notiLink);
+          
         }}
         className="
           flex 
@@ -73,6 +76,7 @@ const Message: React.FC<MessageProps> = ({
           hover:bg-gray-100 
           -mx-2 
           cursor-pointer">
+           
       <img 
         className="
           h-8 
@@ -83,10 +87,10 @@ const Message: React.FC<MessageProps> = ({
           src={notification?.sender?.image ? notification?.sender.image : "/images/placeholder.jpg"} 
           alt="avatar" />
       <p className="text-gray-600 text-sm mx-2">
+       
         <a className="font-bold" href="#">{notification?.sender?.name} </a>  
           {notification?.content} 
           {ItemLink}
-      
         <span className='text-neutral-700 ml-1'>
           <ReactTimeAgo date={new Date(notification?.createdAt)} locale="en-US" timeStyle="twitter" />
         </span>

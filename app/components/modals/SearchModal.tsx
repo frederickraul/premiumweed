@@ -124,8 +124,8 @@ const SearchModal = () => {
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="Where do you wanna go?"
-        subtitle="Find the perfect location!"
+        title="Location"
+        subtitle="Find products on your location!"
       />
       <CountrySelect 
       id='search'
