@@ -7,12 +7,14 @@ import Search from './Search';
 import { UserMenu } from './UserMenu';
 import Categories from './Categories';
 import { SafeUser } from '@/app/types';
-import { IoIosPin } from 'react-icons/io';
+import { IoIosPin, IoMdInformationCircle } from 'react-icons/io';
 import { useRouter } from 'next/navigation';
 import Notificacion from '../notification';
 import { useCallback, useEffect, useState } from 'react';
 import Messages from '../messages';
 import axios from 'axios';
+import PlayNotification from './PlayNotification';
+import toast from 'react-hot-toast';
 
 interface NavbarProps {
     currentUser?: SafeUser | null
@@ -24,7 +26,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
   const router = useRouter();
   let counter = 1;
   const [lastNotificationToken, setLastNotificationToken] = useState("");
-  const [mute, setMute] = useState(false);
+  const [mute, setMute] = useState(true);
   const [allNotifications, setAllNotifications] = useState<any[]>([]);
   //Filtered Notifications != Type message
   const [currentNotifications, setCurrentNotifications] = useState<any[]>([]);
@@ -64,23 +66,26 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
     const audio = new Audio('/sounds/correct-2-46134.mp3');
     audio.addEventListener('canplaythrough', (event) => {
       // the audio is now playable; play it if permissions allow
-     
-      audio.play();
+      // const promise = audio?.play();
+      // if (promise?.then) {
+      //   promise.then(() => {}).catch(() => {});
+      // }
+      
     });
-  };
+  }
 
-  
   useEffect(() => {
     if (!currentUser) {
       return;
     }
-      if (!mute) {
         if(currentNotifications.length > 0 || currentMessages.length>0){
            console.log('Play');
-          playSound();
+           
+          //playSound();
         }
-      }
+      
       console.log('Refreshing...');
+      setMute(true);
       reloadPage();
      
     
@@ -131,13 +136,27 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
           if(value != token){
             sessionStorage.setItem('notificationsToken', token);
             setLastNotificationToken(token);
+            setMute(false);
+           
+            toast.success('You have new messages', {
+              duration: 4000,
+              position: 'top-center',
+              icon: <IoMdInformationCircle color='#008ecc' size={18}/>,
 
+    
+              // Change colors of success/error/loading icon
+              iconTheme: {
+                primary: '#008ecc',
+                secondary: '#0BDA51',
+              },
+            });
           }
           return
         }
         //If not Exist NotificationToken
         sessionStorage.setItem('notificationsToken', token);
         setLastNotificationToken(token);
+        //setMute(false);
         return;
       })
       .catch(() => {
@@ -220,6 +239,9 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
                 <div className='md:hidden flex items-center justify-center'>
                     <Search/>
                 </div>
+                <div className='bg-red-500'>
+                <PlayNotification isMuted={mute}/>
+              </div>
                 <Categories/>
             </Container>
         </div>
