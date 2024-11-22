@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import prisma from '@/app/libs/prismadb';
 import { NextResponse } from 'next/server'
 import getCurrentUser from '@/app/actions/getCurrentUser';
+import { v4 as uuidv4 } from 'uuid';
+
 
 interface IParams {
   itemId?: string;
@@ -28,8 +30,8 @@ export async function POST(
 
 
       const notificationId = oldNotification?.id;
-      const recipientId = oldNotification?.recipientId;
-      const senderId = oldNotification?.senderId;
+      const recipientId = oldNotification?.recipientId || "";
+      const senderId = oldNotification?.senderId || "";
 
     if(notificationId){
       //Update status current notification to isRead
@@ -49,8 +51,8 @@ export async function POST(
         data:{
           type:"answer",
           content:"has answered your question",
-          recipientId: senderId || "",
-          senderId: recipientId || "",
+          recipientId: senderId,
+          senderId: recipientId,
           itemId: itemId,
           itemName:"",
           item2Id:"",
@@ -60,6 +62,35 @@ export async function POST(
           timestamp: currentTime,
         }
       });
+
+      const notificationToken = uuidv4();
+      console.log(recipientId);
+      console.log(notificationToken);
+
+      const status = await prisma.notificationStatus.findFirst({
+        where:{
+          userId: senderId
+        }
+      });
+      
+      if(!status){
+        const newNotificationStatus = await prisma.notificationStatus.create({
+          data:{
+            userId: senderId,
+            token: notificationToken,
+          }
+        });
+      }else{
+        const NotificationStatus = await prisma.notificationStatus.update({
+          where:{
+            id:status.id
+          },
+          data:{
+            token: notificationToken,
+          }
+        });
+      }
+
 
       return NextResponse.json(newNotification);
     }

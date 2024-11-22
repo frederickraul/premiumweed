@@ -14,7 +14,7 @@ import { SafeListing, SafeUser } from '@/app/types';
 import DoubleButton from '../DoubleButton';
 import { formatTime, isOpen } from '@/app/const/hours';
 import OperationStatus from './ListingTime';
-import { TbShieldQuestion, TbWorld } from 'react-icons/tb';
+import { TbMessage2, TbShieldQuestion, TbWorld } from 'react-icons/tb';
 import { BiLogoFacebookCircle } from 'react-icons/bi';
 import ListingHorary from './ListingHorary';
 import { MdArrowDropUp, MdArrowDropDown } from "react-icons/md";
@@ -388,12 +388,12 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
           mt-10 
           lg:mt-0`}>
           <Button
-            label='Ask'
+            label='Ask a Question'
             onClick={()=>{
               openQuestions && openQuestions();
             }}
             color='bg-black'
-            icon={TbShieldQuestion}
+            icon={TbMessage2}
             borderless
             styles='border-black'
           />
@@ -437,7 +437,7 @@ const ListingCardHorizontal: React.FC<ListingCardProps> = ({
               openQuestions && openQuestions();
             }}
             color='bg-black'
-            icon={TbShieldQuestion}
+            icon={TbMessage2}
             borderless
             styles='border-black'
           />

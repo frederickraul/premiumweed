@@ -62,16 +62,8 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
   }, [notifications]);
 
   const playSound = () => {
-    //const audio = new Audio('/sounds/attention-bell.wav');
-    const audio = new Audio('/sounds/correct-2-46134.mp3');
-    audio.addEventListener('canplaythrough', (event) => {
-      // the audio is now playable; play it if permissions allow
-      // const promise = audio?.play();
-      // if (promise?.then) {
-      //   promise.then(() => {}).catch(() => {});
-      // }
-      
-    });
+    const audio = new Audio('/sounds/attention-bell.wav');
+    audio.play();  
   }
 
   useEffect(() => {
@@ -81,11 +73,11 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
         if(currentNotifications.length > 0 || currentMessages.length>0){
            console.log('Play');
            
-          //playSound();
+          playSound();
         }
       
       console.log('Refreshing...');
-      setMute(true);
+     // setMute(true);
       reloadPage();
      
     
@@ -136,7 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
           if(value != token){
             sessionStorage.setItem('notificationsToken', token);
             setLastNotificationToken(token);
-            setMute(false);
+            //setMute(false);
            
             toast.success('You have new messages', {
               duration: 4000,
@@ -239,9 +231,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
                 <div className='md:hidden flex items-center justify-center'>
                     <Search/>
                 </div>
-                <div className='bg-red-500'>
-                <PlayNotification isMuted={mute}/>
-              </div>
+              
                 <Categories/>
             </Container>
         </div>

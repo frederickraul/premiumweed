@@ -13,7 +13,7 @@ import { SafeListing, SafeProduct, SafeUser } from '@/app/types';
 import DoubleButton from '../DoubleButton';
 import ConfirmModal from '../modals/ConfirmModal';
 import { formatTime, isOpen } from '@/app/const/hours';
-import { TbShieldQuestion, TbWorld } from 'react-icons/tb';
+import { TbMessage2, TbShieldQuestion, TbWorld } from 'react-icons/tb';
 import { BiLogoFacebookCircle } from 'react-icons/bi';
 import { MdArrowDropUp, MdArrowDropDown } from "react-icons/md";
 import FloatingButton from '../FloatingButton';
@@ -240,11 +240,11 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                   />
                   <div className='mt-2'></div>
                   <Button
-                    icon={TbShieldQuestion}
+                    icon={TbMessage2}
                     color='bg-black'
                     outline
                     styles='border-black'
-                    label='Ask'
+                    label='Ask a Question'
                     onClick={()=>{
                       router.push(`/messages/${chatId}`)
                     }}
