@@ -1,5 +1,5 @@
+import { Product } from "@/app/types/dashboard/types/product";
 import Image from "next/image";
-import { Product } from "@/types/product";
 
 const productData: Product[] = [
   {

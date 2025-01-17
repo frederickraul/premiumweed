@@ -1,4 +1,4 @@
-import { Package } from "@/types/package";
+import { Package } from "@/app/types/dashboard/types/package";
 
 const packageData: Package[] = [
   {
