@@ -2,18 +2,18 @@
 
 import { SafeListing, SafeProduct, SafeUser } from "@/app/types";
 
-import Heading from "@/app/components/Heading";
-import Container from "@/app/components/Container";
-import ListingCard from "@/app/components/listings/ListingCard";
+import Heading from "@/app/components/app/Heading";
+import Container from "@/app/components/app/Container";
+import ListingCard from "@/app/components/app/listings/ListingCard";
 import { useCallback, useEffect, useState } from "react";
-import ListItem from "../listings/[listingId]/List/ListItem";
-import InputUnregistered from "../components/inputs/InputUnregistered";
-import InputText from "../components/inputs/InputText";
-import EmptySpace from "../components/EmptySpace";
+import ListItem from "../(main)/listings/[listingId]/List/ListItem";
+import InputUnregistered from "../components/app/inputs/InputUnregistered";
+import InputText from "../components/app/inputs/InputText";
+import EmptySpace from "../components/app/EmptySpace";
 import { formatDate } from "../const/hours";
-import Button from "../components/Button";
+import Button from "../components/app/Button";
 import { MdSend } from "react-icons/md";
-import FloatingButton from "../components/FloatingButton";
+import FloatingButton from "../components/app/FloatingButton";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";

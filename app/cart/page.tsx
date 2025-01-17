@@ -1,7 +1,7 @@
 'use client';
 
-import Container from '../components/Container'
-import BarRating from '../components/BarRating'
+import Container from '../components/app/Container'
+import BarRating from '../components/app/BarRating'
 
 const page = () => {
   return (

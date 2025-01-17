@@ -1,7 +1,7 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getFavoriteListings from "@/app/actions/getFavoriteListings";
 
-import EmptySpace from "../components/EmptySpace";
+import EmptySpace from "../components/app/EmptySpace";
 import getFavoriteProducts from "../actions/getFavoriteProducts";
 import CustomersQAClient from "./CustomersQAClient";
 import getQuestionsByOwnerId from "../actions/getQuestionsByOwnerId";

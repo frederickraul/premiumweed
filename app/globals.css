@@ -6,6 +6,8 @@ html,
 body,
 :root {
 	height: 100%;
+	background-color: rgba(248, 249, 253,.3);
+	
 }
 
 .leaflet-bottom,

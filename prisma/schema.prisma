@@ -16,6 +16,7 @@ model User {
   name                String?
   email               String?   @unique
   emailVerified       DateTime?
+  type                String?
   image               String?
   token               String?
   hashedPassword      String?
@@ -244,3 +245,13 @@ model Reservation {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }
+
+
+
+model Setting {
+  id                      String @id @default(auto()) @map("_id") @db.ObjectId
+  name                    String
+  values                  String[]
+  createdAt               DateTime @default(now())  
+}
+
