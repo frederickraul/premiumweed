@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "../ClickOutside";
 import { SafeUser } from "@/app/types";
+import Avatar from "../../app/Avatar";
 
 const DropdownUser = (props: {
   currentUser?: SafeUser | null;
@@ -23,17 +24,8 @@ const DropdownUser = (props: {
           <span className="block text-xs"> {props.currentUser?.type}</span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
-          <Image
-            width={112}
-            height={112}
-            src={"/images/user/user-01.png"}
-            style={{
-              width: "auto",
-              height: "auto",
-            }}
-            alt="User"
-          />
+        <span className="h-12 w-12 rounded-full flex items-center justify-center">
+        <Avatar size={50} src={props.currentUser?.image} />
         </span>
 
         <svg

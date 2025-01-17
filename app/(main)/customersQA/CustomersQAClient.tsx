@@ -6,17 +6,16 @@ import Heading from "@/app/components/app/Heading";
 import Container from "@/app/components/app/Container";
 import ListingCard from "@/app/components/app/listings/ListingCard";
 import { useCallback, useEffect, useState } from "react";
-import ListItem from "../(main)/listings/[listingId]/List/ListItem";
-import InputUnregistered from "../components/app/inputs/InputUnregistered";
-import InputText from "../components/app/inputs/InputText";
-import EmptySpace from "../components/app/EmptySpace";
-import { formatDate } from "../const/hours";
-import Button from "../components/app/Button";
+
 import { MdSend } from "react-icons/md";
-import FloatingButton from "../components/app/FloatingButton";
+
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import EmptySpace from "@/app/components/app/EmptySpace";
+import { formatDate } from "@/app/const/hours";
+import InputText from "@/app/components/app/inputs/InputText";
+import FloatingButton from "@/app/components/app/FloatingButton";
 
 interface CustomersQAClientProps {
   listings: SafeListing[],

@@ -3,7 +3,8 @@
 import { IconType } from "react-icons";
 
 interface ButtonProps {
-  label: string;
+  hint?: string;
+  label?: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   outline?: boolean;
@@ -19,6 +20,7 @@ interface ButtonProps {
 
 const FloatingButton: React.FC<ButtonProps> = ({ 
   label, 
+  hint,
   onClick, 
   disabled, 
   outline,
@@ -35,7 +37,7 @@ const FloatingButton: React.FC<ButtonProps> = ({
   return ( 
 
     <button
-      title={label}
+      title={hint}
       disabled={disabled}
       onClick={onClick}
       className={`

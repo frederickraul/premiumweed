@@ -29,7 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
   //Filtered Notifications != Type message
   const [currentNotifications, setCurrentNotifications] = useState<any[]>([]);
   // Filteres Notifications Type message
-  const [currentMessages, setCurrentMessages] = useState<any[]>([]);
+  // const [currentMessages, setCurrentMessages] = useState<any[]>([]);
 
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
 
     if(notifications.length < 1){
       setCurrentNotifications([]);
-      setCurrentMessages([]);
+      // setCurrentMessages([]);
       return;
     }
 
@@ -49,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
     
     setAllNotifications(notifications);
     setCurrentNotifications(filteresNotifications);
-    setCurrentMessages(messages);
+    // setCurrentMessages(messages);
     // if(notifications.length > 0){
     //   console.log('Play');
     //   playSound();
@@ -68,7 +68,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
     if (!currentUser) {
       return;
     }
-        if(currentNotifications.length > 0 || currentMessages.length>0){
+        if(currentNotifications.length > 0){
            console.log('Play');
            
           playSound();
@@ -219,7 +219,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
                     <div className='flex flex-row items-center'>
                         <UserMenu currentUser={currentUser}/>
                         <div className='flex ml-2'>
-                            <Messages currentUser={currentUser} notifications={currentMessages} reloadPage={reloadPage}/>
+                            {/* <Messages currentUser={currentUser} notifications={currentMessages} reloadPage={reloadPage}/> */}
                             <Notificacion currentUser={currentUser} notifications={currentNotifications} />
                         </div>
                     </div>

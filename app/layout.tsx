@@ -1,5 +1,3 @@
-import { Nunito } from "next/font/google";
-import './globals.css';
 
 import type { Metadata } from 'next';
 
@@ -25,15 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: resMetadata ? resMetadata[2] : 'The Quote Form',
   };
 }
-// export const metadata: Metadata = {
-//   title: 'The Quote Form',
-//   description: 'Some description',
-//   keywords:'Some keywords'
-// }
 
-const font = Nunito({
-  subsets: ['latin'],
-});
 
 export default async function RootLayout({
   children,

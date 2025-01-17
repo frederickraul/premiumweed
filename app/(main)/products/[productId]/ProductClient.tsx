@@ -313,7 +313,7 @@ currentUser,
             <div className='text-lg font-bold uppercase text-neutral-500'> Reviews</div>
             <div className="w-[70px] md:w-[60px] lg:w-[50px]">
               <FloatingButton
-                label='Write a review'
+                hint='Write a review'
                 onClick={toggleReviewModal}
                 color='bg-cyan-500'
                 hoverColor='hover:bg-cyan-400'

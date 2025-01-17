@@ -1,10 +1,10 @@
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getFavoriteListings from "@/app/actions/getFavoriteListings";
 
-import EmptySpace from "../components/app/EmptySpace";
-import getFavoriteProducts from "../actions/getFavoriteProducts";
 import CustomersQAClient from "./CustomersQAClient";
-import getQuestionsByOwnerId from "../actions/getQuestionsByOwnerId";
+import getFavoriteProducts from "@/app/actions/getFavoriteProducts";
+import getQuestionsByOwnerId from "@/app/actions/getQuestionsByOwnerId";
+import EmptySpace from "@/app/components/app/EmptySpace";
 
 const ListingPage = async () => {
 
