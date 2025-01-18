@@ -4,11 +4,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google'
 import getSettingsByName from "./actions/getSettingsByName";
 
-
-
 const inter = Inter({ subsets: ['latin'] })
-
-
 
 export async function generateMetadata(): Promise<Metadata> {
   // read route params

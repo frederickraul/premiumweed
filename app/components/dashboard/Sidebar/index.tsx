@@ -7,7 +7,7 @@ import Image from "next/image";
 import ClickOutside from "../ClickOutside";
 import useLocalStorage from "@/app/hooks/dashboard/useLocalStorage";
 import SidebarItem from "./SidebarItem";
-
+import { FaBoxes, FaList } from "react-icons/fa";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -48,6 +48,16 @@ const menuGroups = [
         ),
         label: "Dashboard",
         route: "/dashboard"
+      },
+      {
+        icon: <FaList/>,
+        label: "Listings",
+        route: "/dashboard/listings"
+      },
+      {
+        icon: <FaBoxes/>,
+        label: "Products",
+        route: "/dashboard/products"
       },
       
      
