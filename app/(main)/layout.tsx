@@ -43,6 +43,7 @@ export default async function RootLayout({
   const session = await getServerSession(authOptions);
 
   return (
+    <html>
       <body className={font.className}>
         <div className="relative min-h-[100vh]">
             <div className="pb-[30px] sm:pb-0">
@@ -64,5 +65,6 @@ export default async function RootLayout({
             <Footer/>
         </div>
       </body>
+    </html>
   )
 }
