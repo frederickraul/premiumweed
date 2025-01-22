@@ -93,8 +93,8 @@ const Header = (props: {
 
               <input
                 type="text"
-                placeholder="Type to search..."
-                className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none xl:w-125"
+                placeholder="Search by: Listing Name, Product Name, Phone Number, Address, Email. Website URL..."
+                className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none lg:w-200"
               />
             </div>
           </form>

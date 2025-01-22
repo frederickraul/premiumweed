@@ -1,15 +1,16 @@
-import ECommerce from "@/app/components/dashboard/Dashboard/E-commerce";
 import DefaultLayout from "@/app/components/dashboard/Layouts/DefaultLayout";
-import { Metadata } from "next";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getAllProducts from "@/app/actions/dashboard/getAllProducts";
-import ProductsClient from "./ProductsClient";
+import MessagesClient from "./MessagesClient";
 
 
-export default async function Profile() {
+export default async function Messages() {
    const currentUser = await getCurrentUser();
    const data = await getAllProducts();
   return (
-        <ProductsClient products={data}/>
+    <DefaultLayout currentUser={currentUser}>
+
+        <MessagesClient products={data} currentUser={currentUser}/>
+    </DefaultLayout>
   );
 }

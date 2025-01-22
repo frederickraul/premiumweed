@@ -7,7 +7,12 @@ import Image from "next/image";
 import ClickOutside from "../ClickOutside";
 import useLocalStorage from "@/app/hooks/dashboard/useLocalStorage";
 import SidebarItem from "./SidebarItem";
-import { FaBoxes, FaList } from "react-icons/fa";
+import { FaBoxes, FaFileInvoice, FaList } from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
+import { TbFileInvoice } from "react-icons/tb";
+
+import WeedIcon from './weed.svg';
+
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -61,6 +66,21 @@ const menuGroups = [
       },
       
      
+    ],
+  },
+  {
+    name: "SUPPORT",
+    menuItems: [
+      {
+        icon: <MdOutlineEmail/>,
+        label: "Messages",
+        route: "/dashboard/messages"
+      },
+      {
+        icon: <TbFileInvoice/>,
+        label: "Invoice",
+        route: "/dashboard/invoice"
+      }
     ],
   },
   {
@@ -125,6 +145,13 @@ const menuGroups = [
         label: "Settings",
         route: "/dashboard/settings",
       },
+      {
+        icon: (
+          <WeedIcon height={20} width={20}/>
+        ),
+        label: "Logo",
+        route: "/dashboard/logo",
+      },
      
     ],
   },
@@ -144,13 +171,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- SIDEBAR HEADER --> */}
         <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
           <Link href="/" className="flex  items-center">
-            <Image
-              width={50}
-              height={50}
-              src={"/images/logo.png"}
-              alt="Logo"
-              priority
-            />
+            <WeedIcon className="h-12 w-12"/>
             <span className="ml-2 text-xl lg:text-2xl font-bold text-white">WeedGrowers</span>
           </Link>
 

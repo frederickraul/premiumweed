@@ -6,6 +6,36 @@ module.exports = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  webpack(config) {
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.(".svg")
+    );
+
+    config.module.rules.push(
+      {
+        ...fileLoaderRule,
+        test: /\.svg$/i,
+        resourceQuery: /url/,
+      },
+
+      {
+        test: /\.svg$/i,
+        issuer: fileLoaderRule.issuer,
+        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] },
+        use: ["@svgr/webpack"],
+      }
+    );
+
+    fileLoaderRule.exclude = /\.svg$/i;
+
+    return config;
+  },
+  images: {
+    domains:[
+      'res.cloudinary.com',
+      'i.ytimg.com'
+    ]
+  }
   // experimental: {
   //   appDir: false,
   //   modern: true,
@@ -34,13 +64,13 @@ module.exports = {
 // }
 }
 
-const nextConfig = {
-  images: {
-    domains:[
-      'res.cloudinary.com',
-      'i.ytimg.com'
-    ]
-  }
-}
+// const nextConfig = {
+//   images: {
+//     domains:[
+//       'res.cloudinary.com',
+//       'i.ytimg.com'
+//     ]
+//   }
+// }
 
-module.exports = nextConfig
+// module.exports = nextConfig

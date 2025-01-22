@@ -53,7 +53,7 @@ const ListingsTable = (props:{
       <div className="max-w-full overflow-x-auto">
         <div className="min-w-[1170px]">
           <div className="grid grid-cols-6 bg-[#F9FAFB]  px-4 py-4.5 dark:bg-meta-4 sm:grid-cols-8 md:px-6 2xl:px-7.5">
-            <div className="col-span-3 flex items-center">
+            <div className="col-span-2 md:col-span-3 flex items-center">
               <p className="font-medium">{props.headers[1]}</p>
             </div>
             <div className="col-span-1 hidden items-center sm:flex">
@@ -78,7 +78,7 @@ const ListingsTable = (props:{
         className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
         key={key}
         >
-          <div className="col-span-3 flex items-center">
+          <div className="col-span-2 md:col-span-3 flex items-center">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
               <div className="h-12.5 w-15 rounded-md bg-cover aspect-square">
                 <Image

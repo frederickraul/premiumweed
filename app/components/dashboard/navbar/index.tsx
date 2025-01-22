@@ -1,5 +1,7 @@
 import React from 'react'
 import Logo from '../../app/navbar/Logo'
+import WeedLogo from '../Sidebar/weed.svg';
+
 
 const Navbar = () => {
     return (
@@ -9,7 +11,7 @@ const Navbar = () => {
                 <div className="relative flex h-16 items-center justify-between lg:border-b lg:border-sky-800">
                     <div className="flex items-center px-2 lg:px-0">
                         <div className="flex-shrink-0">
-                            <Logo/>
+                            <WeedLogo/>
                         </div>
                         <div className="hidden lg:ml-6 lg:block lg:space-x-4">
                             <div className="flex">
