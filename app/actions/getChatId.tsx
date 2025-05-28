@@ -34,21 +34,23 @@ try {
    
    if(!chat){
      
-    const chat = await prisma.chat.create({
-        data:{
-          // productId: product.id,
-          userId: currentUser.id,
-          // recipientId:product.userId
-        }
-       });
+    // const chat = await prisma.chat.create({
+    //     data:{
+    //       // productId: product.id,
+    //       userId: currentUser.id,
+    //       // recipientId:product.userId
+    //     }
+    //    });
 
-       return chat;
+    //    return chat;
    }
 
-   return {
-    ...chat,
-    createdAt: chat.createdAt.toISOString(),
-  };
+  //  return {
+  //   ...chat,
+  //   createdAt: chat.createdAt.toISOString(),
+  // };
+
+  return chat;
    
 } catch (error:any) {
   return null;
