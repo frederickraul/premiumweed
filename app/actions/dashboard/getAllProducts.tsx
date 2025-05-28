@@ -9,8 +9,7 @@ export interface IProductsParams {
 export default async function getAllProducts(
 ) {
   try {
-
-   
+    
     const products = await prisma.product.findMany({
       include:{
         user:true,

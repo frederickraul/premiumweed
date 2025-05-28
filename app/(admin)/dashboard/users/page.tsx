@@ -1,4 +1,4 @@
-import ECommerce from "@/app/components/dashboard/Dashboard/E-commerce";
+import ECommerce from "@/app/components/dashboard/Dashboard/Home";
 import DefaultLayout from "@/app/components/dashboard/Layouts/DefaultLayout";
 import { Metadata } from "next";
 import getCurrentUser from "@/app/actions/getCurrentUser";

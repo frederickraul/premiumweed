@@ -20,7 +20,7 @@ import UserIcon from '@/app/components/icons/icon-user.svg';
 import SellerUserIcon from '@/app/components/icons/icon-seller-account.svg';
 
 
-const ECommerce = (
+const Home = (
   props: {
     listingsEstimate?:any, 
     productsEstimate?:any,
@@ -76,4 +76,4 @@ const ECommerce = (
   );
 };
 
-export default ECommerce;
+export default Home;

@@ -1,12 +1,13 @@
-import ECommerce from "@/app/components/dashboard/Dashboard/E-commerce";
+import ECommerce from "@/app/components/dashboard/Dashboard/Home";
 import DefaultLayout from "@/app/components/dashboard/Layouts/DefaultLayout";
 import { Metadata } from "next";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import getAllProducts from "@/app/actions/dashboard/getAllProducts";
 import ProductsClient from "./ProductsClient";
-import { adminAuthDashboards } from "@/app/const/permissions";
+import { adminAuthDashboards, sellerAuthDashboards } from "@/app/const/permissions";
 import NotAllowed from "@/app/components/dashboard/Dashboard/NotAllowed";
 import getNotificationsByRecipientId from "@/app/actions/getNotificationsByRecipientId";
+import getProductsByUserId from "@/app/actions/dashboard/getProductsByUserId";
 
 
 export default async function Profile() {
@@ -14,14 +15,20 @@ export default async function Profile() {
    const userRole = await currentUser?.role || "";
    const notifications = await getNotificationsByRecipientId();
 
+   const userId = currentUser?.id;
 
-   if(!adminAuthDashboards.includes(userRole)){
+   if(!sellerAuthDashboards.includes(userRole)){
       return (
         <NotAllowed/>
       );
     }
+
+    let data = await getProductsByUserId({userId});
     
-   const data = await getAllProducts();
+    if(adminAuthDashboards.includes(userRole)){
+      data = await getProductsByUserId({userId});
+    }
+    
   return (
       <DefaultLayout currentUser={currentUser} notifications={notifications}>
 

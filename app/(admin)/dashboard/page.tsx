@@ -8,14 +8,21 @@ import getProductsEstimate from "@/app/actions/dashboard/getProductsEstimate";
 import getRegularUsersEstimate from "@/app/actions/dashboard/getRegularUsersEstimate";
 import getSellerUsersEstimate from "@/app/actions/getSellerUsersEstimate";
 import getNotificationsByRecipientId from "@/app/actions/getNotificationsByRecipientId";
+import HomeRegular from "@/app/components/dashboard/Dashboard/HomeRegular";
 
 export default async function Home() {
    const currentUser = await getCurrentUser();
    const userRole = await currentUser?.role || "";
+   const notifications = await getNotificationsByRecipientId();
 
    if(!adminAuthDashboards.includes(userRole)){
       return (
-        <NotAllowed/>
+        <>
+          <DefaultLayout currentUser={currentUser} notifications={notifications}>
+            <HomeRegular/>
+        </DefaultLayout>
+
+        </>
       );
     }
 
@@ -23,7 +30,6 @@ export default async function Home() {
   const productsEstimate = await getProductsEstimate();
   const regularUsersEstimate = await getRegularUsersEstimate();
   const sellerUsersEstimate = await getSellerUsersEstimate();
-  const notifications = await getNotificationsByRecipientId();
 
   console.log(notifications);
   return (

@@ -17,7 +17,7 @@ import MessagesIcon from '@/app/components/icons/icon-messages.svg';
 import InvoiceIcon from '@/app/components/icons/icon-invoice.svg';
 
 
-import { adminAuthDashboards, devAdminAuthDashboards, regularAuthDashboards } from "@/app/const/permissions";
+import { adminAuthDashboards, devAdminAuthDashboards, onlySellerAuthDashboards, regularAuthDashboards } from "@/app/const/permissions";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -55,6 +55,29 @@ const menuGroups = [
       
       
      
+    ],
+  },
+  {
+    name: "MENU",
+    allowed: onlySellerAuthDashboards,
+    menuItems: [
+      {
+        icon: (
+          <DashboardIcon className="fill-gray-500"/>
+        ),
+        label: "Dashboard",
+        route: "/dashboard"
+      },
+      {
+        icon: <ListIcon  height={20} width={20}/>,
+        label: "My Listings",
+        route: "/dashboard/listings"
+      },
+      {
+        icon: <FaBoxes/>,
+        label: "My Products",
+        route: "/dashboard/products"
+      },
     ],
   },
   {

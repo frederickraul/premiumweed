@@ -1,4 +1,4 @@
-import ECommerce from "@/app/components/dashboard/Dashboard/E-commerce";
+import Home from "@/app/components/dashboard/Dashboard/Home";
 
 
 export default function HomeClient(
@@ -10,7 +10,7 @@ export default function HomeClient(
   }){
   return (
     <>
-        <ECommerce 
+        <Home 
           listingsEstimate={props.listingsEstimate} 
           productsEstimate={props.productsEstimate} 
           regularUsersEstimate={props.regularUsersEstimate}
