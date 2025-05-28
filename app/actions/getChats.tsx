@@ -12,40 +12,29 @@ export default async function getChats() {
     }
 
    const chats = await prisma.chat.findMany({
+     include:{
+      receiver:true,
+       messages:{
+         orderBy: {
+             createdAt: 'desc',
+         },
+         take: 1,
+       }
+     },
     where:{
-      OR: [
-        {
-          userId: currentUser.id,
-        },
-        { recipientId: currentUser.id,}
-      ],
+      userId: currentUser.id,
     },
-    include:{
-      recipient: true,
-      user:true,
-      product:true,
-      messages:{
-        where:{
-          userId: currentUser.id,
-        },
-        orderBy: {
-            createdAt: 'desc',
-        },
-        take: 1,
-      }
-    }
-  
-    
-    
    });
 
-
-
+  //  console.log(chats);
+   
    const SafeChats = chats.map((item) => ({
-    ...item,
-    timestamp: item.messages[0]?.createdAt,
-    createdAt: item.createdAt.toISOString(),
-  }));
+     ...item,
+     lastMessage: item.messages[0]?.content || "",
+     timestamp: item.messages[0]?.createdAt || [],
+     createdAt: item.createdAt.toISOString(),
+    }));
+    
 
   return SafeChats;
    

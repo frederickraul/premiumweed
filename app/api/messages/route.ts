@@ -16,11 +16,9 @@ export async function POST(
 
     const data = await request.json();
     const {
-      chatId,
-      recipientId,
+      receiverId,
       senderId,
       content,
-     
     } = data;
 
     Object.keys(data).forEach((value: any) => {
@@ -28,30 +26,80 @@ export async function POST(
           NextResponse.error();
         }
       });
-    
+
+
+    let senderChat = await prisma.chat.findFirst({
+      where:{
+        AND:{
+          userId: senderId,
+          receiverId: receiverId,
+
+        }
+      }
+    });
+
+    if(!senderChat){
+      senderChat = await prisma.chat.create({
+        data:{
+          userId: senderId,
+          receiverId: receiverId,
+        }
+      });
+    }
    
     const currentTime = Date.now();
 
-    const notificationUser = await prisma.message.create({
+
+
+
+    // We need to find the receiver chat
+    let receiverChat = await prisma.chat.findFirst({
+      where:{
+        AND:{
+          userId: receiverId,
+          receiverId: senderId,
+
+        }
+      }
+    });
+
+    if(!receiverChat){
+      receiverChat = await prisma.chat.create({
+        data:{
+          userId: receiverId,
+          receiverId: senderId,
+        }
+      });
+    }
+    
+
+    //Create the message on Sender Chat
+    const messageUser = await prisma.message.create({
+          data:{
+            // userId: recipientId,
+            senderId: currentUser.id,
+            chatId: senderChat.id,
+            content,
+          }
+        });
+
+
+    // Make a copy of the message for the receiver
+    // So can delete his message
+    const messageReceiver = await prisma.message.create({
       data:{
-        userId: recipientId,
+        // userId: recipientId,
         senderId: currentUser.id,
-        chatId: chatId,
+        chatId: receiverChat.id,
         content,
       }
     });
 
-    const notificationRecipient = await prisma.message.create({
-      data:{
-        userId: currentUser.id,
-        senderId: currentUser.id,
-        chatId: chatId,
-        content,
-      }
-    });
 
 
-
-  
-    return NextResponse.json(notificationUser);
+  if(messageUser){
+    return NextResponse.json({message: messageUser,status:"ok"});
+  }else{
+    return NextResponse.json({status:"bad"});
+  }
 }

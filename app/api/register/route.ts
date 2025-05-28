@@ -19,6 +19,7 @@ export async function POST(
       data:{
         email,
         name,
+        enable:true,
         hashedPassword
       }
     });

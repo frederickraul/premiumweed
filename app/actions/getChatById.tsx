@@ -23,11 +23,9 @@ try {
       id: chatId as string
     },
     include:{
-      product: true,
-      recipient: true,
       messages:{
         where:{
-          userId: currentUser.id,
+          senderId: currentUser.id,
         },
         orderBy: {
             createdAt: 'desc',

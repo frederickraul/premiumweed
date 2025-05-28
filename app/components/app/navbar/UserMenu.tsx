@@ -20,6 +20,8 @@ import { MdFormatListBulleted, MdKeyboardArrowDown, MdKeyboardArrowRight } from 
 import { BiLogIn, BiLogOut, BiSolidCart, BiSolidLogIn } from 'react-icons/bi';
 import { TbMessage, TbMessage2, TbShieldQuestion } from 'react-icons/tb';
 import DashboardButton from '../DashboardButton';
+import usePricingModal from '@/app/hooks/app/usePricingModal';
+import useProductModal from '@/app/hooks/app/useProductModal';
 
 
 interface UserMenuProps {
@@ -32,6 +34,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
     const registerModal = useRegisterModal();
     const loginModal = useLoginModal();
     const rentModal = useRentModal();
+    const pricingModal = usePricingModal();
     const route = useRouter();
 
     const defaultValue = {
@@ -113,7 +116,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
             >
                 <div className='truncate text-sm font-bold'>{currentUser?.name}</div>
                 <MdKeyboardArrowDown /> 
-                <div className='hidden md:block'>
+                <div className='hidden md:block h-10 w-10'>
                      <Avatar src={currentUser?.image} />
                 </div> 
             </div>
@@ -138,10 +141,10 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                     {currentUser ? (
                         <>
                         <div className='flex flex-row px-5 py-2'>
-                            <div className='block'>
-                                <Avatar src={currentUser?.image} />
+                            <div className='block h-12 w-12'>
+                                <Avatar size={100} src={currentUser?.image} />
                             </div> 
-                            <div className='ml-2' onClick={()=>{route.push('/profile')}}>
+                            <div className='ml-2' onClick={()=>{route.push('/dashboard/profile')}}>
                                 <div className='text-sm font-bold'>{currentUser?.name}</div>
                                 <div className='flex flex-row items-center'>
                                     <span className='text-xs'>My profile</span>
@@ -152,15 +155,16 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                         <hr/>
                         <MenuItem
                             onClick={()=>{
-                                toggleOpen();route.push('/customersQA')}}
+                                toggleOpen();route.push('/dashboard/messages')}}
                                 icon={TbMessage}
                                 style='text-neutral-500'
-                            link='/customersQA'
-                            label="CustomersQA"
+                            link='//dashboard/messages'
+                            label="Messages"
                         /> 
                         <MenuItem
                             onClick={()=>{
-                                toggleOpen();route.push('/favorites')}}
+                                toggleOpen();
+                                route.push('/favorites')}}
                                 icon={AiFillStar}
                                 style='text-neutral-500'
                             link='/favorites'
@@ -168,7 +172,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                         /> 
                         <MenuItem
                             onClick={()=>{
-                                toggleOpen();route.push('/cart')}}
+                                toggleOpen();alert('Soon')}}
                                 icon={BiSolidCart}
                                 style='text-neutral-500'
                             label="My cart"
@@ -185,7 +189,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({currentUser}) => {
                         <MenuItem
                             onClick={()=>{
                                 toggleOpen();
-                                rentModal.onOpen();
+                                currentUser?.role === 'Seller' ?  rentModal.onOpen() : pricingModal.onOpen();
                             }}
                             icon={AiFillPlusCircle}
                             style='text-blue-400'

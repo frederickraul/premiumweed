@@ -19,6 +19,7 @@ import ListingModal from "../components/app/modals/ListingModal";
 import getNotificationsByRecipientId from "../actions/getNotificationsByRecipientId";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import PricingModal from "../components/app/modals/PricingModals";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -52,6 +53,7 @@ export default async function RootLayout({
               <LoginModal/>
               <SearchModal/>
               <RegisterModal/>
+              <PricingModal/>
            
               <Navbar currentUser={currentUser} notifications={notifications} session={session}/>
             </div>

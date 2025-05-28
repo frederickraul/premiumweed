@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import DropdownMessage from "./DropdownMessage";
@@ -6,14 +7,179 @@ import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import Logo from "../../app/navbar/Logo";
 import { SafeUser } from "@/app/types";
+import { adminAuthDashboards } from "@/app/const/permissions";
+import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { IoMdInformationCircle } from "react-icons/io";
+import { useRouter } from "next/navigation";
+import SearchForm from "./Search/SearchForm";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
   currentUser?: SafeUser | null;
+  notifications?: any;
+  reloadPage?:any;
+
 }) => {
+  const {currentUser, notifications, sidebarOpen, setSidebarOpen, reloadPage} = props;
+  const [notifying, setNotifying] = useState(true);
+  
+  const userRole = currentUser?.role || "";
+  let counter = 1;
+  
+  const router = useRouter();
+  const [lastNotificationToken, setLastNotificationToken] = useState("");
+  const [currentNotifications, setCurrentNotifications] = useState([]);
+  
+  useEffect(() => {
+    if(!currentUser){
+      return;
+    }
+
+    if(notifications?.length < 1){
+      setCurrentNotifications([]);
+      // setCurrentMessages([]);
+      return;
+    }
+
+    const filteresNotifications = notifications;
+    
+    // setCurrentNotifications(filteresNotifications);
+    // // setCurrentMessages(messages);
+    // // if(notifications.length > 0){
+    // //   console.log('Play');
+    // //   playSound();
+    // // }
+    // //setFilteredUsers(filtered);
+    // //console.log(notifications);
+    
+  }, [notifications]);
+
+
+
+  useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+    //     if(currentNotifications.length > 0){
+    //        console.log('Play');
+           
+    //       playSound();
+    //     }
+      
+    //   console.log('Refreshing...');
+    //  // setMute(true);s
+     router.refresh();
+      // reloadPage();
+     
+    
+  }, [lastNotificationToken]);
+
+// NOTIFICATION CHECK
+  useEffect(() => {
+    //console.clear();
+    if (!currentUser) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      //  console.log('Wait: '+ 5*counter + ' sec.');
+      counter++;
+      checkNotificationUpdate();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [currentUser]);
+
+
+// NOTIFICATION UPDATE FUNCTION
+  const checkNotificationUpdate = useCallback(() => {
+    if (!currentUser) {
+      return;
+    }
+
+    //Check if there is changes on the notifications
+    axios.get(`/api/notifications/recipient`)
+      .then((response) => {
+        const data = response?.data;
+        const token = data?.token;       
+        if (sessionStorage.getItem('notificationsToken')) {
+          const value = (sessionStorage.getItem('notificationsToken'));
+          if(value != token){
+            console.log('token change');
+            sessionStorage.setItem('notificationsToken', token);
+            setLastNotificationToken(token);
+            setNotifying(true);
+            //setMute(false);
+           
+            toast.success('You have new messages', {
+              duration: 4000,
+              position: 'top-center',
+              icon: <IoMdInformationCircle color='#008ecc' size={18}/>,
+
+    
+              // Change colors of success/error/loading icon
+              iconTheme: {
+                primary: '#008ecc',
+                secondary: '#0BDA51',
+              },
+            });
+
+           
+          }
+          return
+        }
+        //If not Exist NotificationToken
+        sessionStorage.setItem('notificationsToken', token);
+        setLastNotificationToken(token);
+        //setMute(false);
+        return;
+      })
+      .catch(() => {
+        //toast.error('Something went wrong.');
+      })
+      .finally(() => {
+
+        //setIsLoading(false);
+      })
+  },
+    [
+      //listing?.id,
+      currentUser,
+    ]);
+
+
+    useEffect(() => {
+      //console.clear();
+      if (!currentUser) {
+        return;
+      }
+  
+      const interval = setInterval(() => {
+        // console.log('Wait: '+ 5*counter + ' sec.');
+        counter++;
+        checkNotificationUpdate();
+      }, 5000);
+      return () => clearInterval(interval);
+    }, [currentUser]);
+
+    
+
   return (
-    <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+    <header className="
+    sticky 
+    top-0 
+    z-999 
+    flex w-full 
+    bg-white 
+    drop-shadow-1 
+     dark:drop-shadow-none
+      border-gray-200 
+      dark:border-gray-800 
+      dark:bg-gray-900
+       lg:border-b
+     ">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* <!-- Hamburger Toggle BTN --> */}
@@ -21,7 +187,7 @@ const Header = (props: {
             aria-controls="sidebar"
             onClick={(e) => {
               e.stopPropagation();
-              props.setSidebarOpen(!props.sidebarOpen);
+              setSidebarOpen(!sidebarOpen);
             }}
             className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
           >
@@ -29,29 +195,29 @@ const Header = (props: {
               <span className="du-block absolute right-0 h-full w-full">
                 <span
                   className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white ${
-                    !props.sidebarOpen && "!w-full delay-300"
+                    !sidebarOpen && "!w-full delay-300"
                   }`}
                 ></span>
                 <span
                   className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white ${
-                    !props.sidebarOpen && "delay-400 !w-full"
+                    !sidebarOpen && "delay-400 !w-full"
                   }`}
                 ></span>
                 <span
                   className={`relative left-0 top-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white ${
-                    !props.sidebarOpen && "!w-full delay-500"
+                    !sidebarOpen && "!w-full delay-500"
                   }`}
                 ></span>
               </span>
               <span className="absolute right-0 h-full w-full rotate-45">
                 <span
                   className={`absolute left-2.5 top-0 block h-full w-0.5 rounded-sm bg-black delay-300 duration-200 ease-in-out dark:bg-white ${
-                    !props.sidebarOpen && "!h-0 !delay-[0]"
+                    !sidebarOpen && "!h-0 !delay-[0]"
                   }`}
                 ></span>
                 <span
                   className={`delay-400 absolute left-0 top-2.5 block h-0.5 w-full rounded-sm bg-black duration-200 ease-in-out dark:bg-white ${
-                    !props.sidebarOpen && "!h-0 !delay-200"
+                    !sidebarOpen && "!h-0 !delay-200"
                   }`}
                 ></span>
               </span>
@@ -64,41 +230,11 @@ const Header = (props: {
           </Link> */}
         </div>
 
-        <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
-            <div className="relative">
-              <button className="absolute left-0 top-1/2 -translate-y-1/2">
-                <svg
-                  className="fill-body hover:fill-primary dark:fill-bodydark dark:hover:fill-primary"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M9.16666 3.33332C5.945 3.33332 3.33332 5.945 3.33332 9.16666C3.33332 12.3883 5.945 15 9.16666 15C12.3883 15 15 12.3883 15 9.16666C15 5.945 12.3883 3.33332 9.16666 3.33332ZM1.66666 9.16666C1.66666 5.02452 5.02452 1.66666 9.16666 1.66666C13.3088 1.66666 16.6667 5.02452 16.6667 9.16666C16.6667 13.3088 13.3088 16.6667 9.16666 16.6667C5.02452 16.6667 1.66666 13.3088 1.66666 9.16666Z"
-                    fill=""
-                  />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M13.2857 13.2857C13.6112 12.9603 14.1388 12.9603 14.4642 13.2857L18.0892 16.9107C18.4147 17.2362 18.4147 17.7638 18.0892 18.0892C17.7638 18.4147 17.2362 18.4147 16.9107 18.0892L13.2857 14.4642C12.9603 14.1388 12.9603 13.6112 13.2857 13.2857Z"
-                    fill=""
-                  />
-                </svg>
-              </button>
-
-              <input
-                type="text"
-                placeholder="Search by: Listing Name, Product Name, Phone Number, Address, Email. Website URL..."
-                className="w-full bg-transparent pl-9 pr-4 font-medium focus:outline-none lg:w-200"
-              />
-            </div>
-          </form>
-        </div>
+       { !adminAuthDashboards.includes(userRole)?
+        <div className="w-full"></div>
+        :
+        <SearchForm/>
+      }
 
         <div className="flex items-center gap-3 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">
@@ -107,16 +243,16 @@ const Header = (props: {
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}
-            <DropdownNotification />
+            {/* <DropdownNotification /> */}
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}
-            <DropdownMessage />
+            <DropdownMessage notifications={notifications} notifying={notifying} setNotifying={setNotifying}/>
             {/* <!-- Chat Notification Area --> */}
           </ul>
 
           {/* <!-- User Area --> */}
-          <DropdownUser currentUser={props.currentUser} />
+          <DropdownUser currentUser={currentUser} />
           {/* <!-- User Area --> */}
         </div>
       </div>

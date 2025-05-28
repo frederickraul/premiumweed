@@ -14,10 +14,13 @@ datasource db {
 model User {
   id                  String @id @default(auto()) @map("_id") @db.ObjectId
   name                String?
+  lastname            String?
+  fullName            String?
   email               String?   @unique
   emailVerified       DateTime?
-  type                String?
+  role                String?
   image               String?
+  enable              Boolean?
   token               String?
   hashedPassword      String?
   createdAt           DateTime @default(now())
@@ -38,10 +41,10 @@ model User {
   askListings     AskListing[] @relation("customer")
   respondListings AskListing[] @relation("owner")
 
-  chatUser        Chat[] @relation("user")
-  chatRecipient   Chat[] @relation("recipient")
+  chatUser         Chat[] @relation("user")
+  chatReceiver     Chat[] @relation("receiver")
 
-  messageUser    Message[] @relation("user")
+  // messageReceiver    Message[] @relation("receiver")
   messageSender  Message[] @relation("sender")
 
   senderNotifications     Notification[] @relation("sender")
@@ -132,7 +135,7 @@ model Product {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   rating RatingProduct[]
-  chats Chat[]
+  // chats Chat[]
   // messages Message[]
 
 }
@@ -153,7 +156,7 @@ model Notification {
   item2Id       String? // Required when the listingId and productId is required
   UTC           String
   type          String 
-  content       String  
+  content       String?  
   count         Int
   timestamp     Int
   status        Int
@@ -163,30 +166,35 @@ model Notification {
   recipient User @relation(fields: [recipientId], references: [id], name: "recipient")
 }
 
-model Chat{
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  productId     String @db.ObjectId 
-  userId        String @db.ObjectId // User that initialize the chat
-  recipientId   String @db.ObjectId 
-  createdAt     DateTime @default(now())
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], name: "user")
-  recipient User @relation(fields: [recipientId], references: [id], onDelete: Cascade, name: "recipient")
+
+//Chat
+model Chat{
+  id String @id @default(auto()) @map("_id") @db.ObjectId  
+  userId        String @db.ObjectId         
+  receiverId    String @db.ObjectId 
+ // content       String?         //Last sended/received message
+  createdAt     DateTime @default(now())
+  //updatedAt     DateTime? @updatedAt
+
+  user User @relation(fields: [userId], references: [id], name: "user", onDelete: Cascade)
+  receiver User @relation(fields: [receiverId], references: [id], name: "receiver")
   messages Message[]
 }
 
+
+
 model Message {
   id            String @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String @db.ObjectId //User that receives the message //Message can delete their owns Messages now
-  senderId      String @db.ObjectId //User that send the message
+  senderId      String @db.ObjectId //User that send the message.
+  // userId        String @db.ObjectId //User that receives the message
   chatId        String @db.ObjectId 
   content       String
   createdAt     DateTime @default(now())
 
   chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], name: "user")
-  sender User @relation(fields: [senderId], references: [id], onDelete: Cascade, name: "sender")
+  // receiver  User @relation(fields: [userId], references: [id], name: "receiver")
+  sender    User @relation(fields: [senderId], references: [id], name: "sender")
 }
 
 model RatingListing {

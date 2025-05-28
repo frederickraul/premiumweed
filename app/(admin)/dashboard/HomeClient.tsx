@@ -1,12 +1,22 @@
 import ECommerce from "@/app/components/dashboard/Dashboard/E-commerce";
-import DefaultLayout from "@/app/components/dashboard/Layouts/DefaultLayout";
-import { Metadata } from "next";
 
 
-export default function HomeClient(){
+export default function HomeClient(
+  props:{
+    listingsEstimate: any, 
+    productsEstimate: any, 
+    regularUsersEstimate: any,
+    sellerUsersEstimate: any
+  }){
   return (
     <>
-        <ECommerce />
+        <ECommerce 
+          listingsEstimate={props.listingsEstimate} 
+          productsEstimate={props.productsEstimate} 
+          regularUsersEstimate={props.regularUsersEstimate}
+          sellerUsersEstimate={props.sellerUsersEstimate}
+          
+          />
     </>
   );
 }

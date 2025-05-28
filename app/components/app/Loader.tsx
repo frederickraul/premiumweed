@@ -4,17 +4,14 @@ import { PuffLoader,BarLoader,PacmanLoader,PropagateLoader } from "react-spinner
 
 const Loader = () => {
   return ( 
-    <div className="z-10 w-[100%] h-[100%] bg-white opacity-70  absolute">
-    <div
-      className="fixed left-[37%] sm:left-[45%]  md:left-[48%] top-[35%] z-10 "
-      >
+    <div className="z-20 w-[100%] h-[100%] bg-white absolute top-0 flex items-center justify-center">
+
       <PropagateLoader
         size={25}
         color="green"
         
         />
     </div>
-        </div>
    );
 }
  

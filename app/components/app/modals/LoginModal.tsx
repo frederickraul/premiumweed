@@ -43,9 +43,11 @@ const LoginModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) =>{
     setIsLoading(true);
-    
+    let lowercaseEmail = (data?.email).toLowerCase();
+    const credentials = {email: lowercaseEmail, password: data.password};
+    console.log(credentials);
     signIn('credentials',{
-      ...data,
+      ...credentials,
       redirect: false
     }).then((callback) =>{
       setIsLoading(false);

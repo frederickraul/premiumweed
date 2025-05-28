@@ -8,12 +8,8 @@ import Heading from '../Heading';
 import CategoryInput from "../inputs/CategoryInput";
 import { FieldError, FieldErrors, FieldValues, SubmitHandler, UseFormRegister, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
-import Counter from "../inputs/Counter";
 import ImageUpload from "../inputs/ImageUpload";
-import Input from "../inputs/Input";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 
 import CountrySelect from "../inputs/CountrySelect";
 import InputUnregistered from '../inputs/InputUnregistered';
@@ -22,8 +18,6 @@ import CustomSelect from "../inputs/Select";
 import { hours } from "@/app/const/hours";
 import InputPhone from "../inputs/InputPhone";
 import useCountries from "@/app/hooks/app/useCountries";
-import { week } from "@/app/const/week";
-import { Value } from "@prisma/client/runtime/library";
 
 
 enum STEPS{
@@ -365,7 +359,7 @@ if(step === STEPS.ADDRESS){
             <div className="flex flex-col ">
             <div className="flex flex-col gap-3 2xl:gap-4 pr-5 3xl:pr-0">
 
-              <CountrySelect
+              {/* <CountrySelect
                 id='location'
                 required
                 value={location}
@@ -375,7 +369,7 @@ if(step === STEPS.ADDRESS){
                   setCustomValue('location',value);
                   
                 }}
-              />
+              /> */}
 
               <CitySelect
                 //stateCode={selectedState}
@@ -383,6 +377,7 @@ if(step === STEPS.ADDRESS){
                 value={city}
                 onChange={(value)=>{setCustomValue('city',value)}}
               />
+              
               <StateSelect
                 id='state'
                 required

@@ -26,10 +26,7 @@ const ProductPage = async ({params}:{params: IParams}) => {
   const review = await getRatingByProductId(params);
   const ratings = await getRatingsByProductId(params);
   const chat = await getChatId({product});
-  
 
-  console.log("ChatId: ");
-  console.log(chat);
 
   //const params = useParams()
   //const listing = await getListingById(params);

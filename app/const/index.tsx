@@ -2,36 +2,37 @@ import { GiChocolateBar, GiCigarette, GiSnowBottle, GiWaxSeal } from "react-icon
 import { TbPlant2 } from "react-icons/tb";
 
 export const defaultImage = "https://res.cloudinary.com/dggeqtbik/image/upload/v1691279075/ybhipmcoemyemhupmitq.jpg";
+export const defaultProductImage = "/images/default-product-image.png";
 export const editMode = "https://i.pinimg.com/originals/4b/8d/ea/4b8dea679e1df0f0985c636e90eeb567.jpg";
 
 export const categoryList = [
   {
     id: 1,
-    value: 'weed',
+    value: 'Weed',
     label: 'Weed',
     icon: TbPlant2,
   },
   {
     id: 2,
-    value: 'pre rolls',
+    value: 'Pre Rolls',
     label: 'Pre Rolls',
     icon: GiCigarette,
   },
   {
     id: 3,
-    value: 'edibles',
+    value: 'Edibles',
     label: 'Edibles',
     icon: GiChocolateBar,
   },
   {
     id: 4,
-    value: 'concentrates',
+    value: 'Concentrates',
     label: 'Concentrates',
     icon: GiSnowBottle
   },
   {
     id: 5,
-    value: 'wax',
+    value: 'Wax',
     label: 'Wax',
     icon: GiWaxSeal,
   },

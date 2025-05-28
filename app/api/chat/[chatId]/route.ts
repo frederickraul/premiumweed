@@ -31,14 +31,13 @@ export async function DELETE(
         return NextResponse.error();
       }
   
-      const notification = await prisma.message.deleteMany({
+      const chats = await prisma.message.deleteMany({
         where: {
           chatId: chatId,
-          userId: currentUser.id
         }
       });
   
-      return NextResponse.json(notification);
+      return NextResponse.json(chats);
   
   }
   

@@ -4,6 +4,8 @@ import InputUnregistered from '../inputs/InputUnregistered';
 import Button from '../Button';
 import { BiSearch } from 'react-icons/bi';
 import { MdOutlineClear } from 'react-icons/md';
+import InputText from '../inputs/InputText';
+import { defaultImage } from '@/app/const';
 
 interface QuestionsModalProps {
     questions: any;
@@ -13,6 +15,7 @@ interface QuestionsModalProps {
     onClose:() => void;
     isLoading?:boolean;
     isOwner?:any;
+    owner?:any;
   }
 
   const QuestionsModal: React.FC<QuestionsModalProps> = ({
@@ -22,7 +25,8 @@ interface QuestionsModalProps {
     onUpdate,
     onClose,
     isLoading,
-    isOwner
+    isOwner,
+    owner,
   }) => {
 
     useEffect(() => {
@@ -74,17 +78,25 @@ interface QuestionsModalProps {
     const bodyContent = (
         <div className='flex flex-col'>
             <div className={`
-                    ${isOwner ? 'hidden' :'top-[75px] h-[100px]'}
-                    fixed 
+                    ${isOwner ? 'hidden' :'h-auto'}
                     bg-white 
                     left-0 
                     right-0 
                     
                     `}>
-                <div className='relative p-5'>
-                    <div className='flex flex-row fixed w-[100%]'>
-                        <div className='w-[78%] relative'> 
-                        <InputUnregistered
+                <div className='relative p-2'>
+                    <div className='flex flex-row items-center mb-5'>
+                    <div className="relative mr-3.5 h-11 w-full max-w-11 rounded-full">
+                      <img src={owner?.image || defaultImage} alt="profile" className="h-full w-full object-cover object-center aspect-square rounded-full" />
+                      <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-2 border-gray-2 bg-success"></span>
+                    </div>
+                        <span>
+                        {owner?.name}
+                        </span>
+                    </div>
+                    <div className='flex flex-row w-[100%]'>
+                        <InputText
+                            rowsNumber={3}
                             label=''
                             onChange={(e)=>{
                                 if(error){setError(false)}
@@ -93,90 +105,29 @@ interface QuestionsModalProps {
                             }}
                             value={filterValue}
                         />
-                        <span 
-                            onClick={clear}
-                            className='
-                                absolute 
-                                right-5 
-                                top-3
-                                mt-2 
-                                cursor-pointer
-                                text-blue-500'>
-                                    <MdOutlineClear size={30}/>
-                                </span>
-                        </div>
-                        <div className='w-[70px] aspect-square h-[70px] flex'>
-                        <Button 
-                            outline 
-                            borderless 
-                            styles='border-transparent' 
-                            iconSize={35} 
-                            icon={BiSearch} 
-                            label='' 
-                            onClick={()=>{}}/>
-                        </div>
+
+  
                     </div>
                     {error &&
-                    <div className='mt-20 ml-2 relative text-red-500'>
-                        The question is too short!!!
+                    <div className='mt-5 ml-2 relative text-red-500'>
+                        The message is too short!!!
                     </div>
                     }
                 </div>
             </div>
   
-            <div className={`flex flex-col min-h-[500px] ${isOwner ? 'mt-[0px]' :  'mt-[100px]'}`}>
-                {questions?.length < 1 &&
-                <div className='text-neutral-500'>
-                Nobody has asked questions yet.
-                {isOwner ? '':' Do the first one!'}
-                
-                </div>
-                }
-                {filteredQuestions.map((question: any) =>(
-                    
-                    <div key={question.id} className='w-full flex flex-col mb-4'>
-                         <div className="flex items-start">
-                            <div>
-                            <span className="inline-flex justify-center items-center w-6 h-6 rounded bg-green-500 text-white font-medium text-sm">
-                                Q
-                            </span>
-                            </div>
-
-                            <p className="ml-4 md:ml-6 text-bold">
-                            {question.question}
-                            </p>
-                        </div>
-                        {question.answer !== '' &&
-                        <div className="flex items-start mt-2 mb-2">
-                            <div>
-                            <span className="inline-flex justify-center items-center w-6 h-6 rounded bg-gray-200 text-gray-800 font-medium text-sm">
-                                A
-                            </span>
-                            </div>
-
-                            <p className="ml-4 md:ml-6 text-bold text-gray-800">
-                            {question.answer}
-                            </p>
-                        </div>
-  
-                        }
-                    </div>
-                    ))
-                }
-
-              
-            </div>
+    
         </div>
     );
     return (
         <Modal
             size='sm'
             isOpen={isOpen}
-            title="Looking for specific info?"
+            title={"Looking for specific info?"}
             body={bodyContent}
             onClose={onClose}
             onSubmit={handleSaveQuestion}
-            actionLabel={isOwner ? '' : 'Post your question'}
+            actionLabel={isOwner ? '' : 'Send'}
             disabled={isLoading}
         
     

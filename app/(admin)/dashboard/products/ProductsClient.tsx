@@ -12,13 +12,13 @@ const ProductsClient = (props:{
 
   const headers=['imageSrc','Title','Category','Owner','Price','Created'];
   return (
-    <DefaultLayout>
+      <>
       <Breadcrumb pageName="Products" />
 
       <div className="flex flex-col gap-10">
         <ProductsTable headers={headers} data={props.products} />
       </div>
-    </DefaultLayout>
+      </>
   );
 };
 

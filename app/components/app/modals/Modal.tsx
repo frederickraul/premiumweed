@@ -96,10 +96,9 @@ const Modal: React.FC<ModalProps> = ({
           ${size === 'lg' ? 'md:w-5/6' : ' md:w-4/6'}
           ${size === 'lg' ? 'lg:w-4/6' : 'lg:w-3/6'}
           ${size === 'lg' ? 'xl:w-3/6' : 'xl:w-2/5'}
-          xl:w-2/5
+          ${size === 'xl' ? 'xl:w-4/6' : 'xl:w-2/5'}
           my-5
           mx-auto
-          h-full
           lg:h-auto
           md:h-auto
         `}>
@@ -110,9 +109,10 @@ const Modal: React.FC<ModalProps> = ({
             ${showModal ? 'translate-y-0' : 'translate-y-full'}
             ${showModal ? 'opacity-100' : 'opacity-0'}
           `}>
-            <div className='
+            <div className={`
               translate
-              sm:max-h-[85vh] 
+               
+              ${size === 'xl' ? 'sm:max-h-max' : 'sm:max-h-[85vh]'}
               border-0
               rounded-lg
               shadow-lg
@@ -123,7 +123,7 @@ const Modal: React.FC<ModalProps> = ({
               bg-white
               outline-none
               focus:outline-none 
-            '>
+            `}>
               {/* HEADER */}
               <div className="
                 flex

@@ -12,7 +12,6 @@ export default async function getNotificationsByRecipientId() {
     }
 
 
-
    const notifications = await prisma.notification.findMany({
     where:{
       AND:[
@@ -49,6 +48,8 @@ export default async function getNotificationsByRecipientId() {
     ...item,
     createdAt: item.createdAt.toISOString(),
   }));
+
+
 
   return SafeNotifications;
    

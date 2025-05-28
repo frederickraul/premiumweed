@@ -241,3 +241,12 @@ input[type="search"]::-webkit-search-cancel-button {
 [x-cloak] {
     display: none !important;
 }
+
+
+/* .bg-gray-900\/50{
+    background-color: rgb(16 24 40 / 0.5);
+  } */
+
+.bg-white-transparent{
+    background-color: red !important;
+}

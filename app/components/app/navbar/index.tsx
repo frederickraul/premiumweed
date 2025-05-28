@@ -103,7 +103,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
     }
 
     const interval = setInterval(() => {
-      console.log('Wait: '+ 5*counter + ' sec.');
+      // console.log('Wait: '+ 5*counter + ' sec.');
       counter++;
       checkNotificationUpdate();
     }, 5000);

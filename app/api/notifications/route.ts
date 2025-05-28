@@ -50,12 +50,10 @@ export async function POST(
         break;
         case "message":
         content=message;
-        itemId = item.id;
         const notification = await prisma.notification.findFirst({
           where:{
             recipientId:recipientId,
             senderId: senderId,
-            itemId: itemId,
           }
         });
 

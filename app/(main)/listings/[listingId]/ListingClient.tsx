@@ -74,7 +74,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
     
   }, [listing])
   
-  
 
   const { getStatesOfCountry } = useCountries();
   const [ratingAvg, setRatingAvg] = useState(0);
@@ -113,31 +112,32 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
     setIsLoading(true);
     
-   
-    axios.post('/api/ask/listing', {
-      question:data.question,
-      listingId: listing?.id,
-      ownerId:listing?.userId,
-      userId: currentUser.id
+    axios.post('/api/messages', {
+      content: data.question,
+      // listingId: listing?.id,
+      receiverId: listing?.userId,
+      senderId: currentUser.id
     })
     .then((response) => {
+      
       const savedData = response.data;
       //setIsQuestionModalOpen(false);
-      toast.success('Thank you for ask!!!');
-      axios.post(`/api/notifications`, {
-        type:'question',
-        recipientId:listing?.userId,
-        senderId:currentUser.id,
-        listing: savedData,
-      })
+      toast.success('Message sended!!!');
+      // axios.post(`/api/notifications`, {
+      //   type:'question',
+      //   recipientId:listing?.userId,
+      //   senderId:currentUser.id,
+      //   listing: savedData,
+      // })
 
-      router.refresh();
+      // router.refresh();
     })
     .catch(() => {
       toast.error('Something went wrong.');
     })
     .finally(() => {
       setIsLoading(false);
+      setIsQuestionModalOpen(false);
     })
 },
 [
@@ -593,6 +593,7 @@ currentUser,
               onClose={toggleQuestionModal}
               isOwner={hasOwner}
               isLoading={isLoading}
+              owner={listing?.user}
               />
 
             <ConfirmModal

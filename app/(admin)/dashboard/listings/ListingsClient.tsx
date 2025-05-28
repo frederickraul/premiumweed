@@ -15,8 +15,8 @@ const ListingsClient = (props:{
       <Breadcrumb pageName="Listings" />
 
       <div className="flex flex-col gap-10">
-        <ListingsTable headers={headers} data={props.listigs} />
-        <TableThree />
+        <ListingsTable headers={headers} data={props.listigs}/>
+        {/* <TableThree /> */}
       </div>
     </>
   );

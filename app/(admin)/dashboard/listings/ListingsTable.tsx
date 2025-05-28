@@ -1,6 +1,9 @@
+'use client';
 import { formatDate } from "@/app/const/hours";
 import { Product } from "@/app/types/dashboard/types/product";
 import Image from "next/image";
+import TableEmpty from "./TableEmpty";
+import { useRouter } from "next/navigation";
 
 const productData: Product[] = [
   {
@@ -41,13 +44,14 @@ const ListingsTable = (props:{
     headers:String[];
     data?:any;
 }) => {
-    if(!props.data){
-        return (
-        <div>
-          No data  
-        </div>
-        );
-    }
+  if(props.data?.length < 1){
+    return (
+   <TableEmpty headers={props.headers}/>
+    );
+}
+
+const route = useRouter();
+
   return (
     <div className="overflow-hidden rounded-[10px]">
       <div className="max-w-full overflow-x-auto">
@@ -72,11 +76,12 @@ const ListingsTable = (props:{
       <div className="bg-white dark:bg-boxdark">
    
       {
-    
-      props.data.map((item:any, key:any) => (
+  
+      props.data?.map((item:any, key:any) => (
         <div
-        className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
+        className="cursor-pointer grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
         key={key}
+        onClick={()=>{route.push('/dashboard/listings/'+item?.id)}}
         >
           <div className="col-span-2 md:col-span-3 flex items-center">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -85,7 +90,7 @@ const ListingsTable = (props:{
                   src={item.imageSrc || '/images/Poster_not_available.jpg'}
                   width={60}
                   height={50}
-                  alt="Product"
+                  alt="Listing"
                   className="aspect-square"
                   />
               </div>
