@@ -24,22 +24,22 @@ const MessagePage = async ({params}:{params: IParams}) => {
     />
   }
 
-  if (currentUser.id != chat?.userId && currentUser.id != chat?.recipientId) {
-    return <EmptySpace
-      title="Unauthorized"
-      subtitle=""
-  />
-  }
+  // if (currentUser.id != chat?.userId && currentUser.id != chat?.recipientId) {
+  //   return <EmptySpace
+  //     title="Unauthorized"
+  //     subtitle=""
+  // />
+  // }
 
   return (
      <>
-      <MessageClient
+      {/* <MessageClient
         chat={chat}
         product={chat?.product}
         messages={chat?.messages}
         recipient={chat?.recipient}
         currentUser={currentUser}
-        />
+        /> */}
         </>
   );
 }
