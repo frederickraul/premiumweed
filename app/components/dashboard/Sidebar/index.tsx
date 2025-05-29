@@ -28,7 +28,7 @@ interface SidebarProps {
 const menuGroups = [
   {
     name: "MENU",
-    allowed: devAdminAuthDashboards,
+    allowed: adminAuthDashboards,
     menuItems: [
       {
         icon: (
@@ -133,8 +133,12 @@ const menuGroups = [
   },
 ];
 
+
 const Sidebar = ({ sidebarOpen, setSidebarOpen, userRole }: SidebarProps) => {
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
+
+  console.log(userRole);
+
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
