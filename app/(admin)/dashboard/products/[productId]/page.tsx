@@ -15,9 +15,10 @@ const ListingDetails = async ({ params }: { params: { productId: string } }) => 
     console.log(product);
 
     return (
-        <DefaultLayout currentUser={currentUser} notifications={notifications}>
+        <>
             <ProductDetailsClient product={product} />
-        </DefaultLayout>
+
+        </>
     )
 }
 

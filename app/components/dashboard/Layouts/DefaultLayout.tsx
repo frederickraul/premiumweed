@@ -12,11 +12,13 @@ export default function DefaultLayout({
   currentUser,
   notifications,
   reloadPage,
+  logos,
 }: {
   children: React.ReactNode;
   currentUser?: SafeUser | null;
   notifications?: any;
   reloadPage?:any;
+  logos?:any,
 }) {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -25,7 +27,7 @@ export default function DefaultLayout({
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="block min-h-screen h-full overflow-hiddenx">
         {/* <!-- ===== Sidebar Start ===== --> */}
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} userRole={currentUser?.role || ""}/>
+        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} userRole={currentUser?.role || ""} logos={logos}/>
         {/* <!-- ===== Sidebar End ===== --> */}
 
         {/* <!-- ===== Content Area Start ===== --> */}

@@ -17,12 +17,18 @@ import MessagesIcon from '@/app/components/icons/icon-messages.svg';
 import InvoiceIcon from '@/app/components/icons/icon-invoice.svg';
 
 
+const lightLogo = '/images/logo-black-text.png';
+const darkLogo = '/images/logo-white-text.png';
+const smallLogo = '/images/logo.png';
+const favicon = '/images/logo/favicon.ico';
+
 import { adminAuthDashboards, devAdminAuthDashboards, onlySellerAuthDashboards, regularAuthDashboards } from "@/app/const/permissions";
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
   userRole: string;
+  logos:any;
 }
 
 const menuGroups = [
@@ -114,19 +120,19 @@ const menuGroups = [
     name: "SETTINGS",
     allowed: adminAuthDashboards,
     menuItems: [
-      {
-        icon: (
-          <SettingsIcon height={20} width={20} className="fill-gray-500"/>
-        ),
-        label: "Settings",
-        route: "/dashboard/settings",
-      },
+      // {
+      //   icon: (
+      //     <SettingsIcon height={20} width={20} className="fill-gray-500"/>
+      //   ),
+      //   label: "Settings",
+      //   route: "/dashboard/settings",
+      // },
       {
         icon: (
           <WeedIcon height={20} width={20} className="fill-gray-500"/>
         ),
         label: "Logo",
-        route: "/dashboard/logo",
+        route: "/dashboard/settings/logo",
       },
      
     ],
@@ -134,10 +140,14 @@ const menuGroups = [
 ];
 
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen, userRole }: SidebarProps) => {
+const Sidebar = ({ sidebarOpen, setSidebarOpen, userRole,logos }: SidebarProps) => {
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
 
-  console.log(userRole);
+  const currentLogos = { 
+    lightLogo: logos? logos[0] : lightLogo, 
+    darkLogo: logos ? logos[1] : darkLogo, 
+    smallLogo: logos? logos[2] : smallLogo,
+    favicon:logos? logos[3] : favicon};
 
 
   return (
@@ -170,7 +180,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen, userRole }: SidebarProps) => {
             <Image
               width={50}
               height={50}
-              src={"/images/logo.png"}
+              src={currentLogos?.smallLogo}
               alt="Logo"
               priority
             />

@@ -20,6 +20,8 @@ export default async function Messages() {
    }
 
   return (
+    <>
     <PageClient currentUser={currentUser} notifications={notifications} chats={chats}/>
+    </>
   );
 }

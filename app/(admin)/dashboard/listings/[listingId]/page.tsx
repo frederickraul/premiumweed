@@ -15,9 +15,9 @@ const ListingDetails = async ({ params }: { params: { listingId: string } }) => 
     const notifications = await getNotificationsByRecipientId();
 
     return (
-        <DefaultLayout currentUser={currentUser} notifications={notifications}>
+        <>
             <ListingDetailsClient listing={listing} />
-        </DefaultLayout>
+        </>
     )
 }
 

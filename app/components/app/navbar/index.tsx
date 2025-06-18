@@ -14,12 +14,26 @@ import Messages from '../messages';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+const lightLogo = '/images/logo-black-text.png';
+const darkLogo = '/images/logo-white-text.png';
+const smallLogo = '/images/logo.png';
+const favicon = '/images/logo/favicon.ico';
+
 interface NavbarProps {
     currentUser?: SafeUser | null
     session?:any;
     notifications?: any;
+    logos?:any;
+    device?:string;
 }
-const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) => {
+const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session, logos,device}) => {
+
+  const currentLogos = { 
+    lightLogo: logos? logos[0] : lightLogo, 
+    darkLogo: logos ? logos[1] : darkLogo, 
+    smallLogo: logos? logos[2] : smallLogo,
+    favicon:logos? logos[3] : favicon};
+
 
   const router = useRouter();
   let counter = 1;
@@ -31,9 +45,61 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
   // Filteres Notifications Type message
   // const [currentMessages, setCurrentMessages] = useState<any[]>([]);
 
+  useEffect(() => {
+    const currentTimestamp = localStorage.getItem('visiteTime');
+    if(currentTimestamp){
+      const timestamp = parseInt(currentTimestamp);
+       if(!compareDate(timestamp)){
+          console.log("New Visited ");
+          onRegisterVisitor({deviceType: device});
+       }else{
+          console.log("Allready Visited");
+       }
+    }else{
+      console.log("New Record ");
+      // var object = {value: "value", timestamp: new Date().getTime()}
+      const newDate = new Date().getTime();
+      localStorage.setItem("visiteTime", JSON.stringify(newDate));
+      onRegisterVisitor({deviceType: device});
+    }
+  }, []);
+
+  const compareDate = (timestamp:any) =>{
+    const now = new Date();
+    const timestampDate = new Date(timestamp);
+
+    return (
+      timestampDate.getDate() === now.getDate() &&
+      timestampDate.getMonth() === now.getMonth() &&
+      timestampDate.getFullYear() === now.getFullYear()
+    );
+}
+
+const onRegisterVisitor = useCallback(async (data:any) => {
+   
+    // setIsLoading(true);
+    try {
+      const response = await fetch('/api/visitors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+
+      router.refresh();
+
+
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to update the bussines logo information.');
+    } finally {
+      // setIsLoading(false);
+    }
+  }, []);
+
 
   useEffect(() => {
-    console.log(notifications);
     if(!currentUser){
       return;
     }
@@ -207,7 +273,7 @@ const Navbar: React.FC<NavbarProps> = ({currentUser, notifications, session}) =>
                     md:gap-0
                         '>
                     <div className='flex flex-row items-center justify-around'>
-                    <Logo/>
+                    <Logo logo={currentLogos?.smallLogo}/>
                     <div className='hidden md:flex items-center'><Search/></div>
                      <div className='flex flex-row ml-4 md:ml-2'>
                         <IoIosPin size={14}/>

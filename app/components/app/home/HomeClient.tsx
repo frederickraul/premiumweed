@@ -22,11 +22,15 @@ const HomeClient: React.FC<HomeClientProps> = ({
 
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [visiteTime, setvisiteTime] = useState(0);
 
   useEffect(() => {
     setData(listings);
     setIsLoading(false);
-  }, [listings])
+  }, [listings]);
+
+
+
   
 
   return (

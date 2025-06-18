@@ -18,25 +18,27 @@ export async function POST(
     email,
     image,
     name,
+    lastname,
+    phone,
+    formattedPhone,
+    bio
   } = body;
 
+  const fullName = name +" "+lastname;
+
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    })
-
-    if (!user) {
-      return NextResponse.json(null);
-    }
-
-
     const updatedUser = await prisma.user.update({
-      where: { id: user.id },
+      where: { id: currentUser.id },
       data: {
         image: image,
         name: name,
+        fullName: fullName,
+        lastname: lastname,
+        email: email,
+        phone: phone,
+        formattedPhone: formattedPhone,
+        bio:bio,
+
       }
     });
 

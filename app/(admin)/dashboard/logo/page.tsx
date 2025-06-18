@@ -10,10 +10,8 @@ const Logo = async() => {
   const currentUser = await getCurrentUser();
 
   return (
-    <DefaultLayout currentUser={currentUser} notifications={notifications}>
 
     <div>Logo Soon</div>
-    </DefaultLayout>
   )
 }
 

@@ -138,7 +138,7 @@ const UserDetailsInfo = (props: {user: any}) => {
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
                     <div>
                         <h4 className="text-lg font-semibold text-red-500  lg:mb-6">
-                            Danger Zone
+                            Danger Zone - Account suspension
                         </h4>
 
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-7 2xl:gap-x-32">

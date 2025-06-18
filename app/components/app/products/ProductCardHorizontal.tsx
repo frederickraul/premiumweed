@@ -219,6 +219,9 @@ const ProductCardHorizontal: React.FC<ProductCardProps> = ({
                 <div className='text-xs text-neutral-700 mt-4'>
                 <span className='font-bold text-lg'>${(totalPrice).toFixed(2)} </span> / {data.portion}
                 </div>
+                <div className='text-neutral-700 mt-1 text-sm'>
+                <span className='font-bold'>Stock: </span>{data.stock}
+                </div>
                 <div className='flex mt-5 flex-col'>
                   <span className='font-bold text-sm'>Quantity</span>
                   <div className='flex justify-start mt-2'>

@@ -17,14 +17,15 @@ import {toast} from 'react-hot-toast';
 import Button from "../Button";
 
 import { FcGoogle } from 'react-icons/fc';
-import { AiFillGithub } from "react-icons/ai";
 import { useRouter } from 'next/navigation';
 import useRegisterModal from '@/app/hooks/app/useRegisterModal';
+import useResetModal from '@/app/hooks/app/useResetModal';
 
 const LoginModal = () => {
   const router = useRouter();
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const resetModal = useResetModal();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -68,6 +69,15 @@ const LoginModal = () => {
     registerModal.onOpen();
 
   },[loginModal,registerModal]);
+
+
+  const toggleReset = useCallback(()=>{
+    loginModal.onClose();
+    resetModal.onOpen();
+
+  },[loginModal,registerModal]);
+
+
   
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -91,6 +101,12 @@ const LoginModal = () => {
           errors={errors}
           required
         />
+
+        <div className='text-right mt-2'>
+          <span 
+          onClick={toggleReset}
+          className='text-blue-500 font-bold cursor-pointer'>Forgot Password?</span>
+        </div>
         
     </div>
   );

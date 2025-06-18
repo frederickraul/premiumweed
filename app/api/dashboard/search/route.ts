@@ -140,7 +140,7 @@ interface IParams {
             });
   
             const SafeUsers = users.map((item) => ({
-              title: item?.name,
+              title: item?.fullName,
               category: '',
               type: item?.role,
               photo: item?.image,

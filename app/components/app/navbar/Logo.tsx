@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation"
 
-const Logo = () => {
+const Logo = (props:{logo:string}) => {
+  const {logo} = props;
     const router = useRouter();
 
   return (
@@ -15,7 +16,7 @@ const Logo = () => {
         width={60}
         alt="Logo"
         className="md:block cursor-pointer w-[40px] sm:w-[40px] md:w-[50px] lg:w-[60px] "  
-        src="/images/logo.png"
+        src={logo}
         onClick={()=>{router.push('/')}} 
         quality={50}
         />

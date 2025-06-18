@@ -62,7 +62,7 @@ const ProductInfoModal = (props:{open:boolean, onClose:any, data:any,onSubmit:an
                                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                                     <div className='relative w-20'>
                                         <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-                                        <Avatar classname='bg-red-500' src={product?.coverSrc || defaultProductImage}/>
+                                        <Avatar src={product?.coverSrc || defaultProductImage}/>
                                         </div>
                                         <label
                                             htmlFor="profile"

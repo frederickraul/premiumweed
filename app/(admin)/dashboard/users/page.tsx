@@ -25,9 +25,7 @@ export default async function Users() {
   const users = await getAllUsers();
    return (
     <>
-     <DefaultLayout currentUser={currentUser} notifications={notifications}>
         <UsersClient users={users}/>
-     </DefaultLayout>
     </>
   );
 }

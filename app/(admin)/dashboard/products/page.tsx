@@ -26,13 +26,12 @@ export default async function Profile() {
     let data = await getProductsByUserId({userId});
     
     if(adminAuthDashboards.includes(userRole)){
-      data = await getProductsByUserId({userId});
+      data = await getAllProducts();
     }
     
   return (
-      <DefaultLayout currentUser={currentUser} notifications={notifications}>
-
+    <>
         <ProductsClient products={data}/>
-      </DefaultLayout>
+    </>
   );
 }

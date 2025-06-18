@@ -111,7 +111,7 @@ const MessagesClient = (props: {
       return loginModal.onOpen();
     }
 
-    if(data.length < 5 ){
+    if(data.length < 2 ){
       setIsError(true);
       return;
     }
@@ -232,7 +232,7 @@ const sendNotification = async(sendedMessage:any) =>{
                     </div>
                     <div className="w-full">
                       <h5 className="text-sm font-medium text-black dark:text-white">
-                        {chat.receiver?.name}
+                        {chat.receiver?.fullName}
                       </h5>
                       <p className="text-sm font-medium">
                       {chat?.lastMessage}

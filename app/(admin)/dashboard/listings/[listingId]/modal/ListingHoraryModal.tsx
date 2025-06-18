@@ -38,6 +38,22 @@ const ListingHoraryModal: React.FC<ListingModalProps> = ({
       );
   }
 
+  const setWeekHours = async(itemSelected: any) => {
+    console.log(itemSelected);
+    let newHorary:any = [];
+    horary.map((item:any)=>{
+      newHorary.push({
+        "day": item.day,
+        "open": itemSelected.open,
+        "close": itemSelected.close,
+        "fulltime": itemSelected.fulltime,
+        "closed": itemSelected.closed
+    },)
+  });
+     
+     setHorary(newHorary);
+  }
+
 
   const handleCloseModal = () => {
     onClose();
@@ -71,6 +87,7 @@ const ListingHoraryModal: React.FC<ListingModalProps> = ({
                 </div> 
             </div>
               {horary?.map((item: any, key: number) => (
+                <div>
                 <div key={key} className='grid grid-cols-4 gap-4'>
                   <FormLabel text={item?.day} />
                   <FormInput type='time' value={item?.open} onChange={(value: string) => {
@@ -102,6 +119,13 @@ const ListingHoraryModal: React.FC<ListingModalProps> = ({
                     }} />
                   </div>
                 </div>
+                  {key == 0 &&
+                    <div className='font-bold text-blue-500 text-center mt-3 cursor-pointer'
+                    onClick={()=>{setWeekHours(item)}}> 
+                    Use these hours for all week days
+                    </div>
+                  }
+                  </div>
               ))
               }
 

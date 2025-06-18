@@ -17,9 +17,7 @@ export default async function Profile() {
   }
   return (
     <>
-     <DefaultLayout currentUser={currentUser} notifications={notifications}>
         <ProfileClient currentUser={currentUser}/>
-     </DefaultLayout>
     </>
   );
 }

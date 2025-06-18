@@ -20,6 +20,9 @@ import getNotificationsByRecipientId from "../actions/getNotificationsByRecipien
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import PricingModal from "../components/app/modals/PricingModals";
+import ResetPasswordModal from "../components/app/modals/ResetPasswordModal";
+import getSettingsByName from "../actions/getSettingsByName";
+import { cookies } from "next/headers";
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -42,6 +45,9 @@ export default async function RootLayout({
   const currentUser = await getCurrentUser();
   const notifications = await getNotificationsByRecipientId();
   const session = await getServerSession(authOptions);
+  const logos = await getSettingsByName('logo');
+
+  const device = cookies().get('device');
 
   return (
     <html>
@@ -51,11 +57,18 @@ export default async function RootLayout({
               <ToasterProvider/>
               <ListingModal/>
               <LoginModal/>
+              <ResetPasswordModal/>
               <SearchModal/>
               <RegisterModal/>
               <PricingModal/>
            
-              <Navbar currentUser={currentUser} notifications={notifications} session={session}/>
+              <Navbar 
+                  currentUser={currentUser} 
+                  notifications={notifications} 
+                  session={session} 
+                  logos={logos?.values}
+                  device={device?.value}
+                  />
             </div>
             
             <Suspense fallback={<Loading/>}>
@@ -64,7 +77,7 @@ export default async function RootLayout({
               {/* <DashboardButton  currentUser={currentUser} session={session}/> */}
             </div>
             </Suspense>
-            <Footer/>
+            <Footer logos={logos?.values}/>
         </div>
       </body>
     </html>

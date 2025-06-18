@@ -194,7 +194,7 @@ const ChatBox = (props:{
     <div className="sticky bottom-0 border-t border-stroke bg-white px-6 py-5 dark:border-strokedark dark:bg-boxdark">
       {props?.error &&
 
-        <span className='text-red-500 py-5'>Need to enter at least 5 characters to submit this message.</span>
+        <span className='text-red-500 py-5'>Need to enter at least 2 characters to submit this message.</span>
       }    
       
       <div className="flex items-center justify-between space-x-4.5">

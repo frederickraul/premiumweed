@@ -1,7 +1,20 @@
 import React from 'react'
 import Logo from '../../app/navbar/Logo'
 
-const Navbar = () => {
+const lightLogo = '/images/logo-black-text.png';
+const darkLogo = '/images/logo-white-text.png';
+const smallLogo = '/images/logo.png';
+const favicon = '/images/logo/favicon.ico';
+
+const Navbar = (props:{logos:any}) => {
+    const {logos} = props;
+
+    const currentLogos = { 
+        lightLogo: logos? logos[0] : lightLogo, 
+        darkLogo: logos ? logos[1] : darkLogo, 
+        smallLogo: logos? logos[2] : smallLogo,
+        favicon:logos? logos[3] : favicon};
+
     return (
         <nav
             className="bg-transparent relative z-10 border-b border-teal-500 border-opacity-25 lg:border-none lg:bg-transparent">
@@ -9,7 +22,7 @@ const Navbar = () => {
                 <div className="relative flex h-16 items-center justify-between lg:border-b lg:border-sky-800">
                     <div className="flex items-center px-2 lg:px-0">
                         <div className="flex-shrink-0">
-                            <Logo/>
+                            <Logo logo={currentLogos.lightLogo}/>
                         </div>
                         <div className="hidden lg:ml-6 lg:block lg:space-x-4">
                             <div className="flex">
@@ -33,7 +46,7 @@ const Navbar = () => {
                                     <svg className="h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                         <path fillRule="evenodd"
                                             d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                                            clip-rule="evenodd"></path>
+                                            clipRule="evenodd"></path>
                                     </svg>
                                 </div>
                                 <input id="search" name="search" className="block w-full rounded-md border border-transparent bg-sky-700 bg-opacity-50 py-2 pl-10 pr-3 leading-5 placeholder-sky-100 focus:border-white focus:bg-white focus:text-gray-900 focus:placeholder-gray-500 focus:outline-none focus:ring-white sm:text-sm" placeholder="Search" type="search" />

@@ -15,22 +15,21 @@ export const metadata: Metadata = {
 
 
 export default async function Messages() {
-   const currentUser = await getCurrentUser();
-   const userRole = await currentUser?.role || "";
-   const notifications = await getNotificationsByRecipientId();
+  const currentUser = await getCurrentUser();
+  const userRole = await currentUser?.role || "";
+  const notifications = await getNotificationsByRecipientId();
 
 
-   if(!adminAuthDashboards.includes(userRole)){
-      return (
-        <NotAllowed/>
-      );
-    }
+  if (!adminAuthDashboards.includes(userRole)) {
+    return (
+      <NotAllowed />
+    );
+  }
 
-   const data = await getAllProducts();
+  const data = await getAllProducts();
   return (
-    <DefaultLayout currentUser={currentUser} notifications={notifications}>
-
-        <InvoiceClient/>
-      </DefaultLayout>
+    <>
+      <InvoiceClient />
+    </>
   );
 }

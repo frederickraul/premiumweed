@@ -43,7 +43,7 @@ const UserStatusModal = (props:{open:boolean,onClose:any,data:any, onSubmit:any}
 
     <div className="px-2 pr-14">
       <h4 className="mb-2 text-2xl font-semibold text-red-500">
-        DANGER ZONE 
+        DANGER ZONE - Account suspension
       </h4>
       <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
         Update the user status.
@@ -52,6 +52,7 @@ const UserStatusModal = (props:{open:boolean,onClose:any,data:any, onSubmit:any}
     <form className="flex flex-col">
     <div className="custom-scrollbar h-auto overflow-y-auto px-2">
           <div className='mb-5'>
+            <FormLabel text={user?.email}/>
             <FormLabel text="Status"/>
             <div className='flex flex-row'>
             <label className='mr-5 w-12'>{user?.enable ? 'Active': 'Inactive'}</label> 

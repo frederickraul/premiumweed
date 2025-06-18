@@ -14,10 +14,8 @@ const PageClient = (props:{currentUser:any,notifications:any,chats:any}) => {
         router.refresh();
     }
     return (
-        <DefaultLayout currentUser={currentUser} notifications={notifications} reloadPage={refresh}>
     
             <MessagesClient data={chats} currentUser={currentUser}/>
-        </DefaultLayout>
       );
 }
 

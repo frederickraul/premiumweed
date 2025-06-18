@@ -6,7 +6,10 @@ export default function HomeClient(
     listingsEstimate: any, 
     productsEstimate: any, 
     regularUsersEstimate: any,
-    sellerUsersEstimate: any
+    sellerUsersEstimate: any,
+    suspendedUsersEstimate:any,
+    chats:any,
+    visitors:any,
   }){
   return (
     <>
@@ -15,7 +18,9 @@ export default function HomeClient(
           productsEstimate={props.productsEstimate} 
           regularUsersEstimate={props.regularUsersEstimate}
           sellerUsersEstimate={props.sellerUsersEstimate}
-          
+          suspendedUsersEstimate={props.suspendedUsersEstimate}
+          chats={props.chats}
+          visitors={props.visitors}
           />
     </>
   );

@@ -26,12 +26,12 @@ export default async function getChats() {
     },
    });
 
-  //  console.log(chats);
+  //  console.log(chats);`
    
    const SafeChats = chats.map((item) => ({
      ...item,
      lastMessage: item.messages[0]?.content || "",
-     timestamp: item.messages[0]?.createdAt || [],
+     timestamp: item.messages[0]?.createdAt.toISOString() || [],
      createdAt: item.createdAt.toISOString(),
     }));
     

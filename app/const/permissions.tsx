@@ -5,5 +5,5 @@
 
     export const notAdminAuthDashboards    = ['Dev','Seller', 'Regular'];
 
-    export const onlySellerAuthDashboards    = ['Dev','Seller'];
-    export const onlyRegularAuthDashboards    = ['Dev','Regular'];
+    export const onlySellerAuthDashboards    = ['Seller'];
+    export const onlyRegularAuthDashboards    = ['Regular'];

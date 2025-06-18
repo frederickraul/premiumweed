@@ -160,7 +160,7 @@ const ListingAddressModal = (props: { open: boolean, onClose: any, data: any, on
               </div>
 
               <div>
-                <FormLabel text='Apartment' />
+                <FormLabel text='Suite, Unite, # (opcional)' />
                 <FormInput value={listing?.apartment} onChange={(value: any) => {
                   handleInputChange('apartment', value);
                 }} />

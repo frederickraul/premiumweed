@@ -10,6 +10,7 @@ import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en.json'
 import HomeClient from "../components/app/home/HomeClient";
+import { cookies, headers } from "next/headers";
 TimeAgo.addLocale(en);
 
 interface HomeProps {
@@ -19,7 +20,7 @@ interface HomeProps {
 const Home = async ({ searchParams }: HomeProps) => {
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
-
+  
   if (listings.length === 0) {
     return (
         <EmptySpace showReset />

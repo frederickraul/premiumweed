@@ -1,8 +1,9 @@
 import { ApexOptions } from "apexcharts";
-import React from "react";
+import { id } from "date-fns/locale";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-interface ChartThreeState {
+interface ChartVisitorsState {
   series: number[];
 }
 
@@ -49,8 +50,30 @@ const options: ApexOptions = {
   ],
 };
 
-const ChartThree: React.FC = () => {
-  const series = [65, 34, 12, 56];
+const ChartVisitors = (props:{visitors:any}) => {
+  const {visitors} = props;
+  const dafaultSeries = [100,20,0,0];
+
+  const [series, setSeries] = useState(dafaultSeries);
+  useEffect(() => {
+    const total = Object.keys(visitors).length;
+    if(total <= 0){
+      return
+    }
+    const desktopDevices = visitors.filter((visitor:any) => visitor.deviceType == 'desktop');
+    const mobileDevices = visitors.filter((visitor:any) => visitor.deviceType == 'mobile');
+    const tabletDevices = visitors.filter((visitor:any) => visitor.deviceType == 'tablet');
+    
+    const totalDesktop = Object.keys(desktopDevices).length;
+    const totalMobile = Object.keys(mobileDevices).length;
+    const totalTablet = Object.keys(tabletDevices).length;
+    
+    const desktopPercent = totalDesktop * 100 / total;
+    const mobilePercent = totalMobile * 100 / total;
+    const tabletPercent = totalTablet * 100 / total;
+    setSeries([desktopPercent,tabletPercent ,mobilePercent , 0]);
+  }, [visitors])
+  
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
@@ -110,7 +133,7 @@ const ChartThree: React.FC = () => {
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-primary"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Desktop </span>
-              <span> 65% </span>
+              <span> {series[0]}% </span>
             </p>
           </div>
         </div>
@@ -119,7 +142,7 @@ const ChartThree: React.FC = () => {
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#6577F3]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Tablet </span>
-              <span> 34% </span>
+              <span> {series[1]}% </span>
             </p>
           </div>
         </div>
@@ -128,7 +151,7 @@ const ChartThree: React.FC = () => {
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#8FD0EF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Mobile </span>
-              <span> 45% </span>
+              <span> {series[2]}% </span>
             </p>
           </div>
         </div>
@@ -137,7 +160,7 @@ const ChartThree: React.FC = () => {
             <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#0FADCF]"></span>
             <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
               <span> Unknown </span>
-              <span> 12% </span>
+              <span> {series[3]}% </span>
             </p>
           </div>
         </div>
@@ -146,4 +169,4 @@ const ChartThree: React.FC = () => {
   );
 };
 
-export default ChartThree;
+export default ChartVisitors;
